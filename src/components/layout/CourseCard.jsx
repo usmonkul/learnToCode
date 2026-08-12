@@ -10,7 +10,11 @@ const ICONS = {
   'git-branch': GitBranch,
   git: GitBranch,
   github: GitBranch,
+  react: Atom,
 }
+import { Code2, Atom, ArrowRight } from 'lucide-react'
+import { cn } from '@/lib/cn'
+
 
 export default function CourseCard({ course, lessonCount }) {
   const Icon = ICONS[course.icon] ?? Code2
