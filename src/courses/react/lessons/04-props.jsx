@@ -83,8 +83,8 @@ function App() {
       <p>
         Har safar <code>props.sarlavha</code>, <code>props.muallif</code> deb yozish tezda
         noqulay bo'lib qoladi, ayniqsa props ko'p bo'lganda. Buning o'rniga JavaScript'ning{' '}
-        <strong>destructuring</strong> sintaksisidan foydalanib, kerakli maydonlarni to'g'ridan
-        funksiya parametrida ajratib olish mumkin:
+        <strong>destructuring (qismlarga ajratib olish)</strong> sintaksisidan foydalanib,
+        kerakli maydonlarni to'g'ridan funksiya parametrida yozib olish mumkin:
       </p>
       <CodeBlock lang="jsx">{`function KitobKartasi({ sarlavha, muallif }) {
   return (
