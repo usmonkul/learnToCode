@@ -1,0 +1,1 @@
+See [AGENTS.md](./AGENTS.md) for project conventions — style, folder structure, components, and constraints. That file is the single source of truth for any AI tool working in this repo; keep it updated there, not here.
