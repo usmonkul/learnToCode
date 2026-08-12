@@ -24,10 +24,14 @@ for (const [path, mod] of Object.entries(courseMetaModules)) {
 const lessonsByCourse = new Map()
 for (const [path, mod] of Object.entries(lessonModules)) {
   const courseId = courseIdFromPath(path)
+  const slug = slugFromLessonPath(path)
+  if (!mod.meta) {
+    console.warn(`Lesson module "${path}" is missing "export const meta" — using a fallback title.`)
+  }
   const entry = {
-    slug: slugFromLessonPath(path),
+    slug,
     path,
-    meta: mod.meta,
+    meta: mod.meta ?? { title: slug, section: '' },
     Component: mod.default,
   }
   if (!lessonsByCourse.has(courseId)) lessonsByCourse.set(courseId, [])

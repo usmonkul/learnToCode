@@ -7,7 +7,7 @@ export default function KeyPoints({ children }) {
         <CheckCircle2 className="h-5 w-5 text-brand-600" />
         Asosiy fikrlar
       </p>
-      <ul className="flex flex-col gap-2 text-sm text-ink-muted">{children}</ul>
+      <ul className="flex list-inside list-disc flex-col gap-2 text-sm text-ink-muted">{children}</ul>
     </div>
   )
 }

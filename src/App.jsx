@@ -1,13 +1,28 @@
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
 import TopNav from '@/components/layout/TopNav'
 import HomePage from '@/pages/HomePage'
 import CourseOverviewPage from '@/pages/CourseOverviewPage'
 import LessonPage from '@/pages/LessonPage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import { useUIStore } from '@/store/uiStore'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  const closeSidebar = useUIStore((state) => state.closeSidebar)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    closeSidebar()
+  }, [pathname, closeSidebar])
+
+  return null
+}
 
 function RootLayout() {
   return (
     <div className="min-h-screen bg-canvas-muted">
+      <ScrollToTop />
       <TopNav />
       <Outlet />
     </div>

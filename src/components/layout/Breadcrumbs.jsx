@@ -5,7 +5,7 @@ export default function Breadcrumbs({ items }) {
   return (
     <nav className="mb-4 flex items-center gap-1.5 text-sm text-ink-muted">
       {items.map((item, index) => (
-        <span key={item.label} className="flex items-center gap-1.5">
+        <span key={index} className="flex items-center gap-1.5">
           {index > 0 && <ChevronRight className="h-3.5 w-3.5" />}
           {item.to ? (
             <Link to={item.to} className="hover:text-brand-600">

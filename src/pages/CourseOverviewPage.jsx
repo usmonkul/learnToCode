@@ -27,7 +27,7 @@ export default function CourseOverviewPage() {
       )}
       <div className="mt-10 flex flex-col gap-8">
         {groups.map((group) => (
-          <div key={group.section}>
+          <div key={group.lessons[0].slug}>
             {group.section && (
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-muted">
                 {group.section}

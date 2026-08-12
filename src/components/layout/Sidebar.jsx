@@ -33,7 +33,7 @@ export default function Sidebar({ courseId }) {
         </div>
         <nav className="flex flex-col gap-6">
           {groups.map((group) => (
-            <div key={group.section}>
+            <div key={group.lessons[0].slug}>
               {group.section && (
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">
                   {group.section}

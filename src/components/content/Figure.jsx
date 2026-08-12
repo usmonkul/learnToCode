@@ -1,4 +1,4 @@
-export default function Figure({ src, alt, caption }) {
+export default function Figure({ src, alt = '', caption }) {
   return (
     <figure className="not-prose my-6">
       <img src={src} alt={alt} className="w-full rounded-lg border border-line" />
