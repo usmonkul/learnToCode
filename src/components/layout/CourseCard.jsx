@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
-import { Code2, ArrowRight } from 'lucide-react'
+import { FaCode, FaArrowRight } from 'react-icons/fa'
+import { SiTailwindcss, SiPython } from 'react-icons/si'
 import { cn } from '@/lib/cn'
 
-const ICONS = { Code2 }
+const ICONS = { Code2: FaCode, palette: SiTailwindcss, python: SiPython }
 
 export default function CourseCard({ course, lessonCount }) {
-  const Icon = ICONS[course.icon] ?? Code2
+  const Icon = ICONS[course.icon] ?? FaCode
 
   return (
     <Link
@@ -27,7 +28,7 @@ export default function CourseCard({ course, lessonCount }) {
             'group-hover:translate-x-0.5'
           )}
         >
-          Boshlash <ArrowRight className="h-4 w-4" />
+          Boshlash <FaArrowRight className="h-4 w-4" />
         </span>
       </div>
     </Link>
