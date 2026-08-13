@@ -18,7 +18,7 @@ export default function TailwindNima() {
       <p>Bu darsda biz Tailwind CSS nima ekanligini, qanday ishlashini va nima uchun bugungi kunda dasturchilar orasida juda mashhurligini o'rganamiz. Shuningdek, u oddiy CSS'dan qanday farq qilishini ko'rib chiqamiz.</p>
 
       <h2 className="flex items-center gap-2"><BookOpen className="text-indigo-500" /> Mavzu tushuntirishi</h2>
-      
+
       <h3>Tailwind CSS nima va u qanday ishlaydi?</h3>
       <p><strong>Tailwind CSS</strong> — bu veb-saytlar dizaynini yaratish uchun ishlatiladigan <em>Utility-first</em> (yordamchi classlarga asoslangan) CSS framework'idir. U o'zida yuzlab tayyor mitti "g'ishtchalarni" (classlarni) jamlagan bo'lib, siz ularni HTML faylingizning o'zida yig'ib, butun bir dizaynni qurasiz.</p>
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Code2, LayoutTemplate, Palette, Terminal, ArrowRight } from 'lucide-react'
+import { Code2, LayoutTemplate, Palette, Terminal, GitBranch, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
 const ICONS = {
@@ -7,6 +7,9 @@ const ICONS = {
   'layout-template': LayoutTemplate,
   palette: Palette,
   python: Terminal,
+  'git-branch': GitBranch,
+  git: GitBranch,
+  github: GitBranch,
 }
 
 export default function CourseCard({ course, lessonCount }) {

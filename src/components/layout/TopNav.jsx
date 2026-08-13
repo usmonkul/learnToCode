@@ -9,7 +9,7 @@ export default function TopNav() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-canvas/95 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2 font-semibold text-ink">
           <BookOpen className="h-5 w-5 text-brand-600" />
           Darsliklar

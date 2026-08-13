@@ -13,9 +13,9 @@ export default function LessonPage() {
   const LessonContent = lesson.Component
 
   return (
-    <div className="mx-auto flex max-w-6xl">
+    <div className="mx-auto flex max-w-6xl px-6">
       <Sidebar courseId={courseId} />
-      <main className="min-w-0 flex-1 px-6 py-10">
+      <main className="min-w-0 flex-1 py-10 md:pl-6">
         <Breadcrumbs
           items={[
             { label: 'Kurslar', to: '/' },

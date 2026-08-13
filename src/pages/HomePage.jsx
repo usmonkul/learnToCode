@@ -5,7 +5,7 @@ export default function HomePage() {
   const courses = getAllCourses()
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12">
+    <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-ink">Kurslar</h1>
         <p className="mt-2 text-ink-muted">
