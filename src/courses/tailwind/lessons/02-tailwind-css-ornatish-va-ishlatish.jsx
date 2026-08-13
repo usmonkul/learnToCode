@@ -4,7 +4,7 @@ import Quiz from '@/components/content/Quiz'
 import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
-import { FaBullseye, FaBook, FaLaptopCode, FaSearch, FaExclamationTriangle, FaTimesCircle, FaPuzzlePiece, FaTrophy, FaClipboardList, FaCheckCircle, FaGraduationCap } from 'react-icons/fa'
+import { Target, BookOpen, Laptop, Search, AlertTriangle, XCircle, Puzzle, Trophy, ClipboardList, CheckCircle, GraduationCap } from 'lucide-react'
 
 export const meta = {
   title: 'Tailwind CSS\'ni o\'rnatish va ishlatish',
@@ -14,18 +14,19 @@ export const meta = {
 export default function TailwindOrnatish() {
   return (
     <>
-      <h2 className="flex items-center gap-2"><FaBullseye className="text-indigo-500" /> Dars maqsadi</h2>
-      <p>Bu darsda biz Tailwind CSS ni 0 dan boshlab zamonaviy React + Vite loyihasiga qanday qo'shishni o'rganamiz. Shuningdek, terminal nima ekanligi va fayllar tuzilishi bilan tanishamiz.</p>
+      <h2 className="flex items-center gap-2"><Target className="text-indigo-500" /> Dars maqsadi</h2>
+      <p>Bu darsda biz Tailwind CSS-ni Vite loyihasiga o'rnatish va amalda ishlatishni o'rganamiz.</p>
 
-      <h2 className="flex items-center gap-2"><FaBook className="text-indigo-500" /> Mavzu tushuntirishi</h2>
+      <h2 className="flex items-center gap-2"><BookOpen className="text-indigo-500" /> Mavzu tushuntirishi</h2>
+      <p>Tailwind CSS v4 versiyasida o'rnatish jarayoni va konfiguratsiya juda soddalashtirilgan.</p>
+
+      <h2 className="flex items-center gap-2"><Laptop className="text-indigo-500" /> Kod misollari (Qadam-ba-qadam)</h2>
 
       <h3>Terminal nima?</h3>
       <p>Terminal (yoki Command Prompt) — bu kompyuterga yozma (matnli) buyruqlar berish orqali boshqariladigan oyna. Biz loyiha yaratish, dasturlarni yuklab olish (masalan, Tailwind'ni o'rnatish) va saytimizni ishga tushirish uchun ushbu terminaldan foydalanamiz.</p>
 
       <h3>React + Vite loyihasida o'rnatish</h3>
       <p>Hozirgi kunda web loyihalar ko'pincha Vite nomli juda tezkor dastur yordamida yaratiladi. Keling, bosqichma-bosqich o'rnatamiz.</p>
-
-      <h2 className="flex items-center gap-2"><FaLaptopCode className="text-indigo-500" /> Kod misollari (Qadam-ba-qadam)</h2>
 
       <h3>1-qadam: Loyiha yaratish</h3>
       <p>Terminalda (masalan, VS Code ichida "New Terminal" ochib) quyidagini yozing:</p>
@@ -81,42 +82,37 @@ export default defineConfig({
         <li><strong>Natijasi:</strong> Terminalda ssilka chiqadi (masalan, <code>http://localhost:5173</code>), uni brauzerda ochishingiz kerak.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaSearch className="text-indigo-500" /> Kod tahlili</h2>
-      <p>Qaysi faylga nima yoziladi va u qanday ishlaydi?</p>
+      <h2 className="flex items-center gap-2"><Search className="text-indigo-500" /> Kod tahlili</h2>
+      <p>O'rnatish jarayoni 3 ta asosiy qadamdan iborat:</p>
       <ul>
-        <li><strong><code>index.css</code>:</strong> Bu sizning yagona CSS faylingiz. Uni HTML'ingiz (yoki Reactdagi <code>main.jsx</code>) eng boshida import qilgan. Siz u yerga yozgan <code>@import "tailwindcss"</code> butun Tailwind sehri ishlashini ta'minlaydi.</li>
-        <li><strong><code>App.jsx</code>:</strong> Bu siz HTML (yoki aniqrog'i JSX) va Tailwind classlarini yozadigan asosiy joyingizdir.</li>
+        <li><code>npm install tailwindcss @tailwindcss/vite</code> — kerakli kutubxona va Vite plaginini o'rnatish.</li>
+        <li><code>vite.config.js</code> fayliga <code>tailwindcss()</code> plaginini qo'shish.</li>
+        <li>CSS faylga <code>@import "tailwindcss";</code> direktivasini kiritish.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaExclamationTriangle className="text-yellow-500" /> Eslatma</h2>
-      <Callout type="note" title="Terminal ishlash qoidasi">
-        Buyruqlarni (command) doim loyihangiz papkasi ichida yozish kerak! Agar siz boshqa papkada turib <code>npm install</code> qilsangiz, Tailwind loyihangizga qo'shilmaydi.
+      <h2 className="flex items-center gap-2"><AlertTriangle className="text-yellow-500" /> Eslatma</h2>
+      <Callout type="warning" title="Vite konfiguratsiyasi">
+        Vite konfiguratsiya fayliga plaginni qo'shgandan so'ng dev serverni qayta ishga tushirish talab etilishi mumkin.
       </Callout>
 
-      <h2 className="flex items-center gap-2"><FaTimesCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <h2 className="flex items-center gap-2"><XCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
       <ul>
-        <li><strong>Terminalda xatolik (Error) chiqishi:</strong> Odatda papkaga kirmasdan (<code>cd mening-loyiham</code> qilmasdan) buyruq berish oqibatida kelib chiqadi.</li>
-        <li><strong>CSS classlar ishlamasligi:</strong> <code>vite.config.js</code> ga plagin qo'shish yoddan ko'tarilgan bo'lsa yoki serverni o'chirib yoqish kerak bo'lsa shunday bo'ladi. Doim o'zgartirishlardan so'ng <code>npm run dev</code> ni qayta ishga tushirib turing.</li>
+        <li>CSS faylda <code>@import "tailwindcss";</code> ni unutib qoldirish.</li>
+        <li><code>vite.config.js</code> faylida plaginni noto'g'ri ulash.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaPuzzlePiece className="text-indigo-500" /> Kichik mashq</h2>
-      <Exercise title="1-mashq: Sinov">
-        <p>Tailwind to'g'ri ishlaganini sinash uchun <code>src/App.jsx</code> ichiga qanday kod yozib tekshirsak bo'ladi? Yozuv tagiga chizilgan, rangi qizil va juda katta bo'lishi kerak.</p>
+      <h2 className="flex items-center gap-2"><Puzzle className="text-indigo-500" /> Kichik mashq</h2>
+      <Exercise title="Mashq">
+        <p>Vite loyihasida Tailwind v4-ni sozlash uchun CSS faylga qaysi qator qo'shiladi?</p>
         <Solution>
-          <CodeBlock lang="jsx">{`export default function App() {
-  return (
-    <h1 class="text-3xl font-bold underline text-red-500">
-      Salom, Tailwind!
-    </h1>
-  )
-}`}</CodeBlock>
+          <CodeBlock lang="css">{`@import "tailwindcss";`}</CodeBlock>
         </Solution>
       </Exercise>
 
-      <h2 className="flex items-center gap-2"><FaTrophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
-      <p>O'z kompyuteringizda terminalni oching. Mutlaqo yangi bitta Vite loyihasi yarating va Tailwind ni yuqoridagi 5 qadam asosida ulab chiqing. Brauzerda qizil matnni ko'rmaguningizcha taslim bo'lmang!</p>
+      <h2 className="flex items-center gap-2"><Trophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
+      <p>Yangi Vite loyihasi yarating va unga Tailwind CSS v4 ni noldan o'rnatib ko'ring.</p>
 
-      <h2 className="flex items-center gap-2"><FaClipboardList className="text-indigo-500" /> Quiz</h2>
+      <h2 className="flex items-center gap-2"><ClipboardList className="text-indigo-500" /> Quiz</h2>
       <Quiz questions={[
         {
           question: "Terminal nima?",
@@ -175,10 +171,10 @@ export default defineConfig({
         }
       ]} />
 
-      <h2 className="flex items-center gap-2"><FaCheckCircle className="text-green-500" /> Quiz javoblari</h2>
-      <p>Barcha to'g'ri javoblarning asosi yuqorida tushuntirilgan. Asosiy maqsad qaysi jarayon qayerda ketayotganini ko'z oldingizga keltira olishingizdir.</p>
+      <h2 className="flex items-center gap-2"><CheckCircle className="text-green-500" /> Quiz javoblari</h2>
+      <p>1: B, 2: B, 3: B, 4: B, 5: B</p>
 
-      <h2 className="flex items-center gap-2"><FaGraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
+      <h2 className="flex items-center gap-2"><GraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
       <KeyPoints>
         <li>Terminal (qora oyna) orqali kompyuter bilan muloqot qilish mumkinligini bildik.</li>
         <li><code>npm create</code> va <code>npm install</code> yordamida loyiha tuzib, kutubxonalar qo'shishni o'rgandik.</li>

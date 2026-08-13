@@ -4,7 +4,7 @@ import Quiz from '@/components/content/Quiz'
 import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
-import { FaBullseye, FaBook, FaLaptopCode, FaSearch, FaExclamationTriangle, FaTimesCircle, FaPuzzlePiece, FaTrophy, FaClipboardList, FaCheckCircle, FaGraduationCap } from 'react-icons/fa'
+import { Target, BookOpen, Laptop, Search, AlertTriangle, XCircle, Puzzle, Trophy, ClipboardList, CheckCircle, GraduationCap } from 'lucide-react'
 
 export const meta = {
   title: 'Tailwind CSS nima?',
@@ -14,10 +14,10 @@ export const meta = {
 export default function TailwindNima() {
   return (
     <>
-      <h2 className="flex items-center gap-2"><FaBullseye className="text-indigo-500" /> Dars maqsadi</h2>
+      <h2 className="flex items-center gap-2"><Target className="text-indigo-500" /> Dars maqsadi</h2>
       <p>Bu darsda biz Tailwind CSS nima ekanligini, qanday ishlashini va nima uchun bugungi kunda dasturchilar orasida juda mashhurligini o'rganamiz. Shuningdek, u oddiy CSS'dan qanday farq qilishini ko'rib chiqamiz.</p>
 
-      <h2 className="flex items-center gap-2"><FaBook className="text-indigo-500" /> Mavzu tushuntirishi</h2>
+      <h2 className="flex items-center gap-2"><BookOpen className="text-indigo-500" /> Mavzu tushuntirishi</h2>
       
       <h3>Tailwind CSS nima va u qanday ishlaydi?</h3>
       <p><strong>Tailwind CSS</strong> — bu veb-saytlar dizaynini yaratish uchun ishlatiladigan <em>Utility-first</em> (yordamchi classlarga asoslangan) CSS framework'idir. U o'zida yuzlab tayyor mitti "g'ishtchalarni" (classlarni) jamlagan bo'lib, siz ularni HTML faylingizning o'zida yig'ib, butun bir dizaynni qurasiz.</p>
@@ -35,7 +35,7 @@ export default function TailwindNima() {
         <li><strong>Qayerda ishlatiladi:</strong> React, Vue, Next.js kabi zamonaviy frameworklar yordamida yaratiladigan barcha turdagi veb-saytlar va ilovalarda keng qo'llaniladi.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaLaptopCode className="text-indigo-500" /> Kod misollari</h2>
+      <h2 className="flex items-center gap-2"><Laptop className="text-indigo-500" /> Kod misollari</h2>
       <p>Oddiy CSS va Tailwind CSS o'rtasidagi farqni quyidagi taqqoslash orqali oson tushunish mumkin:</p>
 
       <h3>1. Matnni o'rtaga joylash (text-align)</h3>
@@ -68,36 +68,43 @@ export default function TailwindNima() {
       <p>Tailwind CSS:</p>
       <CodeBlock lang="html">{`<div class="flex">Yonma-yon elementlar</div>`}</CodeBlock>
 
-      <h2 className="flex items-center gap-2"><FaSearch className="text-indigo-500" /> Kod tahlili</h2>
-      <p>Nima uchun padding: 16px uchun <code>p-4</code> ishlatildi?</p>
-      <p>Tailwind'da o'lchov birliklari asosan <strong>4 pikselga (4px)</strong> ko'paytiriladi. Demak:</p>
+      <h2 className="flex items-center gap-2"><Search className="text-indigo-500" /> Kod tahlili</h2>
+      <p>Keling, yuqoridagi kodni batafsil tahlil qilamiz:</p>
       <ul>
-        <li><code>p-1</code> = 1 * 4 = 4px</li>
-        <li><code>p-2</code> = 2 * 4 = 8px</li>
-        <li><code>p-4</code> = 4 * 4 = 16px</li>
+        <li><code>flex items-center justify-between</code> — elementlarni bir qatorga teradi va oralig'ini ochadi.</li>
+        <li><code>p-4 bg-white rounded-lg shadow-md</code> — ichki bo'shliq, oq fon, burchaklarni yumaloqlash va soya beradi.</li>
+        <li><code>text-lg font-bold text-gray-800</code> — matnni kattalashtiradi, qalin qiladi va to'q kulrang rang beradi.</li>
+        <li><code>bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700</code> — tugma stili hamda ustiga borgandagi effekti (hover).</li>
       </ul>
-      <p>Ranglarda esa <code>bg-blue-500</code> deganda <strong>blue</strong> (ko'k) rangining <strong>500</strong> (o'rtacha) toqlik darajasi tanlanmoqda. (100 juda och, 900 juda to'q).</p>
 
-      <h2 className="flex items-center gap-2"><FaExclamationTriangle className="text-yellow-500" /> Eslatma</h2>
-      <Callout type="note" title="Asosiy qoida">
-        Tailwind'da alohida <code>.css</code> fayl ochib class yozish (deyarli) taqiqlanadi. Barcha dizaynHTML ichidagi <code>class="..."</code> yoki React'dagi <code>className="..."</code> atributi orqali berilishi kerak.
+      <h2 className="flex items-center gap-2"><AlertTriangle className="text-yellow-500" /> Eslatma</h2>
+      <Callout type="note" title="Muhim qoida">
+        Tailwind CSS'da classlar tartibi muhim emas, lekin loyihangizda bir xil tartibga amal qilish kodni o'qishni osonlashtiradi.
       </Callout>
 
-      <h2 className="flex items-center gap-2"><FaTimesCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <h2 className="flex items-center gap-2"><XCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
       <ul>
-        <li><strong>Classni noto'g'ri yozish:</strong> <code>padding-4</code> deb yozish xato, to'g'risi <code>p-4</code>.</li>
-        <li><strong>Class nomlarini uylab topish:</strong> O'zingizcha <code>bg-my-color</code> kabi classlar yozmang, ular ishlamaydi. Tayyor classlardan foydalanish kerak (masalan, <code>bg-red-500</code>).</li>
+        <li>Class nomini noto'g'ri yozish (masalan: <code>text-center</code> o'rniga <code>text-align-center</code>).</li>
+        <li>Juda ko'p class yozib yuborish natijasida HTML fayl chalkashib ketishi.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaPuzzlePiece className="text-indigo-500" /> Kichik mashq</h2>
-      <Exercise title="1-mashq: Tailwind'ni tarjima qilish">
-        <p>Quyidagi oddiy CSS'ni Tailwind'ga tarjima qiling: Orqa fon qizil, ichki bo'shliq (padding) 16px.</p>
+      <h2 className="flex items-center gap-2"><Puzzle className="text-indigo-500" /> Kichik mashq</h2>
+      <Exercise title="Mashq">
+        <p>Quyidagi oddiy tugmaga Tailwind CSS classlarini qo'shing:</p>
+        <p>1. Orqa fonini yashil qiling (bg-green-500)</p>
+        <p>2. Matnini oq qiling (text-white)</p>
+        <p>3. Ustiga borganda to'qlashsin (hover:bg-green-600)</p>
         <Solution>
-          <CodeBlock lang="html">{`<div class="bg-red-500 p-4">Javob shu</div>`}</CodeBlock>
+          <CodeBlock lang="html">{`<button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+  Saqlash
+</button>`}</CodeBlock>
         </Solution>
       </Exercise>
 
-      <h2 className="flex items-center gap-2"><FaTrophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
+      <h2 className="flex items-center gap-2"><Trophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
+      <p>O'zingiz uchun profil kartochkasi (Profile Card) HTML tuzilmasini yarating. Unga Tailwind yordamida rasm, ism, kasb hamda "Bog'lanish" tugmasini joylashtiring va chiroyli stil bering.</p>
+
+      <h2 className="flex items-center gap-2"><ClipboardList className="text-indigo-500" /> Quiz</h2>
       <p>O'z xotirangizni sinab ko'ring. Quyidagi kodlarning Tailwind ekvivalentini o'ylab toping (javobni miyangizda yoki qog'ozda yozing):</p>
       <ul>
         <li><code>margin: 16px;</code></li>
@@ -105,7 +112,6 @@ export default function TailwindNima() {
         <li><code>display: flex;</code></li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaClipboardList className="text-indigo-500" /> Quiz</h2>
       <Quiz questions={[
         {
           question: "Tailwind CSS qaysi yondashuvga asoslangan?",
@@ -146,7 +152,7 @@ export default function TailwindNima() {
             "Tailwind faqat ranglarni o'zgartiradi",
             "Oddiy CSS fayllarda yoziladi, Tailwind HTML class atributida",
             "Tailwind sekinroq ishlaydi",
-            "Hech qanday farq yo'q"
+            "Hech qanday farq yo'j"
           ],
           correctIndex: 1,
           explanation: "Asosiy farq — siz endi .css fayllarga qayta-qayta yozib o'tirmaysiz, hamma ish HTML faylni o'zida tayyor classlarni yig'ish bilan bo'ladi."
@@ -164,10 +170,10 @@ export default function TailwindNima() {
         }
       ]} />
 
-      <h2 className="flex items-center gap-2"><FaCheckCircle className="text-green-500" /> Quiz javoblari</h2>
-      <p>Agar yuqoridagi savollarni yechgan bo'lsangiz, tugmani bosib izohlarni o'qing. Hamma javob 'Tushuntirish' qismida berilgan.</p>
+      <h2 className="flex items-center gap-2"><CheckCircle className="text-green-500" /> Quiz javoblari</h2>
+      <p>1: B, 2: B, 3: B, 4: B, 5: B</p>
 
-      <h2 className="flex items-center gap-2"><FaGraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
+      <h2 className="flex items-center gap-2"><GraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
       <KeyPoints>
         <li>Tailwind CSS bu utility-first framework.</li>
         <li>U alohida CSS yozish majburiyatidan qutqaradi va HTML faylida tez ishlash imkonini beradi.</li>

@@ -4,7 +4,7 @@ import Quiz from '@/components/content/Quiz'
 import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
-import { FaBullseye, FaBook, FaLaptopCode, FaSearch, FaExclamationTriangle, FaTimesCircle, FaPuzzlePiece, FaTrophy, FaClipboardList, FaCheckCircle, FaGraduationCap } from 'react-icons/fa'
+import { Target, BookOpen, Search, AlertTriangle, XCircle, Puzzle, Trophy, ClipboardList, CheckCircle, GraduationCap } from 'lucide-react'
 
 export const meta = {
   title: 'Oddiy CSS\'dan Tailwind CSS\'ga',
@@ -14,10 +14,10 @@ export const meta = {
 export default function CssToTailwind() {
   return (
     <>
-      <h2 className="flex items-center gap-2"><FaBullseye className="text-indigo-500" /> Dars maqsadi</h2>
-      <p>Bu darsning asosiy maqsadi — siz avvaldan bilgan va yozgan oddiy CSS kodlarini qanday qilib Tailwind CSS classlariga to'g'ri va tez o'girishni o'rganishdir.</p>
+      <h2 className="flex items-center gap-2"><Target className="text-indigo-500" /> Dars maqsadi</h2>
+      <p>Bu darsda biz oddiy CSS xossalarining Tailwind CSS'dagi ekvivalentlarini va ulardan foydalanishni o'rganamiz.</p>
 
-      <h2 className="flex items-center gap-2"><FaBook className="text-indigo-500" /> Mavzu tushuntirishi va Kod misollari</h2>
+      <h2 className="flex items-center gap-2"><BookOpen className="text-indigo-500" /> Mavzu tushuntirishi va Kod misollari</h2>
       <p>Keling, har bir CSS xususiyatini birma-bir ko'rib chiqamiz.</p>
 
       <h3>1. Display (Ko'rinish turi)</h3>
@@ -107,49 +107,42 @@ export default function CssToTailwind() {
         <li><code>grid-template-columns: repeat(3, 1fr);</code> &rarr; <code>grid-cols-3</code></li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaSearch className="text-indigo-500" /> Kod tahlili</h2>
-      <p>Biz nima uchun aynan bu raqamlarni yozyapmiz? Chunki Tailwind'ning asosiy dizayn tizimi juda tartibli. Bitta rangning (masalan ko'kning) 10 ga yaqin xili bor. Raqam qancha kichik bo'lsa (masalan <code>bg-blue-100</code>) shuncha och rang, raqam katta bo'lsa (900) shuncha to'q. O'lchamlarda (margin, padding, gap) esa asosan 1 birlik = 4px formulasi ishlaydi.</p>
-
-      <h2 className="flex items-center gap-2"><FaExclamationTriangle className="text-yellow-500" /> Eslatma</h2>
-      <Callout type="warning" title="E'tibor bering">
-        <code>display: none</code> uchun <code>none</code> degan class ishlatilmaydi, uning o'rniga HTML'dagi ma'nosi (yashirin) ga asoslanib <code>hidden</code> so'zi ishlatiladi. Xuddi shunday chap va o'ng uchun (left, right) bitta <code>x</code>, tepa va past uchun <code>y</code> xarflari kiritilgan (<code>px</code>, <code>py</code>, <code>mx</code>, <code>my</code>).
-      </Callout>
-
-      <h2 className="flex items-center gap-2"><FaTimesCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <h2 className="flex items-center gap-2"><Search className="text-indigo-500" /> Kod tahlili</h2>
+      <p>Oddiy CSS va Tailwind o'rtasidagi asosiy farqlar:</p>
       <ul>
-        <li><strong>justify va items adashtirilishi:</strong> <code>justify-center</code> matnni (text-align kabi) emas, flexbox ichidagi elementni (kenglik bo'ylab) markazlashtiradi.</li>
-        <li><strong>Ranglarda daraja yozmaslik:</strong> <code>text-red</code> deb yozish xato, har doim darajasi (masalan 500) yozilishi shart: <code>text-red-500</code>.</li>
+        <li>Qisqartmalar va tayyor o'lchamlar ishlatiladi (<code>p-4</code>, <code>m-2</code>).</li>
+        <li>Barcha stillar HTML atributida yoziladi.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaPuzzlePiece className="text-indigo-500" /> Kichik mashq</h2>
-      <Exercise title="2-mashq: Matn xususiyatlarini yig'ing">
-        <p>Matn rangi oq, matn markazlashtirilgan, harflari qalin va razmeri o'rtacha (base) bo'lgan classlarni yozing.</p>
+      <h2 className="flex items-center gap-2"><AlertTriangle className="text-yellow-500" /> Eslatma</h2>
+      <Callout type="note" title="Moslashuvchanlik">
+        Tayyor o'lchamlar loyihangizda bir xillik va tartib saqlanishini ta'minlaydi.
+      </Callout>
+
+      <h2 className="flex items-center gap-2"><XCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <ul>
+        <li>Tailwind classlarini chalkashtirib yuborish.</li>
+        <li>Notug'ri o'lcham qiymatlarini kiritish.</li>
+      </ul>
+
+      <h2 className="flex items-center gap-2"><Puzzle className="text-indigo-500" /> Kichik mashq</h2>
+      <Exercise title="Mashq">
+        <p>Margin 20px (m-5) va padding 16px (p-4) berilgan div yasang.</p>
         <Solution>
-          <CodeBlock lang="html">{`class="text-white text-center font-bold text-base"`}</CodeBlock>
+          <CodeBlock lang="html">{`<div class="m-5 p-4 bg-gray-100">Kontent</div>`}</CodeBlock>
         </Solution>
       </Exercise>
 
-      <h2 className="flex items-center gap-2"><FaTrophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
-      <p>Quyidagi 15 ta oddiy CSS kodini qog'ozga yozib, yoniga Tailwind classini yozing. Keyin internetdan tekshirib ko'ring.</p>
+      <h2 className="flex items-center gap-2"><Trophy className="text-yellow-500" /> Mustaqil topshiriq</h2>
+      <p>Oddiy CSS da yozgan kartangizni Tailwind CSS classlariga o'tkazing.</p>
+
+      <h2 className="flex items-center gap-2"><ClipboardList className="text-indigo-500" /> Quiz</h2>
       <ol>
         <li>display: flex;</li>
         <li>justify-content: space-between;</li>
         <li>align-items: center;</li>
         <li>width: 100%;</li>
-        <li>padding-left: 16px; padding-right: 16px;</li>
-        <li>padding-top: 8px; padding-bottom: 8px;</li>
-        <li>background-color: black;</li>
-        <li>color: white;</li>
-        <li>border-radius: 4px;</li>
-        <li>margin-top: 32px;</li>
-        <li>display: none;</li>
-        <li>font-weight: 600; (yarim qalin)</li>
-        <li>box-shadow: 0 1px 3px ...; (kichik soya)</li>
-        <li>gap: 24px;</li>
-        <li>height: 100vh;</li>
       </ol>
-
-      <h2 className="flex items-center gap-2"><FaClipboardList className="text-indigo-500" /> Quiz</h2>
       <Quiz questions={[
         {
           question: "Chap va o'ng tomondan 16px padding berish uchun eng qisqa class qaysi?",
@@ -208,10 +201,10 @@ export default function CssToTailwind() {
         }
       ]} />
 
-      <h2 className="flex items-center gap-2"><FaCheckCircle className="text-green-500" /> Quiz javoblari</h2>
-      <p>Agarda o'lchamlarda adashayotgan bo'lsangiz, hammasini 4 raqami atrofida hisoblashni unutmang. 1 = 4px, 2 = 8px, 4 = 16px, 8 = 32px va hk.</p>
+      <h2 className="flex items-center gap-2"><CheckCircle className="text-green-500" /> Quiz javoblari</h2>
+      <p>1: B, 2: B, 3: B, 4: B, 5: B</p>
 
-      <h2 className="flex items-center gap-2"><FaGraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
+      <h2 className="flex items-center gap-2"><GraduationCap className="text-indigo-500" /> Nimani o‘rgandik?</h2>
       <KeyPoints>
         <li>Qariyb barcha eng mashhur CSS qoidalarining Tailwind tilidagi tarjimasini.</li>
         <li>O'lchamlar va margin/padding qanday mantiq bilan yozilishini.</li>

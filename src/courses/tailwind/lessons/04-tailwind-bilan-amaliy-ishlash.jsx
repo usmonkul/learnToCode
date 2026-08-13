@@ -1,10 +1,8 @@
 import CodeBlock from '@/components/content/CodeBlock'
 import Callout from '@/components/content/Callout'
 import Quiz from '@/components/content/Quiz'
-import Exercise from '@/components/content/Exercise'
-import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
-import { FaBullseye, FaBook, FaLaptopCode, FaSearch, FaExclamationTriangle, FaTimesCircle, FaTrophy, FaClipboardList, FaCheckCircle, FaGraduationCap } from 'react-icons/fa'
+import { Target, BookOpen, Laptop, Search, AlertTriangle, XCircle, Trophy, ClipboardList, CheckCircle, GraduationCap } from 'lucide-react'
 
 export const meta = {
   title: 'Tailwind CSS bilan amaliy ishlash',
@@ -14,13 +12,13 @@ export const meta = {
 export default function AmaliyIshlash() {
   return (
     <>
-      <h2 className="flex items-center gap-2"><FaBullseye className="text-indigo-500" /> Dars maqsadi</h2>
+      <h2 className="flex items-center gap-2"><Target className="text-indigo-500" /> Dars maqsadi</h2>
       <p>Bu so'nggi va eng qiziqarli darsimizda siz oldingi 3 ta darsda o'rgangan nazariy bilimlaringizni real, amaliy kichik loyihalarga aylantirasiz.</p>
 
-      <h2 className="flex items-center gap-2"><FaBook className="text-indigo-500" /> Mavzu tushuntirishi</h2>
+      <h2 className="flex items-center gap-2"><BookOpen className="text-indigo-500" /> Mavzu tushuntirishi</h2>
       <p>Biz barcha muhim konseptlarni: Colors, Spacing, Flexbox, Grid, Typography, Width/Height, Border, Border Radius, Shadow, Responsive Design hamda animatsiyalar (hover, focus, transition) ni kichik-kichik detallarni yasash orqali birlashtiramiz.</p>
 
-      <h2 className="flex items-center gap-2"><FaLaptopCode className="text-indigo-500" /> Kod misollari va Amaliy Mashqlar</h2>
+      <h2 className="flex items-center gap-2"><Laptop className="text-indigo-500" /> Kod misollari va Amaliy Mashqlar</h2>
 
       <h3>1-mashq: Chiroyli va Interaktiv Button (Tugma)</h3>
       <p><strong>Maqsad:</strong> Matni qalin, chetlari yumaloq, ustiga borganda rangi o'zgaradigan va soyasi paydo bo'ladigan tugma yasash.</p>
@@ -109,24 +107,29 @@ export default function AmaliyIshlash() {
 </div>`}</CodeBlock>
       <p><strong>Qaysi classlar ishlatildi?</strong> Butun ekranni egallash uchun <code>min-h-screen</code> va Flexbox orqali markazlashtirish (<code>flex items-center justify-center</code>). Tugmalar telefonda ustma-ust bo'ladi (<code>flex-col</code>), ekrani sal kattalashishi bilan yonma-yon aylanadi (<code>sm:flex-row</code>).</p>
 
-      <h2 className="flex items-center gap-2"><FaSearch className="text-indigo-500" /> Kod tahlili</h2>
-      <p>Ahamiyat bergan bo'lsangiz, biz biron marta ham HTML faylidan chiqib .css fayliga kod yozmadik. Murakkab hover, focus va ekran o'lchamlari (responsive) ham to'g'ridan-to'g'ri elementning o'zida ifodalandi. Shu orqali biz HTML elementiga qarab turib, uning qanday ko'rinishda ekanini to'liq o'qiy olamiz.</p>
-
-      <h2 className="flex items-center gap-2"><FaExclamationTriangle className="text-yellow-500" /> Eslatma</h2>
-      <Callout type="note" title="Doimiy amaliyot">
-        Tailwind classlarini yodlab bo'lmaydi. Uni faqatgina amaliyotda loyihalar qilish orqaligina o'rganish mumkin. Agar biron class qanday yozilishini unutib qo'ysangiz TailwindCSS rasmiy saytidan qidirishga odatlaning.
-      </Callout>
-
-      <h2 className="flex items-center gap-2"><FaTimesCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <h2 className="flex items-center gap-2"><Search className="text-indigo-500" /> Kod tahlili</h2>
+      <p>Amaliyotda loyiha yaratishda e'tibor berish kerak bo'lgan 3 ta oltin qoida:</p>
       <ul>
-        <li><strong>Responsive classlarni teskari yozish:</strong> Katta ekranlardan kichigiga qarab emas (masalan, <code>lg:text-sm text-lg</code> emas), doim <strong>Kichik ekrandan kattasiga qarab yozing</strong> (<code>text-sm lg:text-lg</code>).</li>
-        <li><strong>O'ta uzun classlar:</strong> Katta loyihalarda HTML kodi juda yoyilib ketadi. Bu normal holat. Agar bezovta qilsa, React kabi frameworklarda tayyor komponentlar (masalan <code>&lt;Button /&gt;</code>) yaratib oling.</li>
+        <li><strong>Hover va Transition doim birga ishlatiladi:</strong> Agar <code>hover:bg-blue-600</code> yozsangiz, yoniga doim <code>transition</code> (yoki <code>transition-all</code>) qo'shing. Shunda rang almashinuvi sakrab qolmay, silliq o'tadi.</li>
+        <li><strong>Responsive Design:</strong> Doim birinchi navbatda mobile (kichik ekranlar) uchun dizayn tuzing (masalan <code>grid-cols-1</code>), so'ngra <code>md:grid-cols-3</code> deb katta ekranlar uchun kengaytiring.</li>
+        <li><strong>Padding vs Margin:</strong> Elementning ichidagi masofaga doim <code>padding</code> (p-4), tashqaridagi boshqa elementlardan qochishga esa <code>margin</code> (m-4) bering.</li>
       </ul>
 
-      <h2 className="flex items-center gap-2"><FaTrophy className="text-yellow-500" /> Mustaqil yakuniy topshiriq</h2>
-      <p>Menyu (Navbar) ni shunday qayta yozingki, u telefonda (kichik ekranda) linklarni yashirib qo'ysin va uning o'rnida faqat "Menu" degan yozuvli tugma tursin. Noutbukda ochilganda esa "Menu" tugmasi yo'qolib, barcha 3 ta link ekranga chiqsin.</p>
+      <h2 className="flex items-center gap-2"><AlertTriangle className="text-yellow-500" /> Eslatma</h2>
+      <Callout type="note" title="Barcha bilimlarni birlashtirish">
+        Kichik loyihalarni yasashda bitta komponentda bir nechta Tailwind classlari birgalikda ishlatiladi. Masalan, tugmada: rang, ichki bo'shliq, burchak yumaloqligi va hover effekti birlashadi.
+      </Callout>
 
-      <h2 className="flex items-center gap-2"><FaClipboardList className="text-indigo-500" /> Quiz</h2>
+      <h2 className="flex items-center gap-2"><XCircle className="text-red-500" /> Ko‘p uchraydigan xatolar</h2>
+      <ul>
+        <li>Responsive classlarda adashish (<code>sm:</code> va <code>md:</code> breakpoint'larini xato qo'llash).</li>
+        <li>Transition effekti bermasdan hover ishlatish.</li>
+      </ul>
+
+      <h2 className="flex items-center gap-2"><Trophy className="text-yellow-500" /> Mustaqil yakuniy topshiriq</h2>
+      <p>Yuqorida o'rgangan bilimlariz asosida to'liq bitta <strong>Landing Page (Bosh sahifa)</strong> elementlarini birlashtirib ko'ring. Unda Navbar, Hero Header, 3 ta xizmatlar ko'rsatilgan Grid va Footer bo'lsin.</p>
+
+      <h2 className="flex items-center gap-2"><ClipboardList className="text-indigo-500" /> Quiz</h2>
       
       <Quiz questions={[
         {
@@ -241,10 +244,10 @@ export default function AmaliyIshlash() {
         }
       ]} />
 
-      <h2 className="flex items-center gap-2"><FaCheckCircle className="text-green-500" /> Quiz javoblari</h2>
-      <p>Umid qilamizki, siz hamma savollarga to'g'ri javob topa oldingiz. Agarda nimadir esingizdan chiqqan bo'lsa oldingi darslarga qaytib bir marta takrorlab olish foydadan xoli bo'lmaydi.</p>
+      <h2 className="flex items-center gap-2"><CheckCircle className="text-green-500" /> Quiz javoblari</h2>
+      <p>1: B, 2: B, 3: B, 4: B, 5: B</p>
 
-      <h2 className="flex items-center gap-2"><FaGraduationCap className="text-indigo-500" /> Umumiy Xulosa (Nimani o‘rgandik?)</h2>
+      <h2 className="flex items-center gap-2"><GraduationCap className="text-indigo-500" /> Umumiy Xulosa (Nimani o‘rgandik?)</h2>
       <p>Ushbu barcha 4 darslik yakunida biz nimalarga erishdik?</p>
       <KeyPoints>
         <li><strong>Mustaqillik:</strong> Oddiy CSS kodlarini ko'rganda uni qo'rqmasdan Tailwind'ga o'gira olasiz.</li>
