@@ -79,7 +79,7 @@ except ValueError as xato:
 # Xatolik: yosh manfiy bo'lishi mumkin emas`}</CodeBlock>
       <p>
         Bu yerda <code>as xato</code> — chaqirilgan exception obyektini o'zgaruvchiga saqlaydi;{' '}
-        <code>f"{xato}"</code> esa <code>raise</code>ga berilgan xabar matnini chiqaradi.{' '}
+        <code>{'f"{xato}"'}</code> esa <code>raise</code>ga berilgan xabar matnini chiqaradi.{' '}
         <code>raise</code>ni odatda funksiya ichida, kiritilgan qiymat mantiqan noto'g'ri
         bo'lganda ishlatiladi — funksiya o'zi "bu qiymat bilan ishlay olmayman" deb aniq
         aytadi.
