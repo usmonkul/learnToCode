@@ -3,10 +3,11 @@ import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import Quiz from '@/components/content/Quiz'
 import Figure from '@/components/content/Figure'
+import KeyPoints from '@/components/content/KeyPoints'
 import loopFlow from '@/assets/loop-flow.svg'
 
 export const meta = {
-  title: 'Sikllar',
+  title: 'Sikllar: for va while',
   section: 'Boshqaruv tuzilmalari',
 }
 
@@ -62,6 +63,21 @@ print(yigindi)  # 55`}</CodeBlock>
         correctIndex={1}
         explanation="range(1, 6) — 1, 2, 3, 4, 5 sonlarini hosil qiladi, ya'ni 5 ta son. Oxirgi qiymat (6) natijaga kirmaydi."
       />
+
+      <KeyPoints>
+        <li>
+          <code>for</code> sikli ma'lum bir range (oraliq) yoki ketma-ketlik (sequence)
+          elementlari bo'ylab yuradi.
+        </li>
+        <li>
+          <code>while</code> sikli shart (condition) yolg'on (false) bo'lguncha, ya'ni shart rost
+          bo'lgan ekan, takrorlanaveradi.
+        </li>
+        <li>
+          <code>range(a, b)</code> — <code>a</code> dan boshlab <code>b</code> gacha sonlarni
+          hosil qiladi, lekin <code>b</code>ning o'zi natijaga kirmaydi.
+        </li>
+      </KeyPoints>
     </>
   )
 }

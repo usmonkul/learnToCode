@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" width="420" height="240" role="img" aria-labelledby="dict-mapping-title">
+  <title id="dict-mapping-title">Lug'atda kalitlarning qiymatlarga moslashuvi</title>
+  <defs>
+    <marker id="dict-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#4f46e5" />
+    </marker>
+  </defs>
+
+  <text x="90" y="24" text-anchor="middle" font-size="12" fill="#475569" font-family="sans-serif">kalitlar (keys)</text>
+  <text x="330" y="24" text-anchor="middle" font-size="12" fill="#475569" font-family="sans-serif">qiymatlar (values)</text>
+
+  <rect x="15" y="40" width="150" height="42" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+  <text x="90" y="66" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">"ism"</text>
+
+  <rect x="15" y="99" width="150" height="42" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+  <text x="90" y="125" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">"yosh"</text>
+
+  <rect x="15" y="158" width="150" height="42" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+  <text x="90" y="184" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">"shahar"</text>
+
+  <rect x="255" y="40" width="150" height="42" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-width="2" />
+  <text x="330" y="66" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">"Aziz"</text>
+
+  <rect x="255" y="99" width="150" height="42" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-width="2" />
+  <text x="330" y="125" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">25</text>
+
+  <rect x="255" y="158" width="150" height="42" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-width="2" />
+  <text x="330" y="184" text-anchor="middle" font-size="13" fill="#312e81" font-family="sans-serif">"Toshkent"</text>
+
+  <line x1="165" y1="61" x2="253" y2="61" stroke="#4f46e5" stroke-width="2" marker-end="url(#dict-arrow)" />
+  <line x1="165" y1="120" x2="253" y2="120" stroke="#4f46e5" stroke-width="2" marker-end="url(#dict-arrow)" />
+  <line x1="165" y1="179" x2="253" y2="179" stroke="#4f46e5" stroke-width="2" marker-end="url(#dict-arrow)" />
+
+  <text x="210" y="225" text-anchor="middle" font-size="12" fill="#475569" font-family="sans-serif">d = {"ism": "Aziz", "yosh": 25, "shahar": "Toshkent"}</text>
+</svg>
