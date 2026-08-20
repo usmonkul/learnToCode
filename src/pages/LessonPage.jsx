@@ -25,7 +25,11 @@ export default function LessonPage() {
         />
         <article className="prose prose-slate max-w-none">
           <h1>{lesson.meta.title}</h1>
-          <LessonContent />
+          {LessonContent ? (
+            <LessonContent />
+          ) : (
+            <p className="text-ink-muted">Dars mazmuni hozirda tayyorlanmoqda...</p>
+          )}
         </article>
         <LessonNav courseId={courseId} slug={slug} />
       </main>
