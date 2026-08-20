@@ -12,6 +12,8 @@ A front-end-only, no-backend, no-auth programming tutorial platform. Students pi
 
 React 19, Vite, React Router 7, Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`), Zustand 5, lucide-react (icons), `prism-react-renderer` (code highlighting), `@tailwindcss/typography` (prose), `clsx` + `tailwind-merge` (via the `cn()` helper). Plain JavaScript `.jsx` files — **no TypeScript**, despite `@types/react`/`@types/react-dom` being present (editor intellisense only; there is no `tsconfig.json` and no `.tsx` file anywhere). See `package.json` for exact versions.
 
+One scoped exception: `sql.js` (WASM SQLite, runs entirely client-side) backs the `SqlPlayground` primitive used by the SQL course — see that primitive's row below and `src/lib/sqlEngine.js`. Don't reach for it, or any other execution engine, outside that one documented use.
+
 No test runner is installed, on purpose — see "Verifying your work" below for what stands in for it.
 
 ## Folder structure
@@ -61,6 +63,7 @@ All live in `src/components/content/`. Prose itself needs no component: lesson f
 | `Solution` | `children` | Collapsible "Yechimni ko'rsatish", built on `ui/Disclosure`. |
 | `KeyPoints` | `children` (`<li>` elements) | Bulleted summary box, usually at a lesson's end. |
 | `Figure` | `src`, `alt` (defaults to `''`, but always pass a real one), `caption` (optional) | Image + caption. |
+| `SqlPlayground` | `schema` (SQL string: `CREATE TABLE`/`INSERT` statements that seed a fresh in-memory SQLite database on mount), `initialQuery` (optional starter query) | The **one, deliberate exception** to "no live code execution" — runs real queries client-side via `sql.js`/WASM (see `src/lib/sqlEngine.js`, a memoized loader shared across instances so the ~700KB engine is fetched once, lazily, only when a playground actually mounts). Each instance owns an isolated, ephemeral database; a "Qayta tiklash" button re-seeds it from `schema`. Scoped to the SQL course only — don't reuse this pattern for any other language's "run my code" impulse without an explicit ask. |
 
 Don't add `ui/Button`, `ui/Badge`, or `ui/IconButton` speculatively — they were deliberately dropped from an earlier draft of this architecture because nothing needed them. Two occurrences of a styled `<button>`/`<Link>` (there are exactly two CTA buttons today, in `CourseOverviewPage.jsx` and `NotFoundPage.jsx`) is below the extraction threshold; revisit only at a third occurrence.
 
@@ -84,7 +87,7 @@ Lesson prose and all UI chrome (buttons, nav labels, headings) are written in **
 
 ## Non-goals — do not add these without being explicitly asked
 
-No backend, no authentication, no user accounts. No progress tracking or persistence of any kind (no localStorage, no `persist` middleware on the zustand store — it holds only ephemeral mobile-sidebar-open state). No live/editable code execution. No TypeScript. No automated test runner.
+No backend, no authentication, no user accounts. No progress tracking or persistence of any kind (no localStorage, no `persist` middleware on the zustand store — it holds only ephemeral mobile-sidebar-open state). No live/editable code execution, **except** `SqlPlayground` (see Content primitives above) — a one-time, explicitly-approved exception for the SQL course, not a precedent for adding one to every language. No TypeScript. No automated test runner.
 
 ## Adding a new lesson
 
