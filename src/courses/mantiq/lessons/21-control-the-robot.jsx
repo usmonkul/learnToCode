@@ -33,7 +33,7 @@ export default function RobotniBoshqarLesson() {
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
-          <div className="flex h-14 w-14 items-center justify-center rounded-md border-2 border-emerald-400 bg-emerald-100 text-sm font-bold text-emerald-700">
+          <div className="flex h-14 w-14 items-center justify-center rounded-md border-2 border-emerald-400 bg-emerald-100 text-sm font-bold text-emerald-700 dark:border-emerald-600 dark:bg-emerald-950 dark:text-emerald-300">
             M
           </div>
           {/* 2-qator */}
@@ -43,11 +43,11 @@ export default function RobotniBoshqarLesson() {
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           {/* 3-qator */}
-          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-red-300 bg-red-100 text-sm font-bold text-red-500">
+          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-red-300 bg-red-100 text-sm font-bold text-red-500 dark:border-red-700 dark:bg-red-950 dark:text-red-400">
             ✕
           </div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
-          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-red-300 bg-red-100 text-sm font-bold text-red-500">
+          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-red-300 bg-red-100 text-sm font-bold text-red-500 dark:border-red-700 dark:bg-red-950 dark:text-red-400">
             ✕
           </div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
@@ -59,7 +59,7 @@ export default function RobotniBoshqarLesson() {
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>
           {/* 5-qator (eng past) */}
-          <div className="flex h-14 w-14 items-center justify-center rounded-md border-2 border-brand-400 bg-brand-100 text-sm font-bold text-brand-700">
+          <div className="flex h-14 w-14 items-center justify-center rounded-md border-2 border-brand-400 bg-brand-100 text-sm font-bold text-brand-700 dark:border-brand-600 dark:bg-brand-950 dark:text-brand-300">
             B↑
           </div>
           <div className="flex h-14 w-14 items-center justify-center rounded-md border border-line bg-canvas"></div>

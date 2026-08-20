@@ -55,7 +55,7 @@ export default function SinovVaXatoLesson() {
           4-taxmin: 21 → "Juda issiq, kichikroq kerak" (qoldi: 19–20)
         </div>
         <span className="text-ink-muted">↓</span>
-        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
           5-taxmin: 19 → Topildi!
         </div>
       </div>

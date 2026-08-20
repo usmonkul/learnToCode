@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { Menu, BookOpen } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
+import ThemeToggle from '@/components/layout/ThemeToggle'
 
 export default function TopNav() {
   const toggleSidebar = useUIStore((state) => state.toggleSidebar)
@@ -14,16 +15,19 @@ export default function TopNav() {
           <BookOpen className="h-5 w-5 text-brand-600" />
           Darsliklar
         </Link>
-        {hasSidebar && (
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="rounded-md p-2 text-ink-muted hover:bg-canvas-muted md:hidden"
-            aria-label="Menyuni ochish"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-        )}
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+          {hasSidebar && (
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              className="rounded-md p-2 text-ink-muted hover:bg-canvas-muted md:hidden"
+              aria-label="Menyuni ochish"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
     </header>
   )

@@ -113,17 +113,17 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       </div>
 
       {status === 'error' && (
-        <p className="border-t border-line bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="border-t border-line bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
           SQL vositasini yuklab bo'lmadi: {initError}
         </p>
       )}
 
       {runError && (
-        <p className="border-t border-line bg-red-50 px-4 py-3 text-sm text-red-700">{runError}</p>
+        <p className="border-t border-line bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">{runError}</p>
       )}
 
       {message && !runError && (
-        <p className="border-t border-line bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <p className="border-t border-line bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
           {message}
         </p>
       )}

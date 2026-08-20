@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { Highlight, themes } from 'prism-react-renderer'
 import { Check, Copy } from 'lucide-react'
 import { cn } from '@/lib/cn'
+import { useThemeStore } from '@/store/themeStore'
 
 export default function CodeBlock({ lang = 'text', children }) {
   const [copied, setCopied] = useState(false)
+  const resolvedTheme = useThemeStore((state) => state.resolvedTheme)
   const code = children.trim()
 
   async function handleCopy() {
@@ -14,7 +16,7 @@ export default function CodeBlock({ lang = 'text', children }) {
   }
 
   return (
-    <Highlight theme={themes.oneLight} code={code} language={lang}>
+    <Highlight theme={resolvedTheme === 'dark' ? themes.oneDark : themes.oneLight} code={code} language={lang}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div className="not-prose my-6 overflow-hidden rounded-lg border border-line">
           <div className="flex items-center justify-between border-b border-line bg-canvas-muted px-4 py-1.5">

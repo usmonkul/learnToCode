@@ -50,7 +50,7 @@ export default function Sidebar({ courseId }) {
                         cn(
                           'block rounded-md px-3 py-2 text-sm',
                           isActive
-                            ? 'bg-brand-50 font-medium text-brand-700'
+                            ? 'bg-brand-50 font-medium text-brand-700 dark:bg-brand-950 dark:text-brand-300'
                             : 'text-ink-muted hover:bg-canvas-muted'
                         )
                       }

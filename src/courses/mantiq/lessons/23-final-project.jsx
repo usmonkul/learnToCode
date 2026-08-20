@@ -152,7 +152,7 @@ export default function YakuniyLoyihaLesson() {
             <li>Mehmonlarni kuzatib qo'yish va xonani yig'ishtirish.</li>
           </ol>
           <div className="not-prose my-6 flex flex-col items-center gap-2 rounded-xl border border-line bg-canvas-muted p-6 text-center text-sm text-ink">
-            <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+            <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
               Boshlash
             </div>
             <span className="text-ink-muted">↓</span>
@@ -168,7 +168,7 @@ export default function YakuniyLoyihaLesson() {
               Bazm kuni: kutib olish → kino → tort
             </div>
             <span className="text-ink-muted">↓</span>
-            <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+            <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
               Tugash
             </div>
           </div>

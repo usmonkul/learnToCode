@@ -26,11 +26,11 @@ export default function ShartlarAlgoritmdaLesson() {
         Uni aniq yozib chiqsak:
       </p>
       <div className="not-prose my-6 flex flex-col items-center gap-2 rounded-xl border border-line bg-canvas-muted p-6 text-center text-sm text-ink">
-        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
           Boshlash
         </div>
         <span className="text-ink-muted">↓</span>
-        <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 font-medium text-amber-800">
+        <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-2 font-medium text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
           Chiroq qizilmi?
         </div>
         <div className="mt-2 flex flex-row gap-6">
@@ -44,7 +44,7 @@ export default function ShartlarAlgoritmdaLesson() {
           </div>
         </div>
         <span className="mt-2 text-ink-muted">↓</span>
-        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
           Tugash
         </div>
       </div>

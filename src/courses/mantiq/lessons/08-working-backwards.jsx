@@ -26,7 +26,7 @@ export default function OxiridanBoshlabOylashLesson() {
         uchun maqsaddan boshlab, orqaga qarab hisoblaymiz:
       </p>
       <div className="not-prose my-6 flex flex-col items-center gap-2 rounded-xl border border-line bg-canvas-muted p-6 text-center text-sm text-ink">
-        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700">
+        <div className="rounded-full border border-brand-300 bg-brand-50 px-4 py-2 font-medium text-brand-700 dark:border-brand-700 dark:bg-brand-950 dark:text-brand-300">
           Maqsad: 8:00 — maktabda bo'lish
         </div>
         <span className="text-ink-muted">↓ bundan oldin:</span>

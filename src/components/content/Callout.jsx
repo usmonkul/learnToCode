@@ -4,23 +4,23 @@ import { cn } from '@/lib/cn'
 const VARIANTS = {
   tip: {
     icon: Lightbulb,
-    className: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-    iconClassName: 'text-emerald-600',
+    className: 'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+    iconClassName: 'text-emerald-600 dark:text-emerald-400',
   },
   note: {
     icon: Info,
-    className: 'border-brand-200 bg-brand-50 text-brand-900',
-    iconClassName: 'text-brand-600',
+    className: 'border-brand-200 bg-brand-50 text-brand-900 dark:border-brand-800 dark:bg-brand-950 dark:text-brand-200',
+    iconClassName: 'text-brand-600 dark:text-brand-400',
   },
   warning: {
     icon: AlertTriangle,
-    className: 'border-amber-200 bg-amber-50 text-amber-900',
-    iconClassName: 'text-amber-600',
+    className: 'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200',
+    iconClassName: 'text-amber-600 dark:text-amber-400',
   },
   danger: {
     icon: AlertOctagon,
-    className: 'border-red-200 bg-red-50 text-red-900',
-    iconClassName: 'text-red-600',
+    className: 'border-red-200 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-200',
+    iconClassName: 'text-red-600 dark:text-red-400',
   },
 }
 

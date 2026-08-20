@@ -23,7 +23,7 @@ export default function LessonPage() {
             { label: lesson.meta.title },
           ]}
         />
-        <article className="prose prose-slate max-w-none">
+        <article className="prose prose-slate max-w-none dark:prose-invert">
           <h1>{lesson.meta.title}</h1>
           {LessonContent ? (
             <LessonContent />

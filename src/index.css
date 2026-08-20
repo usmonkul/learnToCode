@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   --color-brand-50: #eef2ff;
   --color-brand-100: #e0e7ff;
@@ -12,12 +14,23 @@
   --color-brand-700: #4338ca;
   --color-brand-800: #3730a3;
   --color-brand-900: #312e81;
+  --color-brand-950: #1e1b4b;
 
   --color-canvas: #ffffff;
   --color-canvas-muted: #f8fafc;
   --color-line: #e2e8f0;
   --color-ink: #0f172a;
   --color-ink-muted: #475569;
+}
+
+/* Dark palette — overrides the same semantic tokens above; every component using
+   bg-canvas/text-ink/etc. adapts automatically, no per-component dark: needed. */
+[data-theme='dark'] {
+  --color-canvas: #0f172a;
+  --color-canvas-muted: #020617;
+  --color-line: #1e293b;
+  --color-ink: #f1f5f9;
+  --color-ink-muted: #94a3b8;
 }
 
 body {

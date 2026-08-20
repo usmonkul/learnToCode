@@ -24,15 +24,15 @@ export default function BittaMuammoKopYechimLesson() {
       </p>
       <div className="not-prose my-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-line bg-canvas-muted p-4 text-center text-sm text-ink">
-          <p className="font-semibold text-brand-700">Piyoda</p>
+          <p className="font-semibold text-brand-700 dark:text-brand-300">Piyoda</p>
           <p className="mt-1 text-ink-muted">~20 daqiqa · bepul · sog'lom, lekin sekin</p>
         </div>
         <div className="rounded-lg border border-line bg-canvas-muted p-4 text-center text-sm text-ink">
-          <p className="font-semibold text-brand-700">Velosipedda</p>
+          <p className="font-semibold text-brand-700 dark:text-brand-300">Velosipedda</p>
           <p className="mt-1 text-ink-muted">~8 daqiqa · bepul · yomg'irda noqulay</p>
         </div>
         <div className="rounded-lg border border-line bg-canvas-muted p-4 text-center text-sm text-ink">
-          <p className="font-semibold text-brand-700">Avtobusda</p>
+          <p className="font-semibold text-brand-700 dark:text-brand-300">Avtobusda</p>
           <p className="mt-1 text-ink-muted">~15 daqiqa · pul kerak · jadvalga bog'liq</p>
         </div>
       </div>

@@ -41,14 +41,14 @@ function SingleQuiz({ question, options, correctIndex, explanation, selectedValu
               className={cn(
                 'flex items-center justify-between rounded-md border px-3 py-2 text-left text-sm transition-colors',
                 'border-line hover:border-brand-300',
-                showCorrect && 'border-emerald-400 bg-emerald-50',
-                showWrong && 'border-red-400 bg-red-50',
+                showCorrect && 'border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950',
+                showWrong && 'border-red-400 bg-red-50 dark:border-red-600 dark:bg-red-950',
                 answered && !showCorrect && !showWrong && 'opacity-60'
               )}
             >
               <span>{option}</span>
-              {showCorrect && <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-              {showWrong && <XCircle className="h-4 w-4 text-red-600" />}
+              {showCorrect && <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />}
+              {showWrong && <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />}
             </button>
           )
         })}
@@ -90,11 +90,11 @@ function MultiQuiz({ questions }) {
       ))}
       
       {isFinished && (
-        <div className="mt-8 p-6 bg-brand-50 border border-brand-200 rounded-lg text-center">
-          <h3 className="text-xl font-bold text-brand-700">Natija: {correctCount} / {total}</h3>
-          
+        <div className="mt-8 p-6 bg-brand-50 border border-brand-200 rounded-lg text-center dark:bg-brand-950 dark:border-brand-800">
+          <h3 className="text-xl font-bold text-brand-700 dark:text-brand-300">Natija: {correctCount} / {total}</h3>
+
           {wrongQuestions.length > 0 && (
-            <div className="mt-4 text-left text-sm text-red-700">
+            <div className="mt-4 text-left text-sm text-red-700 dark:text-red-400">
               <p className="font-semibold mb-2">Xato topilgan savollar:</p>
               <ul className="list-disc pl-5">
                 {wrongQuestions.map((wq, i) => (
@@ -103,9 +103,9 @@ function MultiQuiz({ questions }) {
               </ul>
             </div>
           )}
-          
+
           {correctCount === total && (
-            <p className="mt-4 text-emerald-600 font-medium">Barcha savollarga to'g'ri javob berdingiz, barakalla!</p>
+            <p className="mt-4 text-emerald-600 dark:text-emerald-400 font-medium">Barcha savollarga to'g'ri javob berdingiz, barakalla!</p>
           )}
         </div>
       )}

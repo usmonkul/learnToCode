@@ -23,7 +23,7 @@ export default function CourseCard({ course, lessonCount }) {
       to={`/${course.id}`}
       className="group flex flex-col gap-4 rounded-xl border border-line bg-canvas p-6 transition-colors hover:border-brand-300"
     >
-      <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+      <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
         <Icon className="h-6 w-6" />
       </span>
       <div>

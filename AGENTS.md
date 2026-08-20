@@ -79,7 +79,17 @@ Tailwind v4, CSS-first config in `src/index.css` (`@import "tailwindcss"`, `@plu
 
 Use `cn()` from `@/lib/cn` for any conditional/variant classNames — never string-concatenate or use bare template literals for classes.
 
-Light mode only, for now — the token-based setup above is intentionally dark-mode-ready (semantic names, not raw values), but do not add a dark theme, a toggle, or `dark:` variants unless asked.
+### Dark mode
+
+The app supports light/dark/system, toggled from `ThemeToggle` in `TopNav`. How it works, so you don't have to reverse-engineer it:
+
+- **Selector**: Tailwind's `dark:` variant is remapped in `src/index.css` via `@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));` — it matches on a `data-theme="dark"` attribute on `<html>`, not the default `prefers-color-scheme` media query. This is what makes a manual light/dark/system toggle possible (a pure media-query variant can't be manually overridden).
+- **State**: `src/store/themeStore.js` (zustand) holds `preference` (`'light' | 'dark' | 'system'`) and the resolved `resolvedTheme` (`'light' | 'dark'`). It resolves `'system'` via `matchMedia('(prefers-color-scheme: dark)')`, live-updates on OS theme changes when `preference === 'system'`, and is the one deliberate exception to "no localStorage" (see Non-goals) — it persists `preference` manually (`localStorage.getItem`/`setItem` inside the store's own logic, **not** zustand's `persist` middleware, which stays off-limits). `index.html` has a small inline blocking script that reads the same localStorage key before first paint, so there's no flash of the wrong theme on load.
+- **Tokens vs. `dark:` utilities — two different mechanisms, use the right one**:
+  - The semantic tokens (`bg-canvas`, `bg-canvas-muted`, `border-line`, `text-ink`, `text-ink-muted`) are CSS custom properties, redefined once under `[data-theme='dark']` in `src/index.css`. Any component using these tokens adapts automatically — **no `dark:` classes needed**, and none should be added for these.
+  - Anywhere a component reaches for a raw Tailwind color instead of a token (status colors in `Callout`/`Quiz`/`SqlPlayground` — `emerald`/`amber`/`red`, or a `bg-brand-50`/`bg-brand-100`-style light chip like `CourseCard`'s icon badge or a lesson's flowchart box), add an explicit `dark:` variant by hand, following the pattern already in those files (e.g. `bg-emerald-50 ... dark:bg-emerald-950 dark:text-emerald-200`). A `--color-brand-950` token exists in `@theme` specifically for these light-chip-on-dark-background cases.
+  - `LessonPage` adds `dark:prose-invert` next to `prose prose-slate` so plain lesson prose (headings, paragraphs, lists, `<code>`) inverts for free via `@tailwindcss/typography`.
+  - `CodeBlock` reads `resolvedTheme` from `themeStore` and swaps the `prism-react-renderer` theme between `themes.oneLight` and `themes.oneDark` — this can't be done via CSS since prism applies inline styles, hence the JS-level dependency on the store.
 
 ## Language
 
@@ -87,7 +97,7 @@ Lesson prose and all UI chrome (buttons, nav labels, headings) are written in **
 
 ## Non-goals — do not add these without being explicitly asked
 
-No backend, no authentication, no user accounts. No progress tracking or persistence of any kind (no localStorage, no `persist` middleware on the zustand store — it holds only ephemeral mobile-sidebar-open state). No live/editable code execution, **except** `SqlPlayground` (see Content primitives above) — a one-time, explicitly-approved exception for the SQL course, not a precedent for adding one to every language. No TypeScript. No automated test runner.
+No backend, no authentication, no user accounts. No progress tracking or persistence of any kind (no `persist` middleware on any zustand store), **except** the theme preference in `themeStore.js` (see Styling → Dark mode) — a one-time, explicitly-approved exception, using a plain manual `localStorage` read/write, not the `persist` middleware. `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution, **except** `SqlPlayground` (see Content primitives above) — a one-time, explicitly-approved exception for the SQL course, not a precedent for adding one to every language. No TypeScript. No automated test runner.
 
 ## Adding a new lesson
 
