@@ -15,8 +15,8 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
 
-## Deployment (Cloudflare Pages)
+## Deployment (Cloudflare Workers Builds)
 
-This is a plain static SPA — build command `npm run build`, output directory `dist`. Do **not** set a custom deploy command (e.g. `wrangler deploy`) in the Pages project settings; leave it blank so Pages serves `dist/` directly. There is no `wrangler.toml`/Workers config in this repo, so `wrangler deploy` has nothing to deploy and will fail.
+This is a plain static SPA deployed as a Workers-with-static-assets project (Worker name `learntocode`) — build command `npm run build`, deploy command `npx wrangler deploy`. `wrangler.jsonc` points `assets.directory` at `dist/` and sets `not_found_handling: "single-page-application"`, which serves `index.html` for any unmatched path so client-side routes (e.g. `/sql/select-va-from`) work on direct load/refresh.
 
-`public/_redirects` (`/* /index.html 200`) makes client-side routes (e.g. `/sql/select-va-from`) work on direct load/refresh instead of 404ing — it's copied into `dist/` automatically by Vite.
+Do **not** add a `public/_redirects` file — it conflicts with `not_found_handling` (Workers assets strip `.html`/`index` from URLs by default, and a `/* /index.html 200` rule on top of that creates a redirect loop that Cloudflare rejects at deploy time).
