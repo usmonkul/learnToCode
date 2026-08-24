@@ -470,7 +470,7 @@ export default function CourseCard({ course, lessonCount }) {
       to={`/${course.id}`}
       className="group flex flex-col gap-3 rounded-3xl bg-canvas p-6 transition-transform hover:-translate-y-1 hover:shadow-md"
     >
-      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-200 text-brand-800">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-400">
         <Icon className="h-6 w-6" />
       </span>
       <div>
@@ -481,7 +481,7 @@ export default function CourseCard({ course, lessonCount }) {
         <span className="rounded-full bg-canvas-muted px-3 py-1 text-xs text-ink-muted">{lessonCount} ta dars</span>
         <span
           className={cn(
-            'flex items-center gap-1 font-medium text-brand-700 transition-transform',
+            'flex items-center gap-1 font-medium text-brand-700 transition-transform dark:text-brand-300',
             'group-hover:translate-x-0.5'
           )}
         >
@@ -523,7 +523,7 @@ export default function Footer() {
           <p className="mb-3.5 text-[11px] font-medium uppercase tracking-[.12em] text-canvas-muted/45">Kurslar</p>
           <div className="flex flex-col gap-2.5">
             {courses.map((course) => (
-              <Link key={course.id} to={`/${course.id}`} className="text-sm text-canvas-muted/70 hover:text-brand-300">
+              <Link key={course.id} to={`/${course.id}`} className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
                 {course.title}
               </Link>
             ))}
@@ -532,13 +532,13 @@ export default function Footer() {
         <div>
           <p className="mb-3.5 text-[11px] font-medium uppercase tracking-[.12em] text-canvas-muted/45">Platforma</p>
           <div className="flex flex-col gap-2.5">
-            <Link to="/arena" className="text-sm text-canvas-muted/70 hover:text-brand-300">
+            <Link to="/arena" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
               Arena masalalari
             </Link>
-            <Link to="/profile" className="text-sm text-canvas-muted/70 hover:text-brand-300">
+            <Link to="/profile" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
               Mening progressim
             </Link>
-            <Link to="/login" className="text-sm text-canvas-muted/70 hover:text-brand-300">
+            <Link to="/login" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
               Kirish
             </Link>
           </div>
@@ -546,7 +546,7 @@ export default function Footer() {
         <div>
           <p className="mb-3.5 text-[11px] font-medium uppercase tracking-[.12em] text-canvas-muted/45">Loyiha</p>
           <div className="flex flex-col gap-2.5">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-sm text-canvas-muted/70 hover:text-brand-300">
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
               GitHub
             </a>
           </div>
@@ -554,7 +554,7 @@ export default function Footer() {
       </div>
       <div className="mx-auto mt-11 flex max-w-6xl items-center justify-between gap-5 border-t border-canvas-muted/10 pt-5">
         <p className="text-sm text-canvas-muted/45">© 2026 Darsliklar. Ochiq kodli loyiha.</p>
-        <a href="https://github.com" target="_blank" rel="noreferrer" className="text-sm text-canvas-muted/70 hover:text-brand-300">
+        <a href="https://github.com" target="_blank" rel="noreferrer" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
           GitHub
         </a>
       </div>
@@ -611,7 +611,7 @@ export default function HomePage() {
       <section className="overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-14 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
           <div>
-            <span className="rounded-full bg-brand2-100 px-3.5 py-1.5 text-xs font-medium text-brand2-800">
+            <span className="rounded-full bg-brand2-100 px-3.5 py-1.5 text-xs font-medium text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
               Bepul · O'zbek tilida
             </span>
             <h1 className="mt-5 max-w-[15ch] text-5xl leading-[1.05] tracking-tight text-ink lg:text-6xl">
@@ -653,7 +653,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200" />
+            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200 dark:from-brand2-900 dark:to-brand-900" />
             <div className="absolute -bottom-6 -left-6 w-56 rounded-3xl bg-canvas p-5 shadow-lg">
               <div className="flex items-center gap-2">
                 <Flame className="h-4.5 w-4.5 text-brand-600" />
@@ -674,8 +674,8 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <div className="rounded-[40px] bg-brand2-100 p-10 lg:p-12">
-          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand2-700">Qanday ishlaydi</p>
+        <div className="rounded-[40px] bg-brand2-100 p-10 lg:p-12 dark:bg-brand2-950">
+          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand2-700 dark:text-brand2-300">Qanday ishlaydi</p>
           <h2 className="mt-2.5 max-w-[24ch] text-3xl text-ink">Uch qadamda birinchi darsingizgacha</h2>
           <div className="mt-9 grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -696,7 +696,7 @@ export default function HomePage() {
               },
             ].map(({ step, title, body }) => (
               <div key={step}>
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-300 font-heading text-2xl text-brand2-900">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-300 font-heading text-2xl text-brand2-900 dark:bg-brand2-800 dark:text-brand2-200">
                   {step}
                 </span>
                 <h3 className="mt-4.5 text-xl text-ink">{title}</h3>
@@ -710,7 +710,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pb-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700">Kurslar</p>
+            <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">Kurslar</p>
             <h2 className="mt-2.5 text-3xl text-ink">Nimalarni o'rganasiz</h2>
           </div>
           <Link
@@ -728,7 +728,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700">O'quvchilar fikri</p>
+        <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">O'quvchilar fikri</p>
         <h2 className="mt-2.5 max-w-[26ch] text-3xl text-ink">Noldan boshlaganlar nima deydi</h2>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {TESTIMONIALS.map((item) => (
@@ -738,7 +738,7 @@ export default function HomePage() {
               <div className="mt-5 flex items-center gap-3">
                 <span
                   className={`flex h-11 w-11 items-center justify-center rounded-full font-heading text-sm ${
-                    item.tone === 'brand2' ? 'bg-brand2-200 text-brand2-800' : 'bg-brand-200 text-brand-800'
+                    item.tone === 'brand2' ? 'bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400' : 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-400'
                   }`}
                 >
                   {item.initials}
@@ -754,10 +754,10 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <div className="flex flex-col items-start gap-6 rounded-[40px] bg-brand-200 p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12">
+        <div className="flex flex-col items-start gap-6 rounded-[40px] bg-brand-200 p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12 dark:bg-brand-900">
           <div>
             <h2 className="max-w-[22ch] text-3xl text-ink">Bugun birinchi darsni tugatib qo'ying</h2>
-            <p className="mt-3 max-w-[44ch] text-base text-brand-900">
+            <p className="mt-3 max-w-[44ch] text-base text-brand-900 dark:text-brand-100">
               Ro'yxatdan o'tish bepul. Progress va kunlik ketma-ketlik hisobingizda saqlanadi.
             </p>
           </div>
@@ -770,7 +770,7 @@ export default function HomePage() {
             </Link>
             <Link
               to="/kurslar"
-              className="rounded-full border border-brand-400 px-6 py-3.5 text-sm font-semibold text-brand-800 hover:bg-brand-100"
+              className="rounded-full border border-brand-400 px-6 py-3.5 text-sm font-semibold text-brand-800 hover:bg-brand-100 dark:border-brand-600 dark:text-brand-100 dark:hover:bg-brand-800"
             >
               Kurslar ro'yxati
             </Link>
@@ -951,7 +951,7 @@ export default function CourseOverviewPage() {
       <div className="mt-12 flex flex-col gap-8">
         {groups.map((group) => (
           <div key={group.lessons[0].slug}>
-            {group.section && <p className="mb-3.5 text-xs font-medium uppercase tracking-[.12em] text-brand-700">{group.section}</p>}
+            {group.section && <p className="mb-3.5 text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">{group.section}</p>}
             <div className="flex flex-col gap-1.5">
               {group.lessons.map((lesson, index) => {
                 const complete = isComplete(courseId, lesson.slug)
@@ -964,7 +964,7 @@ export default function CourseOverviewPage() {
                     <span
                       className={cn(
                         'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium',
-                        complete ? 'bg-brand2-300 text-brand2-900' : 'bg-canvas-muted text-ink-muted'
+                        complete ? 'bg-brand2-300 text-brand2-900 dark:bg-brand2-800 dark:text-brand2-200' : 'bg-canvas-muted text-ink-muted'
                       )}
                     >
                       {complete ? <Check className="h-4 w-4" /> : index + 1}
@@ -1097,14 +1097,14 @@ export default function Sidebar({ courseId }) {
                       cn(
                         'flex items-center justify-between gap-2 rounded-full px-3.5 py-2 text-sm',
                         isActive
-                          ? 'bg-brand-200 font-medium text-brand-900'
+                          ? 'bg-brand-200 font-medium text-brand-900 dark:bg-brand-950 dark:text-brand-300'
                           : 'text-ink-muted hover:bg-canvas-muted'
                       )
                     }
                   >
                     <span>{lesson.meta.title}</span>
                     {isComplete(courseId, lesson.slug) && (
-                      <Check className="h-3.5 w-3.5 shrink-0 text-brand2-700" />
+                      <Check className="h-3.5 w-3.5 shrink-0 text-brand2-700 dark:text-brand2-400" />
                     )}
                   </NavLink>
                 ))}
@@ -1186,7 +1186,7 @@ export default function ArenaPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-10 flex items-center gap-4">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-200 text-brand2-800">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
           <Swords className="h-6 w-6" />
         </span>
         <div>
@@ -1203,7 +1203,7 @@ export default function ArenaPage() {
               to={`/arena/${topic.id}`}
               className="group flex flex-col gap-3 rounded-3xl bg-canvas p-6 transition-transform hover:-translate-y-1 hover:shadow-md"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand2-200 text-brand2-800">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
                 <Icon className="h-6 w-6" />
               </span>
               <div>
@@ -1295,17 +1295,17 @@ export default function ArenaTopicPage() {
         <h1 className="text-4xl text-ink">{topic.title} masalalari</h1>
         <div className="ml-auto flex gap-2">
           {counts.easy > 0 && (
-            <span className="rounded-full bg-brand2-100 px-3 py-1 text-xs font-medium text-brand2-800">
+            <span className="rounded-full bg-brand2-100 px-3 py-1 text-xs font-medium text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
               {counts.easy} oson
             </span>
           )}
           {counts.medium > 0 && (
-            <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-800">
+            <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-800 dark:bg-brand-950 dark:text-brand-400">
               {counts.medium} o'rta
             </span>
           )}
           {counts.hard > 0 && (
-            <span className="rounded-full border border-brand-600 px-3 py-1 text-xs font-medium text-brand-700">
+            <span className="rounded-full border border-brand-600 px-3 py-1 text-xs font-medium text-brand-700 dark:border-brand-400 dark:text-brand-300">
               {counts.hard} qiyin
             </span>
           )}
@@ -1338,9 +1338,9 @@ import { cn } from '@/lib/cn'
 
 const DIFFICULTY_LABELS = { easy: 'Oson', medium: "O'rta", hard: 'Qiyin' }
 const DIFFICULTY_STYLES = {
-  easy: 'bg-brand2-100 text-brand2-800',
-  medium: 'bg-brand-100 text-brand-800',
-  hard: 'border border-brand-600 text-brand-700',
+  easy: 'bg-brand2-100 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400',
+  medium: 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-400',
+  hard: 'border border-brand-600 text-brand-700 dark:border-brand-400 dark:text-brand-300',
 }
 
 export default function ChallengeList({ challenges, activeSlug, topicId, schema }) {
@@ -1700,15 +1700,15 @@ export default function ProfilePage() {
       </div>
 
       <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <div className="rounded-3xl bg-brand-200 p-6">
-          <Flame className="h-6 w-6 text-brand-800" />
-          <p className="mt-3.5 font-heading text-4xl leading-none text-brand-900">{streak.current}</p>
-          <p className="mt-2 text-sm text-brand-900">Kunlik ketma-ketlik</p>
+        <div className="rounded-3xl bg-brand-200 p-6 dark:bg-brand-900">
+          <Flame className="h-6 w-6 text-brand-800 dark:text-brand-300" />
+          <p className="mt-3.5 font-heading text-4xl leading-none text-brand-900 dark:text-brand-100">{streak.current}</p>
+          <p className="mt-2 text-sm text-brand-900 dark:text-brand-100">Kunlik ketma-ketlik</p>
         </div>
-        <div className="rounded-3xl bg-brand2-200 p-6">
-          <Trophy className="h-6 w-6 text-brand2-800" />
-          <p className="mt-3.5 font-heading text-4xl leading-none text-brand2-900">{streak.longest}</p>
-          <p className="mt-2 text-sm text-brand2-900">Eng uzun ketma-ketlik</p>
+        <div className="rounded-3xl bg-brand2-200 p-6 dark:bg-brand2-900">
+          <Trophy className="h-6 w-6 text-brand2-800 dark:text-brand2-300" />
+          <p className="mt-3.5 font-heading text-4xl leading-none text-brand2-900 dark:text-brand2-100">{streak.longest}</p>
+          <p className="mt-2 text-sm text-brand2-900 dark:text-brand2-100">Eng uzun ketma-ketlik</p>
         </div>
         <div className="rounded-3xl bg-canvas p-6">
           <CheckCircle2 className="h-6 w-6 text-ink-muted" />
