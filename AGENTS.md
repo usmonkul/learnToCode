@@ -29,10 +29,11 @@ src/
   components/
     content/                # primitives lesson authors use directly: CodeBlock, Callout, Quiz, Exercise, Solution, KeyPoints, Figure
     layout/                 # page chrome: TopNav (site nav + auth), Sidebar, LessonNav, Breadcrumbs, CourseCard, UserMenu
-    ui/                     # generic internals shared by the above (currently just Disclosure)
+    ui/                     # generic internals shared by the above (Disclosure, Avatar)
     auth/RequireAuth.jsx     # route guard — redirects signed-out visitors to /login?redirect=<path>
   pages/                   # one file per route: HomePage (landing, "/"), CoursesPage ("/kurslar"), ArenaPage ("/arena", auth-gated),
-                            # CourseOverviewPage, LessonPage, LoginPage ("/login"), AuthCallbackPage, NotFoundPage
+                            # ProfilePage ("/profile", auth-gated), CourseOverviewPage, LessonPage, LoginPage ("/login"),
+                            # AuthCallbackPage, NotFoundPage
   store/
     uiStore.js               # zustand — UI-only state (mobile sidebar open/closed), nothing else
     themeStore.js            # zustand — light/dark/system preference (see Dark mode below)
@@ -111,7 +112,8 @@ Supabase provides authentication (email/password, Google, GitHub) and the Postgr
 - **Schema**: `supabase/migrations/*.sql` is the source of truth for the Postgres schema (`profiles`, `lesson_completions`, `streaks`, plus the streak-maintaining trigger and `recompute_streak()` repair function) — apply changes via `supabase db push`, never hand-edit the schema in the dashboard.
 - **RLS is mandatory** on every table here. `streaks` in particular has no client-writable policy at all — it's written only by a `SECURITY DEFINER` trigger, so a student can never PATCH their own streak directly.
 - **Login UI**: a dedicated route, `/login` (`src/pages/LoginPage.jsx`) — email/password form plus Google/GitHub buttons, not a modal. It reads a `?redirect=<path>` query param and, after a successful sign-in, navigates there (default `/`). `/auth/callback` (`src/pages/AuthCallbackPage.jsx`) exists only to show a brief loading state while `supabase-js` finishes parsing the OAuth redirect, then reads the same `?redirect=` param (round-tripped through `signInWithOAuth`'s `redirectTo` URL, since a full-page OAuth redirect loses any React Router `location.state`) and navigates there; Cloudflare's SPA fallback means neither route needs anything server-side.
-- **Protected routes**: `src/components/auth/RequireAuth.jsx` is a layout route — wrap any route that needs a signed-in user with it (see `/arena` in `App.jsx`) and it redirects signed-out visitors to `/login?redirect=<the path they tried>`. A component-level action that needs auth without a full route guard (e.g. `LessonPage`'s mark-complete button) just checks `authStore`'s `status` itself and `navigate()`s to the same `/login?redirect=...` pattern by hand.
+- **Protected routes**: `src/components/auth/RequireAuth.jsx` is a layout route — wrap any route that needs a signed-in user with it (see `/arena` and `/profile` in `App.jsx`) and it redirects signed-out visitors to `/login?redirect=<the path they tried>`. A component-level action that needs auth without a full route guard (e.g. `LessonPage`'s mark-complete button) just checks `authStore`'s `status` itself and `navigate()`s to the same `/login?redirect=...` pattern by hand.
+- **Display name & avatar**: `getDisplayName(user)` / `getAvatarUrl(user)` in `authStore.js` read `user.user_metadata`, falling back across the different fields Google/GitHub/email-password populate (`full_name`, `name`, `user_name`, then the email's local part). `src/components/ui/Avatar.jsx` renders the photo when `getAvatarUrl` returns one, silently falling back to an initials badge on a missing URL *or* a failed image load (`onError`) — never assume a provider's avatar URL stays reachable. Used in `UserMenu` (small, links to `/profile`) and `ProfilePage` (large).
 
 ## Language
 

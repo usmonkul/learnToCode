@@ -7,6 +7,7 @@ import ArenaPage from '@/pages/ArenaPage'
 import CourseOverviewPage from '@/pages/CourseOverviewPage'
 import LessonPage from '@/pages/LessonPage'
 import LoginPage from '@/pages/LoginPage'
+import ProfilePage from '@/pages/ProfilePage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import RequireAuth from '@/components/auth/RequireAuth'
@@ -45,6 +46,7 @@ function App() {
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route element={<RequireAuth />}>
           <Route path="/arena" element={<ArenaPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="/:courseId" element={<CourseOverviewPage />} />
         <Route path="/:courseId/:slug" element={<LessonPage />} />
