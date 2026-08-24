@@ -41,7 +41,7 @@ export default function HomePage() {
       <section className="overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-14 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
           <div>
-            <span className="rounded-full bg-brand2-100 px-3.5 py-1.5 text-xs font-medium text-brand2-800">
+            <span className="rounded-full bg-brand2-100 px-3.5 py-1.5 text-xs font-medium text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
               Bepul · O'zbek tilida
             </span>
             <h1 className="mt-5 max-w-[15ch] text-5xl leading-[1.05] tracking-tight text-ink lg:text-6xl">
@@ -83,7 +83,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200" />
+            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200 dark:from-brand2-900 dark:to-brand-900" />
             <div className="absolute -bottom-6 -left-6 w-56 rounded-3xl bg-canvas p-5 shadow-lg">
               <div className="flex items-center gap-2">
                 <Flame className="h-4.5 w-4.5 text-brand-600" />
@@ -104,8 +104,8 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <div className="rounded-[40px] bg-brand2-100 p-10 lg:p-12">
-          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand2-700">Qanday ishlaydi</p>
+        <div className="rounded-[40px] bg-brand2-100 p-10 lg:p-12 dark:bg-brand2-950">
+          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand2-700 dark:text-brand2-300">Qanday ishlaydi</p>
           <h2 className="mt-2.5 max-w-[24ch] text-3xl text-ink">Uch qadamda birinchi darsingizgacha</h2>
           <div className="mt-9 grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -126,7 +126,7 @@ export default function HomePage() {
               },
             ].map(({ step, title, body }) => (
               <div key={step}>
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-300 font-heading text-2xl text-brand2-900">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand2-300 font-heading text-2xl text-brand2-900 dark:bg-brand2-800 dark:text-brand2-200">
                   {step}
                 </span>
                 <h3 className="mt-4.5 text-xl text-ink">{title}</h3>
@@ -140,7 +140,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pb-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700">Kurslar</p>
+            <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">Kurslar</p>
             <h2 className="mt-2.5 text-3xl text-ink">Nimalarni o'rganasiz</h2>
           </div>
           <Link
@@ -158,7 +158,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700">O'quvchilar fikri</p>
+        <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">O'quvchilar fikri</p>
         <h2 className="mt-2.5 max-w-[26ch] text-3xl text-ink">Noldan boshlaganlar nima deydi</h2>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {TESTIMONIALS.map((item) => (
@@ -168,7 +168,7 @@ export default function HomePage() {
               <div className="mt-5 flex items-center gap-3">
                 <span
                   className={`flex h-11 w-11 items-center justify-center rounded-full font-heading text-sm ${
-                    item.tone === 'brand2' ? 'bg-brand2-200 text-brand2-800' : 'bg-brand-200 text-brand-800'
+                    item.tone === 'brand2' ? 'bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400' : 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-400'
                   }`}
                 >
                   {item.initials}
@@ -184,10 +184,10 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
-        <div className="flex flex-col items-start gap-6 rounded-[40px] bg-brand-200 p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12">
+        <div className="flex flex-col items-start gap-6 rounded-[40px] bg-brand-200 p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12 dark:bg-brand-900">
           <div>
             <h2 className="max-w-[22ch] text-3xl text-ink">Bugun birinchi darsni tugatib qo'ying</h2>
-            <p className="mt-3 max-w-[44ch] text-base text-brand-900">
+            <p className="mt-3 max-w-[44ch] text-base text-brand-900 dark:text-brand-100">
               Ro'yxatdan o'tish bepul. Progress va kunlik ketma-ketlik hisobingizda saqlanadi.
             </p>
           </div>
@@ -200,7 +200,7 @@ export default function HomePage() {
             </Link>
             <Link
               to="/kurslar"
-              className="rounded-full border border-brand-400 px-6 py-3.5 text-sm font-semibold text-brand-800 hover:bg-brand-100"
+              className="rounded-full border border-brand-400 px-6 py-3.5 text-sm font-semibold text-brand-800 hover:bg-brand-100 dark:border-brand-600 dark:text-brand-100 dark:hover:bg-brand-800"
             >
               Kurslar ro'yxati
             </Link>
