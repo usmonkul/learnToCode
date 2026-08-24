@@ -112,10 +112,10 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       </div>
 
       {status === 'error' && (
-        <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700">SQL vositasini yuklab bo'lmadi: {initError}</p>
+        <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">SQL vositasini yuklab bo'lmadi: {initError}</p>
       )}
 
-      {runError && <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700">{runError}</p>}
+      {runError && <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">{runError}</p>}
 
       {message && !runError && (
         <p className="bg-canvas-muted px-5 py-3.5 text-sm text-ink">{message}</p>
