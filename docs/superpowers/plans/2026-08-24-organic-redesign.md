@@ -36,8 +36,8 @@
 
 ```css
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700&display=swap');
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -78,7 +78,7 @@
 
 /* Dark palette — overrides the same semantic tokens above; every component using
    bg-canvas/text-ink/etc. adapts automatically, no per-component dark: needed.
-   --color-brand-*/--color-brand2-* are NOT overridden here — dark-mode emphasis for
+   --color-brand-* / --color-brand2-* are NOT overridden here — dark-mode emphasis for
    those already happens per-component via manual dark: variants that pick a lighter
    ramp step (e.g. text-brand-700 dark:text-brand-300), unchanged by this redesign. */
 [data-theme='dark'] {
