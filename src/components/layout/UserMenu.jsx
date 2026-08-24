@@ -13,19 +13,27 @@ export default function UserMenu() {
 
   if (status === 'signedOut') {
     return (
-      <Link
-        to="/login"
-        className="rounded-md px-3 py-1.5 text-sm font-medium text-ink-muted hover:bg-canvas-muted hover:text-ink"
-      >
-        Kirish
-      </Link>
+      <div className="flex items-center gap-2">
+        <Link
+          to="/login"
+          className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas hover:text-ink"
+        >
+          Kirish
+        </Link>
+        <Link
+          to="/login"
+          className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-canvas-muted hover:bg-brand-700"
+        >
+          Bepul boshlash
+        </Link>
+      </div>
     )
   }
 
   return (
     <div className="flex items-center gap-1">
       <span
-        className="flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium text-ink-muted"
+        className="flex items-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-medium text-ink-muted"
         title={`Eng uzun ketma-ketlik: ${streak.longest} kun`}
       >
         <Flame className="h-4 w-4 text-brand-600" />
@@ -33,7 +41,7 @@ export default function UserMenu() {
       </span>
       <Link
         to="/profile"
-        className="rounded-full ring-offset-2 ring-offset-canvas transition-shadow hover:ring-2 hover:ring-brand-500/40"
+        className="rounded-full ring-offset-2 ring-offset-canvas-muted transition-shadow hover:ring-2 hover:ring-brand-500/40"
         aria-label="Profil"
         title="Profil"
       >
@@ -42,7 +50,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => signOut()}
-        className="rounded-md p-2 text-ink-muted hover:bg-canvas-muted hover:text-ink"
+        className="rounded-full p-2 text-ink-muted hover:bg-canvas hover:text-ink"
         aria-label="Chiqish"
         title="Chiqish"
       >

@@ -14,9 +14,6 @@ export default function TopNav() {
   const { courseId, slug } = useParams()
   const hasSidebar = Boolean(courseId && slug)
 
-  // On a lesson page, the single mobile menu button opens the lesson sidebar
-  // (which itself includes the site nav at its top, see Sidebar.jsx) instead
-  // of this page-level dropdown — one button, one drawer, never two.
   const mobileMenuOpen = hasSidebar ? sidebarOpen : menuOpen
 
   function handleToggleMobileMenu() {
@@ -25,10 +22,12 @@ export default function TopNav() {
   }
 
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-canvas/95 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-6">
-        <Link to="/" className="flex shrink-0 items-center gap-2 font-semibold text-ink">
-          <BookOpen className="h-5 w-5 text-brand-600" />
+    <header className="sticky top-0 z-20 border-b border-line bg-canvas-muted/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-6">
+        <Link to="/" className="mr-3 flex shrink-0 items-center gap-2.5 font-heading text-lg text-ink">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-canvas-muted">
+            <BookOpen className="h-4 w-4" />
+          </span>
           Darsliklar
         </Link>
 
@@ -40,8 +39,10 @@ export default function TopNav() {
               end={item.to === '/'}
               className={({ isActive }) =>
                 cn(
-                  'shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium',
-                  isActive ? 'text-brand-700 dark:text-brand-300' : 'text-ink-muted hover:bg-canvas-muted hover:text-ink'
+                  'shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium',
+                  isActive
+                    ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
+                    : 'text-ink-muted hover:bg-canvas hover:text-ink'
                 )
               }
             >
@@ -56,7 +57,7 @@ export default function TopNav() {
           <button
             type="button"
             onClick={handleToggleMobileMenu}
-            className="rounded-md p-2 text-ink-muted hover:bg-canvas-muted md:hidden"
+            className="rounded-full p-2 text-ink-muted hover:bg-canvas md:hidden"
             aria-label={mobileMenuOpen ? 'Menyuni yopish' : 'Menyuni ochish'}
             aria-expanded={mobileMenuOpen}
           >
@@ -73,7 +74,7 @@ export default function TopNav() {
             onClick={() => setMenuOpen(false)}
             className="fixed inset-0 z-30 bg-black/30 md:hidden"
           />
-          <nav className="absolute inset-x-0 top-full z-40 border-b border-line bg-canvas px-6 py-3 shadow-lg md:hidden">
+          <nav className="absolute inset-x-0 top-full z-40 border-b border-line bg-canvas-muted px-6 py-3 shadow-lg md:hidden">
             <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <NavLink
@@ -83,10 +84,10 @@ export default function TopNav() {
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      'rounded-md px-3 py-2 text-sm font-medium',
+                      'rounded-full px-3.5 py-2 text-sm font-medium',
                       isActive
-                        ? 'bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300'
-                        : 'text-ink-muted hover:bg-canvas-muted hover:text-ink'
+                        ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
+                        : 'text-ink-muted hover:bg-canvas hover:text-ink'
                     )
                   }
                 >

@@ -19,7 +19,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={handleClick}
-      className="rounded-md p-2 text-ink-muted hover:bg-canvas-muted hover:text-ink"
+      className="rounded-full p-2 text-ink-muted hover:bg-canvas hover:text-ink"
       aria-label={`Mavzu: ${LABELS[preference]}. Almashtirish uchun bosing.`}
       title={`Mavzu: ${LABELS[preference]}`}
     >
