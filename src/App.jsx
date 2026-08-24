@@ -4,6 +4,7 @@ import TopNav from '@/components/layout/TopNav'
 import HomePage from '@/pages/HomePage'
 import CoursesPage from '@/pages/CoursesPage'
 import ArenaPage from '@/pages/ArenaPage'
+import ArenaTopicPage from '@/pages/ArenaTopicPage'
 import CourseOverviewPage from '@/pages/CourseOverviewPage'
 import LessonPage from '@/pages/LessonPage'
 import LoginPage from '@/pages/LoginPage'
@@ -46,6 +47,8 @@ function App() {
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route element={<RequireAuth />}>
           <Route path="/arena" element={<ArenaPage />} />
+          <Route path="/arena/:topicId" element={<ArenaTopicPage />} />
+          <Route path="/arena/:topicId/:challengeSlug" element={<ArenaTopicPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="/:courseId" element={<CourseOverviewPage />} />
