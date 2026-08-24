@@ -49,9 +49,9 @@ export default function ChallengeDetail({ challenge, schema }) {
           <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-ink-muted">
             Kutilgan natija
           </p>
-          <div className="overflow-x-auto rounded-md border border-line bg-canvas">
+          <div className="max-h-80 overflow-auto rounded-md border border-line bg-canvas">
             <table className="w-full text-left text-sm">
-              <thead className="bg-canvas-muted text-ink-muted">
+              <thead className="sticky top-0 bg-canvas-muted text-ink-muted">
                 <tr>
                   {expected.columns.map((column) => (
                     <th key={column} className="whitespace-nowrap px-3 py-2 font-medium">

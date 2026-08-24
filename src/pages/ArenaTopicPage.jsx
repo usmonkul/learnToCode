@@ -27,7 +27,7 @@ export default function ArenaTopicPage() {
     <div className="mx-auto max-w-6xl px-6 py-10">
       <Breadcrumbs items={[{ label: 'Arena', to: '/arena' }, { label: topic.title }]} />
       <h1 className="text-2xl font-bold text-ink">{topic.title}</h1>
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+      <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
         <ChallengeList
           challenges={challenges}
           activeSlug={challenge.slug}
@@ -35,7 +35,7 @@ export default function ArenaTopicPage() {
           schema={schema}
         />
         {topic.hasSandbox && (
-          <div className="min-w-0">
+          <div className="min-w-0 [&>div]:my-0!">
             <SqlPlayground key={challenge.slug} schema={schema} initialQuery={challenge.starterQuery} />
           </div>
         )}

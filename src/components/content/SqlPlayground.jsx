@@ -129,9 +129,9 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       )}
 
       {result && !runError && (
-        <div className="overflow-x-auto border-t border-line">
+        <div className="max-h-80 overflow-auto border-t border-line">
           <table className="w-full text-left text-sm">
-            <thead className="bg-canvas-muted text-ink-muted">
+            <thead className="sticky top-0 bg-canvas-muted text-ink-muted">
               <tr>
                 {result.columns.map((column) => (
                   <th key={column} className="whitespace-nowrap px-3 py-2 font-medium">
