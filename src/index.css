@@ -1,39 +1,64 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700&display=swap');
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-300: #a5b4fc;
-  --color-brand-400: #818cf8;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
-  --color-brand-950: #1e1b4b;
+  --color-brand-50: #fff8f4;
+  --color-brand-100: #fff2eb;
+  --color-brand-200: #ffe1d0;
+  --color-brand-300: #ffc6a5;
+  --color-brand-400: #f6a06b;
+  --color-brand-500: #d67f48;
+  --color-brand-600: #c67139;
+  --color-brand-700: #8c491a;
+  --color-brand-800: #643312;
+  --color-brand-900: #402310;
+  --color-brand-950: #2a1509;
 
-  --color-canvas: #ffffff;
-  --color-canvas-muted: #f8fafc;
-  --color-line: #e2e8f0;
-  --color-ink: #0f172a;
-  --color-ink-muted: #475569;
+  --color-brand2-50: #f7fdf0;
+  --color-brand2-100: #f0fae1;
+  --color-brand2-200: #e1eecc;
+  --color-brand2-300: #ccdbb2;
+  --color-brand2-400: #aebf92;
+  --color-brand2-500: #8fa073;
+  --color-brand2-600: #7a8a5e;
+  --color-brand2-700: #56633f;
+  --color-brand2-800: #3d472b;
+  --color-brand2-900: #272e1b;
+  --color-brand2-950: #1a1f11;
+
+  --color-canvas: #ebddc5;
+  --color-canvas-muted: #f5ead8;
+  --color-line: color-mix(in srgb, #201e1d 16%, transparent);
+  --color-ink: #201e1d;
+  --color-ink-muted: #6b6358;
+
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, sans-serif;
 }
 
 /* Dark palette — overrides the same semantic tokens above; every component using
-   bg-canvas/text-ink/etc. adapts automatically, no per-component dark: needed. */
+   bg-canvas/text-ink/etc. adapts automatically, no per-component dark: needed.
+   --color-brand-*/--color-brand2-* are NOT overridden here — dark-mode emphasis for
+   those already happens per-component via manual dark: variants that pick a lighter
+   ramp step (e.g. text-brand-700 dark:text-brand-300), unchanged by this redesign. */
 [data-theme='dark'] {
-  --color-canvas: #0f172a;
-  --color-canvas-muted: #020617;
-  --color-line: #1e293b;
-  --color-ink: #f1f5f9;
-  --color-ink-muted: #94a3b8;
+  --color-canvas: #474238;
+  --color-canvas-muted: #2e2b25;
+  --color-line: color-mix(in srgb, #f9f4ed 18%, transparent);
+  --color-ink: #f9f4ed;
+  --color-ink-muted: #a89f92;
 }
 
 body {
   background-color: var(--color-canvas-muted);
   color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
 }
