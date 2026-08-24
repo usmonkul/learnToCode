@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Flame, Quote } from 'lucide-react'
 import { getAllCourses, getLessons } from '@/courses/registry'
 import { getChallenges, getTopics } from '@/arena/registry'
+import { cn } from '@/lib/cn'
 import CourseCard from '@/components/layout/CourseCard'
 import Footer from '@/components/layout/Footer'
 
@@ -93,7 +94,7 @@ export default function HomePage() {
                 {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
                   <span
                     key={index}
-                    className={`h-2 flex-1 rounded-full ${filled ? 'bg-brand-600' : 'bg-canvas-muted'}`}
+                    className={cn('h-2 flex-1 rounded-full', filled ? 'bg-brand-600' : 'bg-canvas-muted')}
                   />
                 ))}
               </div>
@@ -167,9 +168,12 @@ export default function HomePage() {
               <p className="mt-3.5 text-base leading-relaxed text-ink">{item.quote}</p>
               <div className="mt-5 flex items-center gap-3">
                 <span
-                  className={`flex h-11 w-11 items-center justify-center rounded-full font-heading text-sm ${
-                    item.tone === 'brand2' ? 'bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400' : 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-400'
-                  }`}
+                  className={cn(
+                    'flex h-11 w-11 items-center justify-center rounded-full font-heading text-sm',
+                    item.tone === 'brand2'
+                      ? 'bg-brand2-200 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400'
+                      : 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-400'
+                  )}
                 >
                   {item.initials}
                 </span>

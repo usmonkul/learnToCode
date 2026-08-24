@@ -1,4 +1,5 @@
 import { getAllCourses, getLessons } from '@/courses/registry'
+import { cn } from '@/lib/cn'
 import CourseCard from '@/components/layout/CourseCard'
 
 const FILTERS = ['Hammasi', "Boshlang'ich", "Ma'lumot", 'Interfeys']
@@ -20,9 +21,11 @@ export default function CoursesPage() {
           {FILTERS.map((label, index) => (
             <span
               key={label}
-              className={`px-3.5 py-2 text-sm ${index === 0 ? 'bg-brand-600 text-canvas-muted' : 'text-ink-muted'} ${
-                index > 0 ? 'border-l border-line' : ''
-              }`}
+              className={cn(
+                'px-3.5 py-2 text-sm',
+                index === 0 ? 'bg-brand-600 text-canvas-muted' : 'text-ink-muted',
+                index > 0 && 'border-l border-line'
+              )}
             >
               {label}
             </span>
