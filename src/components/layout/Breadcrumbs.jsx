@@ -8,7 +8,7 @@ export default function Breadcrumbs({ items }) {
         <span key={index} className="flex items-center gap-1.5">
           {index > 0 && <ChevronRight className="h-3.5 w-3.5" />}
           {item.to ? (
-            <Link to={item.to} className="hover:text-brand-600">
+            <Link to={item.to} className="hover:text-brand-700">
               {item.label}
             </Link>
           ) : (

@@ -7,11 +7,11 @@ export default function LessonNav({ courseId, slug }) {
   if (!prev && !next) return null
 
   return (
-    <div className="mt-10 flex items-center justify-between border-t border-line pt-6">
+    <div className="mt-10 flex items-center justify-between border-t border-line pt-7">
       {prev ? (
         <Link
           to={`/${courseId}/${prev.slug}`}
-          className="flex items-center gap-2 text-sm font-medium text-brand-600 hover:underline"
+          className="flex items-center gap-2 text-sm font-medium text-brand-700 hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
           {prev.meta.title}
@@ -22,7 +22,7 @@ export default function LessonNav({ courseId, slug }) {
       {next ? (
         <Link
           to={`/${courseId}/${next.slug}`}
-          className="flex items-center gap-2 text-sm font-medium text-brand-600 hover:underline"
+          className="flex items-center gap-2 text-sm font-medium text-brand-700 hover:underline"
         >
           {next.meta.title}
           <ArrowRight className="h-4 w-4" />

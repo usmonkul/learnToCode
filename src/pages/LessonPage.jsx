@@ -54,9 +54,9 @@ export default function LessonPage() {
           type="button"
           onClick={handleToggleComplete}
           className={cn(
-            'mt-6 flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium',
+            'mt-6 flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium',
             isComplete
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300'
+              ? 'border-brand2-300 bg-brand2-100 text-brand2-800 dark:border-brand2-700 dark:bg-brand2-950 dark:text-brand2-300'
               : 'border-line text-ink hover:border-brand-300'
           )}
         >
