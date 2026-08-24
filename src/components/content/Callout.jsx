@@ -29,7 +29,7 @@ export default function Callout({ type = 'note', title, children }) {
   const Icon = variant.icon
 
   return (
-    <div className={cn('not-prose my-6 flex gap-3 rounded-lg border p-4', variant.className)}>
+    <div className={cn('not-prose my-6 flex gap-3 rounded-3xl border p-5', variant.className)}>
       <Icon className={cn('mt-0.5 h-5 w-5 shrink-0', variant.iconClassName)} />
       <div className="text-sm leading-relaxed">
         {title && <p className="mb-1 font-semibold">{title}</p>}

@@ -24,7 +24,7 @@ function SingleQuiz({ question, options, correctIndex, explanation, selectedValu
   }
 
   return (
-    <div className="not-prose my-6 rounded-lg border border-line bg-canvas p-5">
+    <div className="not-prose my-6 rounded-3xl border border-line bg-canvas p-6">
       <p className="mb-3 font-semibold text-ink">{question}</p>
       <div className="flex flex-col gap-2">
         {options.map((option, index) => {
@@ -39,7 +39,7 @@ function SingleQuiz({ question, options, correctIndex, explanation, selectedValu
               disabled={answered}
               onClick={() => handleSelect(index)}
               className={cn(
-                'flex items-center justify-between rounded-md border px-3 py-2 text-left text-sm transition-colors',
+                'flex items-center justify-between rounded-full border px-4 py-2.5 text-left text-sm transition-colors',
                 'border-line hover:border-brand-300',
                 showCorrect && 'border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950',
                 showWrong && 'border-red-400 bg-red-50 dark:border-red-600 dark:bg-red-950',
@@ -90,7 +90,7 @@ function MultiQuiz({ questions }) {
       ))}
       
       {isFinished && (
-        <div className="mt-8 p-6 bg-brand-50 border border-brand-200 rounded-lg text-center dark:bg-brand-950 dark:border-brand-800">
+        <div className="mt-8 p-6 bg-brand-50 border border-brand-200 rounded-3xl text-center dark:bg-brand-950 dark:border-brand-800">
           <h3 className="text-xl font-bold text-brand-700 dark:text-brand-300">Natija: {correctCount} / {total}</h3>
 
           {wrongQuestions.length > 0 && (

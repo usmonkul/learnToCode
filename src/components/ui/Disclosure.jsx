@@ -6,11 +6,11 @@ export default function Disclosure({ summary, children }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="rounded-md border border-line">
+    <div className="rounded-3xl border border-line">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm font-medium text-ink"
+        className="flex w-full items-center justify-between gap-2 px-5 py-3 text-left text-sm font-medium text-ink"
       >
         {summary}
         <ChevronDown className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')} />
