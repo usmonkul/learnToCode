@@ -32,7 +32,7 @@ export default function HomePage() {
         </div>
         <div className="rounded-lg border border-line p-5">
           <Swords className="h-6 w-6 text-brand-600" />
-          <h2 className="mt-3 font-semibold text-ink">Arena (tez orada)</h2>
+          <h2 className="mt-3 font-semibold text-ink">Arena</h2>
           <p className="mt-1 text-sm text-ink-muted">Masalalarni yeching va bilimingizni sinab ko'ring.</p>
         </div>
       </div>
