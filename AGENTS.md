@@ -4,13 +4,13 @@ Instructions for any AI coding tool (Claude Code, Cursor, Copilot, etc.) working
 
 ## What this is
 
-A front-end-only, no-backend, no-auth programming tutorial platform. Students pick a course and read lessons. Lessons are plain JSX files composed from a small library of **content primitives**. There is no CMS and no database — the filesystem *is* the content, and Vite's `import.meta.glob` discovers it at build time through `src/courses/registry.js`.
+A programming tutorial platform. Students pick a course and read lessons. Lessons are plain JSX files composed from a small library of **content primitives**. There is no CMS and no database for *content* — the filesystem *is* the content, and Vite's `import.meta.glob` discovers it at build time through `src/courses/registry.js`. Students can create an account (Supabase Auth) to track which lessons they've completed and keep a day-streak — see "Auth & progress" below. Course content itself stays filesystem-driven either way.
 
 **The one idea that drives every folder-structure and component decision here: adding a lesson is one file, and adding a course is one folder.** Never reintroduce a hand-maintained index of lessons/courses — that's exactly what the registry exists to avoid.
 
 ## Tech stack — do not add competing libraries
 
-React 19, Vite, React Router 7, Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`), Zustand 5, lucide-react (icons), `prism-react-renderer` (code highlighting), `@tailwindcss/typography` (prose), `clsx` + `tailwind-merge` (via the `cn()` helper). Plain JavaScript `.jsx` files — **no TypeScript**, despite `@types/react`/`@types/react-dom` being present (editor intellisense only; there is no `tsconfig.json` and no `.tsx` file anywhere). See `package.json` for exact versions.
+React 19, Vite, React Router 7, Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`), Zustand 5, lucide-react (icons), `prism-react-renderer` (code highlighting), `@tailwindcss/typography` (prose), `clsx` + `tailwind-merge` (via the `cn()` helper), `@supabase/supabase-js` (auth + progress tracking — see "Auth & progress" below). Plain JavaScript `.jsx` files — **no TypeScript**, despite `@types/react`/`@types/react-dom` being present (editor intellisense only; there is no `tsconfig.json` and no `.tsx` file anywhere). See `package.json` for exact versions.
 
 One scoped exception: `sql.js` (WASM SQLite, runs entirely client-side) backs the `SqlPlayground` primitive used by the SQL course — see that primitive's row below and `src/lib/sqlEngine.js`. Don't reach for it, or any other execution engine, outside that one documented use.
 
@@ -28,12 +28,22 @@ src/
         01-<slug>.jsx        # export const meta = { title, section }; default export = lesson body
   components/
     content/                # primitives lesson authors use directly: CodeBlock, Callout, Quiz, Exercise, Solution, KeyPoints, Figure
-    layout/                 # page chrome: TopNav, Sidebar, LessonNav, Breadcrumbs, CourseCard
+    layout/                 # page chrome: TopNav (site nav + auth), Sidebar, LessonNav, Breadcrumbs, CourseCard, UserMenu
     ui/                     # generic internals shared by the above (currently just Disclosure)
-  pages/                   # one file per route: HomePage, CourseOverviewPage, LessonPage, NotFoundPage
-  store/uiStore.js         # zustand — UI-only state (mobile sidebar open/closed), nothing else
-  lib/cn.js                # clsx + tailwind-merge classname helper — use this, never string-concat classNames
+    auth/RequireAuth.jsx     # route guard — redirects signed-out visitors to /login?redirect=<path>
+  pages/                   # one file per route: HomePage (landing, "/"), CoursesPage ("/kurslar"), ArenaPage ("/arena", auth-gated),
+                            # CourseOverviewPage, LessonPage, LoginPage ("/login"), AuthCallbackPage, NotFoundPage
+  store/
+    uiStore.js               # zustand — UI-only state (mobile sidebar open/closed), nothing else
+    themeStore.js            # zustand — light/dark/system preference (see Dark mode below)
+    authStore.js             # zustand — thin mirror of supabase-js's auth session (see Auth & progress below)
+    progressStore.js         # zustand — lesson completions + streak, fetched from Supabase per session
+  lib/
+    cn.js                   # clsx + tailwind-merge classname helper — use this, never string-concat classNames
+    supabaseClient.js        # singleton Supabase client
   App.jsx                  # route table + RootLayout (TopNav + scroll/sidebar reset on navigation)
+supabase/
+  migrations/               # versioned SQL — the source of truth for the Postgres schema, not the dashboard
 ```
 
 Always import via the `@` alias (`@/components/content/CodeBlock`, `@/courses/registry`, `@/lib/cn`) — never relative `../../..` paths. The only exception is `src/main.jsx`, the Vite entry point, which has no parent to route through.
@@ -58,7 +68,7 @@ All live in `src/components/content/`. Prose itself needs no component: lesson f
 |---|---|---|
 | `CodeBlock` | `lang` (string, e.g. `"python"`), `children` (a template-string code sample) | Static, syntax-highlighted, has a copy button. Never make this editable/runnable — live code execution is explicitly out of scope. |
 | `Callout` | `type` (`"tip"` \| `"note"` \| `"warning"` \| `"danger"`), `title` (optional), `children` | Colored box with an icon per type. |
-| `Quiz` | `question`, `options` (string array, **no duplicates within one Quiz** — array items double as React keys), `correctIndex`, `explanation` | Local `useState` only. Never wire this to any persistence — no progress tracking exists in this app by design. |
+| `Quiz` | `question`, `options` (string array, **no duplicates within one Quiz** — array items double as React keys), `correctIndex`, `explanation` | Local `useState` only. Progress tracking is scoped to lesson completion (see "Auth & progress" below) — don't wire individual quiz answers to Supabase or any other persistence. |
 | `Exercise` | `title` (defaults to `"Mashq"`), `children` | Prompt box; typically wraps a `<Solution>`. |
 | `Solution` | `children` | Collapsible "Yechimni ko'rsatish", built on `ui/Disclosure`. |
 | `KeyPoints` | `children` (`<li>` elements) | Bulleted summary box, usually at a lesson's end. |
@@ -91,13 +101,25 @@ The app supports light/dark/system, toggled from `ThemeToggle` in `TopNav`. How 
   - `LessonPage` adds `dark:prose-invert` next to `prose prose-slate` so plain lesson prose (headings, paragraphs, lists, `<code>`) inverts for free via `@tailwindcss/typography`.
   - `CodeBlock` reads `resolvedTheme` from `themeStore` and swaps the `prism-react-renderer` theme between `themes.oneLight` and `themes.oneDark` — this can't be done via CSS since prism applies inline styles, hence the JS-level dependency on the store.
 
+### Auth & progress
+
+Supabase provides authentication (email/password, Google, GitHub) and the Postgres backing store for lesson completions and streaks. How it works, so you don't have to reverse-engineer it:
+
+- **Env vars**: `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`, read via `import.meta.env` in `src/lib/supabaseClient.js`. Vite bakes `VITE_`-prefixed vars into the bundle **at build time** — `wrangler.jsonc` only serves static assets (no Worker `vars` block), so these must be present in whatever shell runs `npm run build`, locally or in CI, before `wrangler deploy`. See `.env.example`.
+- **Auth state**: `src/store/authStore.js` mirrors `supabase.auth.onAuthStateChange` into a zustand store (`session`, `user`, `status: 'loading' | 'signedIn' | 'signedOut'`). It does **not** use `persist` — `supabase-js` already persists its own session to `localStorage`.
+- **Progress state**: `src/store/progressStore.js` fetches a signed-in student's `lesson_completions` and `streaks` rows once (on sign-in), then updates optimistically through `markComplete`/`markIncomplete`. Keys are `courseId`/`lesson_slug` from `registry.js` directly — no separate "lessons" table in Postgres.
+- **Schema**: `supabase/migrations/*.sql` is the source of truth for the Postgres schema (`profiles`, `lesson_completions`, `streaks`, plus the streak-maintaining trigger and `recompute_streak()` repair function) — apply changes via `supabase db push`, never hand-edit the schema in the dashboard.
+- **RLS is mandatory** on every table here. `streaks` in particular has no client-writable policy at all — it's written only by a `SECURITY DEFINER` trigger, so a student can never PATCH their own streak directly.
+- **Login UI**: a dedicated route, `/login` (`src/pages/LoginPage.jsx`) — email/password form plus Google/GitHub buttons, not a modal. It reads a `?redirect=<path>` query param and, after a successful sign-in, navigates there (default `/`). `/auth/callback` (`src/pages/AuthCallbackPage.jsx`) exists only to show a brief loading state while `supabase-js` finishes parsing the OAuth redirect, then reads the same `?redirect=` param (round-tripped through `signInWithOAuth`'s `redirectTo` URL, since a full-page OAuth redirect loses any React Router `location.state`) and navigates there; Cloudflare's SPA fallback means neither route needs anything server-side.
+- **Protected routes**: `src/components/auth/RequireAuth.jsx` is a layout route — wrap any route that needs a signed-in user with it (see `/arena` in `App.jsx`) and it redirects signed-out visitors to `/login?redirect=<the path they tried>`. A component-level action that needs auth without a full route guard (e.g. `LessonPage`'s mark-complete button) just checks `authStore`'s `status` itself and `navigate()`s to the same `/login?redirect=...` pattern by hand.
+
 ## Language
 
 Lesson prose and all UI chrome (buttons, nav labels, headings) are written in **Uzbek**. Code, language keywords, and technical terms stay in English; add a bracketed Uzbek translation inline where it helps a beginner (`o'zgaruvchi (variable)`). This is a fixed content convention, not an i18n system — there's no language switcher and there shouldn't be one.
 
 ## Non-goals — do not add these without being explicitly asked
 
-No backend, no authentication, no user accounts. No progress tracking or persistence of any kind (no `persist` middleware on any zustand store), **except** the theme preference in `themeStore.js` (see Styling → Dark mode) — a one-time, explicitly-approved exception, using a plain manual `localStorage` read/write, not the `persist` middleware. `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution, **except** `SqlPlayground` (see Content primitives above) — a one-time, explicitly-approved exception for the SQL course, not a precedent for adding one to every language. No TypeScript. No automated test runner.
+Authentication and progress tracking exist now (Supabase-backed, see "Auth & progress" below) — scoped narrowly to sign-in and lesson-completion/streak tracking. Still out of scope without an explicit ask: no admin panel or course-authoring UI (content stays filesystem-driven via the registry, auth doesn't change that), no user profile/settings page beyond what's needed for sign-in, no tracking of anything besides lesson completions (see the `Quiz` primitive note above), no `persist` middleware on any zustand store beyond the two existing manual-`localStorage` exceptions (`themeStore.js`'s preference, see Styling → Dark mode; `supabase-js`'s own session persistence, which `authStore.js` merely mirrors). `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution, **except** `SqlPlayground` (see Content primitives above) — a one-time, explicitly-approved exception for the SQL course, not a precedent for adding one to every language. No TypeScript. No automated test runner.
 
 ## Adding a new lesson
 

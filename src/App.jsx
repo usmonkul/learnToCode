@@ -2,9 +2,14 @@ import { useEffect } from 'react'
 import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
 import TopNav from '@/components/layout/TopNav'
 import HomePage from '@/pages/HomePage'
+import CoursesPage from '@/pages/CoursesPage'
+import ArenaPage from '@/pages/ArenaPage'
 import CourseOverviewPage from '@/pages/CourseOverviewPage'
 import LessonPage from '@/pages/LessonPage'
+import LoginPage from '@/pages/LoginPage'
+import AuthCallbackPage from '@/pages/AuthCallbackPage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import RequireAuth from '@/components/auth/RequireAuth'
 import { useUIStore } from '@/store/uiStore'
 
 function ScrollToTop() {
@@ -34,7 +39,13 @@ function App() {
     <Routes>
       <Route element={<RootLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/kurslar" element={<CoursesPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/arena" element={<ArenaPage />} />
+        </Route>
         <Route path="/:courseId" element={<CourseOverviewPage />} />
         <Route path="/:courseId/:slug" element={<LessonPage />} />
         <Route path="*" element={<NotFoundPage />} />
