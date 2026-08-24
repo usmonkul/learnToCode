@@ -35,26 +35,24 @@ export default function ChallengeDetail({ challenge, schema }) {
   }, [challenge, schema])
 
   return (
-    <div className="border-t border-line bg-canvas-muted px-4 py-4">
+    <div className="px-4 py-4">
       <p className="whitespace-pre-line text-sm text-ink">{challenge.prompt}</p>
 
       {error && (
-        <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="mt-3 rounded-full bg-red-50 px-4 py-2.5 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
           Kutilgan natijani hisoblashda xatolik: {error}
         </p>
       )}
 
       {expected && !error && (
         <div className="mt-3">
-          <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-ink-muted">
-            Kutilgan natija
-          </p>
-          <div className="max-h-80 overflow-auto rounded-md border border-line bg-canvas">
+          <p className="mb-1.5 text-xs font-medium uppercase tracking-[.1em] text-ink-muted">Kutilgan natija</p>
+          <div className="max-h-80 overflow-auto rounded-3xl bg-canvas-muted">
             <table className="w-full text-left text-sm">
               <thead className="sticky top-0 bg-canvas-muted text-ink-muted">
                 <tr>
                   {expected.columns.map((column) => (
-                    <th key={column} className="whitespace-nowrap px-3 py-2 font-medium">
+                    <th key={column} className="whitespace-nowrap px-4 py-2.5 font-medium">
                       {column}
                     </th>
                   ))}
@@ -64,7 +62,7 @@ export default function ChallengeDetail({ challenge, schema }) {
                 {expected.values.map((row, rowIndex) => (
                   <tr key={rowIndex} className={cn(rowIndex > 0 && 'border-t border-line')}>
                     {row.map((cell, cellIndex) => (
-                      <td key={cellIndex} className="whitespace-nowrap px-3 py-2 text-ink">
+                      <td key={cellIndex} className="whitespace-nowrap px-4 py-2.5 text-ink">
                         {cell === null ? <span className="text-ink-muted italic">NULL</span> : String(cell)}
                       </td>
                     ))}
@@ -73,7 +71,7 @@ export default function ChallengeDetail({ challenge, schema }) {
               </tbody>
             </table>
             {expected.values.length === 0 && (
-              <p className="px-3 py-2 text-sm text-ink-muted">Natija topilmadi (0 qator).</p>
+              <p className="px-4 py-2.5 text-sm text-ink-muted">Natija topilmadi (0 qator).</p>
             )}
           </div>
         </div>

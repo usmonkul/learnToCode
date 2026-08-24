@@ -22,11 +22,34 @@ export default function ArenaTopicPage() {
   if (!challenge) return <Navigate to="/not-found" replace />
 
   const schema = topicId === 'sql' ? SQL_SCHEMA : null
+  const counts = challenges.reduce(
+    (acc, c) => ({ ...acc, [c.difficulty]: (acc[c.difficulty] ?? 0) + 1 }),
+    {}
+  )
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <Breadcrumbs items={[{ label: 'Arena', to: '/arena' }, { label: topic.title }]} />
-      <h1 className="text-2xl font-bold text-ink">{topic.title}</h1>
+      <div className="flex flex-wrap items-center gap-4">
+        <h1 className="text-4xl text-ink">{topic.title} masalalari</h1>
+        <div className="ml-auto flex gap-2">
+          {counts.easy > 0 && (
+            <span className="rounded-full bg-brand2-100 px-3 py-1 text-xs font-medium text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
+              {counts.easy} oson
+            </span>
+          )}
+          {counts.medium > 0 && (
+            <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-800 dark:bg-brand-950 dark:text-brand-400">
+              {counts.medium} o'rta
+            </span>
+          )}
+          {counts.hard > 0 && (
+            <span className="rounded-full border border-brand-600 px-3 py-1 text-xs font-medium text-brand-700 dark:border-brand-400 dark:text-brand-300">
+              {counts.hard} qiyin
+            </span>
+          )}
+        </div>
+      </div>
       <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
         <ChallengeList
           challenges={challenges}

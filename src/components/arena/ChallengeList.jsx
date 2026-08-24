@@ -4,41 +4,36 @@ import { cn } from '@/lib/cn'
 
 const DIFFICULTY_LABELS = { easy: 'Oson', medium: "O'rta", hard: 'Qiyin' }
 const DIFFICULTY_STYLES = {
-  easy: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300',
-  medium: 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
-  hard: 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300',
+  easy: 'bg-brand2-100 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400',
+  medium: 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-400',
+  hard: 'border border-brand-600 text-brand-700 dark:border-brand-400 dark:text-brand-300',
 }
 
 export default function ChallengeList({ challenges, activeSlug, topicId, schema }) {
   return (
-    <ul className="flex min-w-0 flex-col divide-y divide-line overflow-hidden rounded-lg border border-line">
+    <div className="flex min-w-0 flex-col gap-1 rounded-3xl bg-canvas p-3.5">
       {challenges.map((challenge, index) => {
         const isActive = challenge.slug === activeSlug
         return (
-          <li key={challenge.slug} className="bg-canvas">
+          <div key={challenge.slug} className={cn(isActive && 'rounded-[26px] bg-canvas-muted p-1')}>
             <Link
               to={`/arena/${topicId}/${challenge.slug}`}
               className={cn(
-                'flex items-center justify-between gap-3 px-4 py-3 text-sm hover:bg-canvas-muted',
-                isActive && 'bg-canvas-muted'
+                'flex items-center justify-between gap-3 rounded-full px-4 py-3 text-sm',
+                isActive ? 'bg-canvas-muted font-medium text-ink' : 'text-ink-muted hover:bg-canvas-muted'
               )}
             >
-              <span className="text-ink">
+              <span>
                 {index + 1}. {challenge.title}
               </span>
-              <span
-                className={cn(
-                  'shrink-0 rounded-full px-2 py-0.5 text-xs font-medium',
-                  DIFFICULTY_STYLES[challenge.difficulty]
-                )}
-              >
+              <span className={cn('shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium', DIFFICULTY_STYLES[challenge.difficulty])}>
                 {DIFFICULTY_LABELS[challenge.difficulty]}
               </span>
             </Link>
             {isActive && <ChallengeDetail challenge={challenge} schema={schema} />}
-          </li>
+          </div>
         )
       })}
-    </ul>
+    </div>
   )
 }
