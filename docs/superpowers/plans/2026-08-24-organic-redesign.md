@@ -509,7 +509,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <Link to="/" className="flex items-center gap-2.5 font-heading text-lg text-canvas-muted">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-ink">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-canvas-muted">
               <BookOpen className="h-4 w-4" />
             </span>
             Darsliklar
