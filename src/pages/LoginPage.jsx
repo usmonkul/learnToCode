@@ -19,7 +19,7 @@ import { cn } from '@/lib/cn'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const inputBase =
-  'w-full rounded-md border bg-canvas py-2 pl-9 pr-9 text-sm text-ink placeholder:text-ink-muted/70 transition-colors focus:outline-none focus:ring-2'
+  'w-full rounded-full border bg-canvas py-2.5 pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted/70 transition-colors focus:outline-none focus:ring-2'
 const inputOk = 'border-line focus:border-brand-500 focus:ring-brand-500/20'
 const inputError = 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
 
@@ -126,33 +126,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-3.5rem)] lg:grid-cols-2">
+    <div className="grid min-h-[calc(100vh-4rem)] lg:grid-cols-2">
       <div className="flex flex-col justify-center px-6 py-12 sm:py-16">
         <div className="mx-auto w-full max-w-sm">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-ink"
-          >
+          <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-ink">
             <ArrowLeft className="h-4 w-4" />
             Bosh sahifa
           </Link>
 
-          <h1 className="mt-8 text-2xl font-bold text-ink">
-            {mode === 'signIn' ? "Xush kelibsiz" : "Hisob yarating"}
-          </h1>
-          <p className="mt-1 text-sm text-ink-muted">
+          <h1 className="mt-7 text-4xl text-ink">{mode === 'signIn' ? "Xush kelibsiz" : "Hisob yarating"}</h1>
+          <p className="mt-2 text-sm text-ink-muted">
             {mode === 'signIn'
               ? "Davom etish uchun hisobingizga kiring."
               : "Progressingizni saqlash uchun ro'yxatdan o'ting."}
           </p>
 
-          <div className="mt-6 grid grid-cols-2 gap-1 rounded-full bg-canvas-muted p-1">
+          <div className="mt-6 flex rounded-full border border-line">
             <button
               type="button"
               onClick={() => switchMode('signIn')}
               className={cn(
-                'rounded-full py-1.5 text-sm font-medium transition-colors',
-                mode === 'signIn' ? 'bg-canvas text-ink shadow-sm' : 'text-ink-muted hover:text-ink'
+                'flex-1 rounded-full py-2 text-sm font-medium transition-colors',
+                mode === 'signIn' ? 'bg-brand-600 text-canvas-muted' : 'text-ink-muted'
               )}
             >
               Kirish
@@ -161,8 +156,8 @@ export default function LoginPage() {
               type="button"
               onClick={() => switchMode('signUp')}
               className={cn(
-                'rounded-full py-1.5 text-sm font-medium transition-colors',
-                mode === 'signUp' ? 'bg-canvas text-ink shadow-sm' : 'text-ink-muted hover:text-ink'
+                'flex-1 rounded-full py-2 text-sm font-medium transition-colors',
+                mode === 'signUp' ? 'bg-brand-600 text-canvas-muted' : 'text-ink-muted'
               )}
             >
               Ro'yxatdan o'tish
@@ -170,7 +165,7 @@ export default function LoginPage() {
           </div>
 
           {authError && (
-            <div className="mt-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+            <div className="mt-4 flex items-start gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
               <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{authError}</span>
             </div>
@@ -183,7 +178,7 @@ export default function LoginPage() {
                   Ism-familiya
                 </label>
                 <div className="relative mt-1.5">
-                  <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+                  <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
                   <input
                     id="fullName"
                     type="text"
@@ -194,7 +189,7 @@ export default function LoginPage() {
                       setFullName(event.target.value)
                       clearFieldError('fullName')
                     }}
-                    className={cn(inputBase, 'pr-3', fieldErrors.fullName ? inputError : inputOk)}
+                    className={cn(inputBase, 'pr-4', fieldErrors.fullName ? inputError : inputOk)}
                   />
                 </div>
                 <FieldError message={fieldErrors.fullName} />
@@ -206,7 +201,7 @@ export default function LoginPage() {
                 Email
               </label>
               <div className="relative mt-1.5">
-                <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
                 <input
                   id="email"
                   type="email"
@@ -217,7 +212,7 @@ export default function LoginPage() {
                     setEmail(event.target.value)
                     clearFieldError('email')
                   }}
-                  className={cn(inputBase, 'pr-3', fieldErrors.email ? inputError : inputOk)}
+                  className={cn(inputBase, 'pr-4', fieldErrors.email ? inputError : inputOk)}
                 />
               </div>
               <FieldError message={fieldErrors.email} />
@@ -228,7 +223,7 @@ export default function LoginPage() {
                 Parol
               </label>
               <div className="relative mt-1.5">
-                <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -244,7 +239,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink"
                   aria-label={showPassword ? "Parolni yashirish" : "Parolni ko'rsatish"}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -259,7 +254,7 @@ export default function LoginPage() {
                   Parolni tasdiqlang
                 </label>
                 <div className="relative mt-1.5">
-                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+                  <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
                   <input
                     id="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -275,7 +270,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword((value) => !value)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink"
                     aria-label={showConfirmPassword ? "Parolni yashirish" : "Parolni ko'rsatish"}
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -288,7 +283,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-1 flex w-full items-center justify-center gap-2 rounded-md bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-1 flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-semibold text-canvas-muted transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {mode === 'signIn' ? "Kirish" : "Ro'yxatdan o'tish"}
@@ -305,7 +300,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => handleOAuth('google')}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-canvas-muted"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-canvas"
             >
               <GoogleIcon className="h-4 w-4" />
               Google orqali {mode === 'signIn' ? "kirish" : "ro'yxatdan o'tish"}
@@ -313,7 +308,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => handleOAuth('github')}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-canvas-muted"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-canvas"
             >
               <Github className="h-4 w-4" />
               GitHub orqali {mode === 'signIn' ? "kirish" : "ro'yxatdan o'tish"}
@@ -322,37 +317,31 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 lg:flex lg:flex-col lg:justify-center lg:px-14">
-        <div
-          className="absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '22px 22px',
-          }}
-        />
+      <div className="relative hidden overflow-hidden bg-brand-800 lg:flex lg:flex-col lg:justify-center lg:px-14">
+        <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-300/20" />
         <div className="relative max-w-sm">
-          <p className="text-sm font-semibold text-brand-100">Darsliklar</p>
-          <h2 className="mt-3 text-2xl font-bold text-white">Progressingiz siz bilan qoladi</h2>
-          <p className="mt-3 text-brand-100">
+          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-300">Darsliklar</p>
+          <h2 className="mt-3.5 text-4xl text-brand-100">Progressingiz siz bilan qoladi</h2>
+          <p className="mt-3.5 text-brand-200">
             Kirgandan so'ng tugallangan darslaringiz va kunlik ketma-ketligingiz saqlanadi — istalgan
             qurilmadan davom eting.
           </p>
 
-          <div className="mt-8 rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm">
-            <div className="flex items-center gap-2 text-white">
-              <Flame className="h-5 w-5 text-orange-300" />
-              <span className="font-semibold">5 kunlik ketma-ketlik</span>
+          <div className="mt-8 rounded-3xl bg-brand-100/15 p-6">
+            <div className="flex items-center gap-2.5 text-brand-100">
+              <Flame className="h-5 w-5 text-brand-300" />
+              <span className="font-heading text-lg">5 kunlik ketma-ketlik</span>
             </div>
-            <ul className="mt-4 flex flex-col gap-2">
+            <ul className="mt-4.5 flex flex-col gap-2.5">
               {["Git nima?", "O'zgaruvchilar", "SELECT va FROM"].map((title) => (
-                <li key={title} className="flex items-center gap-2 text-sm text-brand-50">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" />
+                <li key={title} className="flex items-center gap-2.5 text-sm text-brand-100">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-brand2-300" />
                   {title}
                 </li>
               ))}
             </ul>
           </div>
-          <p className="mt-3 text-xs text-brand-200">
+          <p className="mt-3.5 text-xs text-brand-300">
             Namuna ko'rinish — kirgandan so'ng bu sizning haqiqiy progressingiz bo'ladi.
           </p>
         </div>
