@@ -1,4 +1,4 @@
-import { Code2, LayoutTemplate, Palette, Terminal, GitBranch, Atom, Database, Puzzle, Zap, Braces } from 'lucide-react'
+import { Code2, LayoutTemplate, Palette, Terminal, GitBranch, Atom, Database, Puzzle, Zap, Braces, Layers } from 'lucide-react'
 
 const ICONS = {
   Code2,
@@ -13,6 +13,7 @@ const ICONS = {
   puzzle: Puzzle,
   zap: Zap,
   braces: Braces,
+  layers: Layers,
 }
 
 export function resolveCourseIcon(iconName) {
