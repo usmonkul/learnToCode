@@ -28,7 +28,7 @@ export default function ArenaTopicPage() {
   )
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto max-w-6xl px-6 py-4 py-10">
       <Breadcrumbs items={[{ label: 'Arena', to: '/arena' }, { label: topic.title }]} />
       <div className="flex flex-wrap items-center gap-4">
         <h1 className="text-4xl text-ink">{topic.title} masalalari</h1>

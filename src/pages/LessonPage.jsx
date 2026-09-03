@@ -32,7 +32,7 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-6xl px-6">
+    <div className="mx-auto flex max-w-6xl px-6 py-4">
       <Sidebar courseId={courseId} />
       <main className="min-w-0 flex-1 py-10 md:pl-6">
         <Breadcrumbs

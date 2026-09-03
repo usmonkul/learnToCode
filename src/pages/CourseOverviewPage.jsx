@@ -18,7 +18,7 @@ export default function CourseOverviewPage() {
   const firstLesson = groups[0]?.lessons[0]
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto max-w-6xl px-6 py-4 py-10">
       <Breadcrumbs items={[{ label: 'Kurslar', to: '/kurslar' }, { label: course.title }]} />
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.2fr_.8fr]">
         <div>

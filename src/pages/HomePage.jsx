@@ -104,7 +104,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
+      <section className="mx-auto max-w-6xl px-6 py-4 pb-16">
         <div className="rounded-[40px] bg-brand2-100 p-10 lg:p-12 dark:bg-brand2-950">
           <p className="text-xs font-medium uppercase tracking-[.12em] text-brand2-700 dark:text-brand2-300">Qanday ishlaydi</p>
           <h2 className="mt-2.5 max-w-[24ch] text-3xl text-ink">Uch qadamda birinchi darsingizgacha</h2>
@@ -138,7 +138,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
+      <section className="mx-auto max-w-6xl px-6 py-4 pb-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">Kurslar</p>
@@ -158,7 +158,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
+      <section className="mx-auto max-w-6xl px-6 py-4 pb-16">
         <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-700 dark:text-brand-300">O'quvchilar fikri</p>
         <h2 className="mt-2.5 max-w-[26ch] text-3xl text-ink">Noldan boshlaganlar nima deydi</h2>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -187,7 +187,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
+      <section className="mx-auto max-w-6xl px-6 py-4 pb-16">
         <div className="flex flex-col items-start gap-6 rounded-[40px] bg-brand-200 p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12 dark:bg-brand-900">
           <div>
             <h2 className="max-w-[22ch] text-3xl text-ink">Bugun birinchi darsni tugatib qo'ying</h2>
