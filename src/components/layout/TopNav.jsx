@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Link, NavLink, useParams } from 'react-router-dom'
-import { Menu, X, BookOpen } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { NAV_ITEMS } from '@/components/layout/navItems'
 import ThemeToggle from '@/components/layout/ThemeToggle'
 import UserMenu from '@/components/layout/UserMenu'
+import Logo from '@/components/layout/Logo'
 import { cn } from '@/lib/cn'
 
 export default function TopNav() {
@@ -26,9 +27,9 @@ export default function TopNav() {
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-6">
         <Link to="/" className="mr-3 flex shrink-0 items-center gap-2.5 font-heading text-lg text-ink">
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-canvas-muted">
-            <BookOpen className="h-4 w-4" />
+            <Logo className="h-4 w-4" />
           </span>
-          Darsliklar
+          Yaratuvchi.uz
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto md:flex">

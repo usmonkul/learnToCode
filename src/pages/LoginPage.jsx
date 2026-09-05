@@ -320,7 +320,7 @@ export default function LoginPage() {
       <div className="relative hidden overflow-hidden bg-brand-800 lg:flex lg:flex-col lg:justify-center lg:px-14">
         <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-300/20" />
         <div className="relative max-w-sm">
-          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-300">Darsliklar</p>
+          <p className="text-xs font-medium uppercase tracking-[.12em] text-brand-300">Yaratuvchi.uz</p>
           <h2 className="mt-3.5 text-4xl text-brand-100">Progressingiz siz bilan qoladi</h2>
           <p className="mt-3.5 text-brand-200">
             Kirgandan so'ng tugallangan darslaringiz va kunlik ketma-ketligingiz saqlanadi — istalgan

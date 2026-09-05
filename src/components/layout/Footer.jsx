@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { BookOpen } from 'lucide-react'
 import { getAllCourses } from '@/courses/registry'
+import Logo from '@/components/layout/Logo'
 
 export default function Footer() {
   const courses = getAllCourses()
@@ -11,9 +11,9 @@ export default function Footer() {
         <div>
           <Link to="/" className="flex items-center gap-2.5 font-heading text-lg text-canvas-muted">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-canvas-muted">
-              <BookOpen className="h-4 w-4" />
+              <Logo className="h-4 w-4" />
             </span>
-            Darsliklar
+            Yaratuvchi.uz
           </Link>
           <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-canvas-muted/60">
             O'zbek tilidagi bepul dasturlash darsliklari — mantiqiy fikrlashdan to'liq web ilovagacha.
@@ -53,7 +53,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-11 flex max-w-6xl items-center justify-between gap-5 border-t border-canvas-muted/10 pt-5">
-        <p className="text-sm text-canvas-muted/45">© 2026 Darsliklar. Ochiq kodli loyiha.</p>
+        <p className="text-sm text-canvas-muted/45">© 2026 Yaratuvchi.uz. Ochiq kodli loyiha.</p>
         <a href="https://github.com" target="_blank" rel="noreferrer" className="text-sm text-canvas-muted/70 hover:text-brand-300 dark:hover:text-brand-700">
           GitHub
         </a>
