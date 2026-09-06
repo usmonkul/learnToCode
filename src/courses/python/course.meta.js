@@ -3,4 +3,6 @@ export default {
   description:
     "Python tilining asoslarini noldan boshlab, amaliy misollar va mashqlar orqali o'rganing.",
   icon: 'Code2',
+  categories: ['Backend', 'AI'],
+  level: 'Beginner',
 }

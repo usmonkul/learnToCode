@@ -3,4 +3,6 @@ export default {
   description:
     "React kutubxonasi yordamida zamonaviy, interaktiv veb-interfeyslar qurishni komponentlar, holat (state) va hooklar orqali o'rganing.",
   icon: 'Atom',
+  categories: ['Frontend'],
+  level: 'Intermediate',
 }

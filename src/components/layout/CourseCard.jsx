@@ -3,6 +3,12 @@ import { ArrowRight } from 'lucide-react'
 import { resolveCourseIcon } from '@/lib/courseIcons'
 import { cn } from '@/lib/cn'
 
+const LEVEL_STYLES = {
+  Beginner: 'bg-brand2-100 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400',
+  Intermediate: 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-400',
+  Advanced: 'border border-brand-600 text-brand-700 dark:border-brand-400 dark:text-brand-300',
+}
+
 export default function CourseCard({ course, lessonCount }) {
   const Icon = resolveCourseIcon(course.icon)
 
@@ -17,6 +23,18 @@ export default function CourseCard({ course, lessonCount }) {
       <div>
         <h3 className="font-heading text-xl text-ink">{course.title}</h3>
         <p className="mt-1 text-sm text-ink-muted">{course.description}</p>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        {course.level && (
+          <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-medium', LEVEL_STYLES[course.level])}>
+            {course.level}
+          </span>
+        )}
+        {course.categories?.map((cat) => (
+          <span key={cat} className="rounded-full bg-canvas-muted px-2.5 py-0.5 text-xs text-ink-muted">
+            {cat}
+          </span>
+        ))}
       </div>
       <div className="mt-auto flex items-center justify-between pt-2 text-sm">
         <span className="rounded-full bg-canvas-muted px-3 py-1 text-xs text-ink-muted">{lessonCount} ta dars</span>
