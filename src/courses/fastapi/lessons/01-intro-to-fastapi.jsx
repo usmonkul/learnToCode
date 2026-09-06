@@ -305,6 +305,14 @@ INFO:     Application startup complete.`}</CodeBlock>
         explanation="FastAPI faqat qoidalar to'plami (routing, validatsiya) - u o'zi tarmoq so'rovlarini qabul qilolmaydi. uvicorn - bu ASGI server bo'lib, haqiqiy so'rovlarni qabul qilib, FastAPI'ga uzatadi."
       />
 
+      <Callout type="note" title="Mashqlar haqida bilib oling">
+        Har bir darsda shunday "Mustaqil mashq" bo'ladi — bular sizning tushunganingizni
+        chuqurlashtirish uchun <strong>qo'shimcha</strong> topshiriqlar, asosiy loyihaning majburiy
+        qismi emas. Keyingi dars har doim shu darsning <strong>asosiy</strong> kodidan davom
+        etadi — agar mashqda qo'shgan o'zgarishingiz keyingi darsning tayyor kod bloklarida
+        ko'rinmasa, xavotir olmang, bu normal holat.
+      </Callout>
+
       <Exercise title="Mustaqil mashq">
         <p>
           Keyingi darsga o'tishdan oldin, quyidagilarni o'zingiz bajarib ko'ring (bu darsni

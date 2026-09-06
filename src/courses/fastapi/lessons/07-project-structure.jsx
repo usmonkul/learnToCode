@@ -40,6 +40,13 @@ export default function ProjectStructureLesson() {
         fayllar (<code>routers/users.py</code>, <code>routers/tasks.py</code> va h.k.) qo'shib
         borasiz — har biri o'z domeniga tegishli endpointlarni o'z ichiga oladi.
       </Callout>
+      <p>
+        <code>routers/</code> papkasi ichida <code>__init__.py</code> nomli <strong>bo'sh fayl</strong>{' '}
+        yarating (ichiga hech narsa yozmaysiz). Bu fayl Python'ga <code>routers</code> — oddiy
+        papka emas, balki import qilsa bo'ladigan <strong>paket (package)</strong> ekanini
+        bildiradi — aynan shu tufayli keyinroq <code>from routers.contacts import router</code>{' '}
+        deb yoza olamiz.
+      </p>
 
       <h2>
         <code>database.py</code> — bazaga oid hamma narsa bir joyda
