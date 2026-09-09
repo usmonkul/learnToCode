@@ -36,24 +36,37 @@ export default function Sidebar({ courseId }) {
         </div>
 
         <nav className="mb-5 flex flex-col gap-1 border-b border-line pb-5 md:hidden">
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === '/'}
-              onClick={closeSidebar}
-              className={({ isActive }) =>
-                cn(
-                  'rounded-full px-3.5 py-2 text-sm font-medium',
-                  isActive
-                    ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
-                    : 'text-ink-muted hover:bg-canvas-muted hover:text-ink'
-                )
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          {NAV_ITEMS.map((item) =>
+            item.external ? (
+              <a
+                key={item.to}
+                href={item.to}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeSidebar}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas-muted hover:text-ink"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/'}
+                onClick={closeSidebar}
+                className={({ isActive }) =>
+                  cn(
+                    'rounded-full px-3.5 py-2 text-sm font-medium',
+                    isActive
+                      ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
+                      : 'text-ink-muted hover:bg-canvas-muted hover:text-ink'
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            )
+          )}
         </nav>
 
         <p className="mb-2 text-xs font-medium uppercase tracking-[.1em] text-ink-muted md:hidden">Dars mazmuni</p>

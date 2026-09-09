@@ -33,23 +33,35 @@ export default function TopNav() {
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto md:flex">
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === '/'}
-              className={({ isActive }) =>
-                cn(
-                  'shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium',
-                  isActive
-                    ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
-                    : 'text-ink-muted hover:bg-canvas hover:text-ink'
-                )
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          {NAV_ITEMS.map((item) =>
+            item.external ? (
+              <a
+                key={item.to}
+                href={item.to}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas hover:text-ink"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/'}
+                className={({ isActive }) =>
+                  cn(
+                    'shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium',
+                    isActive
+                      ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
+                      : 'text-ink-muted hover:bg-canvas hover:text-ink'
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            )
+          )}
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-1">
@@ -77,24 +89,37 @@ export default function TopNav() {
           />
           <nav className="absolute inset-x-0 top-full z-40 border-b border-line bg-canvas-muted px-6 py-3 shadow-lg md:hidden">
             <div className="flex flex-col gap-1">
-              {NAV_ITEMS.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.to === '/'}
-                  onClick={() => setMenuOpen(false)}
-                  className={({ isActive }) =>
-                    cn(
-                      'rounded-full px-3.5 py-2 text-sm font-medium',
-                      isActive
-                        ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
-                        : 'text-ink-muted hover:bg-canvas hover:text-ink'
-                    )
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              ))}
+              {NAV_ITEMS.map((item) =>
+                item.external ? (
+                  <a
+                    key={item.to}
+                    href={item.to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas hover:text-ink"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.to === '/'}
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      cn(
+                        'rounded-full px-3.5 py-2 text-sm font-medium',
+                        isActive
+                          ? 'bg-brand-200 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
+                          : 'text-ink-muted hover:bg-canvas hover:text-ink'
+                      )
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                )
+              )}
             </div>
           </nav>
         </>
