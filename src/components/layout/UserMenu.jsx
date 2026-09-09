@@ -13,20 +13,12 @@ export default function UserMenu() {
 
   if (status === 'signedOut') {
     return (
-      <div className="flex items-center gap-2">
-        <Link
-          to="/login"
-          className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas hover:text-ink"
-        >
-          Kirish
-        </Link>
-        <Link
-          to="/login"
-          className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-canvas-muted hover:bg-brand-700"
-        >
-          Bepul boshlash
-        </Link>
-      </div>
+      <Link
+        to="/login"
+        className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-muted hover:bg-canvas hover:text-ink"
+      >
+        Kirish
+      </Link>
     )
   }
 

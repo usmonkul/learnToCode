@@ -5,7 +5,6 @@ import { useUIStore } from '@/store/uiStore'
 import { NAV_ITEMS } from '@/components/layout/navItems'
 import ThemeToggle from '@/components/layout/ThemeToggle'
 import UserMenu from '@/components/layout/UserMenu'
-import Logo from '@/components/layout/Logo'
 import { cn } from '@/lib/cn'
 
 export default function TopNav() {
@@ -25,10 +24,7 @@ export default function TopNav() {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-canvas-muted/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-6">
-        <Link to="/" className="mr-3 flex shrink-0 items-center gap-2.5 font-heading text-lg text-ink">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-canvas-muted">
-            <Logo className="h-4 w-4" />
-          </span>
+        <Link to="/" className="mr-3 flex shrink-0 items-center font-heading text-lg text-ink">
           Yaratuvchi.uz
         </Link>
 

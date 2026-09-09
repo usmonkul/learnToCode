@@ -29,11 +29,11 @@
   --color-brand2-900: #272e1b;
   --color-brand2-950: #1a1f11;
 
-  --color-canvas: #ebddc5;
-  --color-canvas-muted: #f5ead8;
-  --color-line: color-mix(in srgb, #201e1d 16%, transparent);
-  --color-ink: #201e1d;
-  --color-ink-muted: #6b6358;
+  --color-canvas: #ffffff;
+  --color-canvas-muted: #fafaf7;
+  --color-line: #e3e1da;
+  --color-ink: #1a1916;
+  --color-ink-muted: #6a675e;
 
   --font-heading: "Caprasimo", system-ui, sans-serif;
   --font-body: "Figtree", system-ui, sans-serif;
@@ -45,11 +45,11 @@
    those already happens per-component via manual dark: variants that pick a lighter
    ramp step (e.g. text-brand-700 dark:text-brand-300), unchanged by this redesign. */
 [data-theme='dark'] {
-  --color-canvas: #474238;
-  --color-canvas-muted: #2e2b25;
-  --color-line: color-mix(in srgb, #f9f4ed 18%, transparent);
-  --color-ink: #f9f4ed;
-  --color-ink-muted: #a89f92;
+  --color-canvas: #1c1a16;
+  --color-canvas-muted: #16140f;
+  --color-line: #2d2a24;
+  --color-ink: #f5f4ef;
+  --color-ink-muted: #a8a397;
 }
 
 body {

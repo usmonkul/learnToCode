@@ -84,7 +84,25 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200 dark:from-brand2-900 dark:to-brand-900" />
+            <div className="flex aspect-[4/3] items-center justify-center rounded-[40px] bg-gradient-to-br from-brand2-200 to-brand-200 p-8 dark:from-brand2-900 dark:to-brand-900">
+              <div className="w-full max-w-xs overflow-hidden rounded-2xl bg-canvas shadow-xl">
+                <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
+                  <span className="h-2.5 w-2.5 rounded-full bg-brand-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-brand2-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-line" />
+                </div>
+                <div className="space-y-2 p-5 font-mono text-sm">
+                  <p className="text-ink-muted"># salom.py</p>
+                  <p>
+                    <span className="text-brand-600">print</span>
+                    <span className="text-ink">(</span>
+                    <span className="text-brand2-600">"Salom, Dunyo!"</span>
+                    <span className="text-ink">)</span>
+                  </p>
+                  <p className="text-ink-muted">→ Salom, Dunyo!</p>
+                </div>
+              </div>
+            </div>
             <div className="absolute -bottom-6 -left-6 w-56 rounded-3xl bg-canvas p-5 shadow-lg">
               <div className="flex items-center gap-2">
                 <Flame className="h-4.5 w-4.5 text-brand-600" />
@@ -151,7 +169,7 @@ export default function HomePage() {
             Barchasi <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:last-child:nth-child(3n+1)]:col-start-2">
           {courses.map((course) => (
             <CourseCard key={course.id} course={course} lessonCount={getLessons(course.id).length} />
           ))}
@@ -163,10 +181,10 @@ export default function HomePage() {
         <h2 className="mt-2.5 max-w-[26ch] text-3xl text-ink">Noldan boshlaganlar nima deydi</h2>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {TESTIMONIALS.map((item) => (
-            <div key={item.name} className="rounded-3xl bg-canvas-muted p-6">
+            <div key={item.name} className="flex h-full flex-col rounded-3xl bg-canvas p-6">
               <Quote className="h-5 w-5 text-brand-600" />
               <p className="mt-3.5 text-base leading-relaxed text-ink">{item.quote}</p>
-              <div className="mt-5 flex items-center gap-3">
+              <div className="mt-auto flex items-center gap-3 pt-5">
                 <span
                   className={cn(
                     'flex h-11 w-11 items-center justify-center rounded-full font-heading text-sm',
