@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="360" height="320" role="img" aria-labelledby="hw-sw-layers-title">
+  <title id="hw-sw-layers-title">Qattiq qism, operatsion tizim va ilovalarning uch qavatli sxemasi</title>
+
+  <rect x="40" y="230" width="280" height="70" rx="14" fill="#ffe1d0" stroke="#c67139" stroke-width="2" />
+  <text x="180" y="260" text-anchor="middle" font-size="15" font-weight="700" fill="#402310" font-family="sans-serif">QATTIQ QISM</text>
+  <text x="180" y="278" text-anchor="middle" font-size="11" fill="#8c491a" font-family="sans-serif">(hardware — protsessor, xotira, ekran)</text>
+
+  <rect x="60" y="150" width="240" height="66" rx="14" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="180" y="178" text-anchor="middle" font-size="15" font-weight="700" fill="#402310" font-family="sans-serif">OPERATSION TIZIM</text>
+  <text x="180" y="196" text-anchor="middle" font-size="11" fill="#8c491a" font-family="sans-serif">(Windows, macOS, Android)</text>
+
+  <rect x="80" y="70" width="200" height="66" rx="14" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="180" y="98" text-anchor="middle" font-size="15" font-weight="700" fill="#272e1b" font-family="sans-serif">ILOVALAR</text>
+  <text x="180" y="116" text-anchor="middle" font-size="11" fill="#56633f" font-family="sans-serif">(o'yinlar, brauzer, kalkulyator)</text>
+
+  <text x="180" y="30" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">Siz ko'rib turgan narsa — eng tepadagi qavat</text>
+</svg>

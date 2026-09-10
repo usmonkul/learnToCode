@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" width="420" height="300" role="img" aria-labelledby="memory-storage-title">
+  <title id="memory-storage-title">Tezkor xotira (RAM) va doimiy xotira (Storage) taqqoslash sxemasi</title>
+
+  <rect x="20" y="20" width="170" height="230" rx="20" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="105" y="50" text-anchor="middle" font-size="15" font-weight="700" fill="#402310" font-family="sans-serif">Ish stoli</text>
+  <text x="105" y="68" text-anchor="middle" font-size="11" fill="#8c491a" font-family="sans-serif">(RAM — tezkor xotira)</text>
+
+  <rect x="45" y="90" width="120" height="14" rx="3" fill="#ffe1d0" stroke="#c67139" stroke-width="1.5" />
+  <rect x="45" y="114" width="80" height="14" rx="3" fill="#ffe1d0" stroke="#c67139" stroke-width="1.5" />
+  <rect x="45" y="138" width="100" height="14" rx="3" fill="#ffe1d0" stroke="#c67139" stroke-width="1.5" />
+
+  <text x="105" y="185" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">Hozir kerak bo'lgan</text>
+  <text x="105" y="200" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">narsalar shu yerda —</text>
+  <text x="105" y="215" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">kompyuter o'chsa, tozalanadi</text>
+
+  <rect x="230" y="20" width="170" height="230" rx="20" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="315" y="50" text-anchor="middle" font-size="15" font-weight="700" fill="#272e1b" font-family="sans-serif">Kutubxona</text>
+  <text x="315" y="68" text-anchor="middle" font-size="11" fill="#56633f" font-family="sans-serif">(Storage — doimiy xotira)</text>
+
+  <line x1="250" y1="90" x2="380" y2="90" stroke="#7a8a5e" stroke-width="2" />
+  <rect x="255" y="94" width="10" height="26" fill="#e1eecc" stroke="#7a8a5e" />
+  <rect x="267" y="94" width="10" height="26" fill="#ccdbb2" stroke="#7a8a5e" />
+  <rect x="279" y="94" width="10" height="26" fill="#e1eecc" stroke="#7a8a5e" />
+  <rect x="291" y="94" width="10" height="26" fill="#ccdbb2" stroke="#7a8a5e" />
+
+  <line x1="250" y1="140" x2="380" y2="140" stroke="#7a8a5e" stroke-width="2" />
+  <rect x="255" y="144" width="10" height="26" fill="#ccdbb2" stroke="#7a8a5e" />
+  <rect x="267" y="144" width="10" height="26" fill="#e1eecc" stroke="#7a8a5e" />
+  <rect x="279" y="144" width="10" height="26" fill="#ccdbb2" stroke="#7a8a5e" />
+  <rect x="291" y="144" width="10" height="26" fill="#e1eecc" stroke="#7a8a5e" />
+
+  <line x1="250" y1="190" x2="380" y2="190" stroke="#7a8a5e" stroke-width="2" />
+
+  <text x="315" y="220" text-anchor="middle" font-size="11" fill="#56633f" font-family="sans-serif">Barcha fayllar shu yerda —</text>
+  <text x="315" y="235" text-anchor="middle" font-size="11" fill="#56633f" font-family="sans-serif">kompyuter o'chsa ham qoladi</text>
+</svg>
