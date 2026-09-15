@@ -1,14 +1,25 @@
+import { useEffect } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { getTopic, getChallenges, getChallenge } from '@/arena/registry'
 import { SQL_SCHEMA } from '@/arena/sql/schema'
 import ChallengeList from '@/components/arena/ChallengeList'
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import SqlPlayground from '@/components/content/SqlPlayground'
+import JsPlayground from '@/components/content/JsPlayground'
+import { useArenaStore } from '@/store/arenaStore'
 
 export default function ArenaTopicPage() {
   const { topicId, challengeSlug } = useParams()
   const topic = getTopic(topicId)
   const challenges = getChallenges(topicId)
+
+  // RequireAuth only mounts this route once auth status is resolved, so
+  // arenaStore's own signedOut->signedIn subscription (registered at module
+  // load, i.e. on this component's first mount) has already missed that
+  // transition — fetch explicitly here instead of relying on it.
+  useEffect(() => {
+    useArenaStore.getState().fetchAll()
+  }, [])
 
   if (!topic) return <Navigate to="/not-found" replace />
 
@@ -57,9 +68,14 @@ export default function ArenaTopicPage() {
           topicId={topicId}
           schema={schema}
         />
-        {topic.hasSandbox && (
+        {topic.hasSandbox && topicId === 'sql' && (
           <div className="min-w-0 [&>div]:my-0!">
             <SqlPlayground key={challenge.slug} schema={schema} initialQuery={challenge.starterQuery} />
+          </div>
+        )}
+        {topic.hasSandbox && topicId === 'javascript' && (
+          <div className="min-w-0 [&>div]:my-0!">
+            <JsPlayground key={challenge.slug} challenge={challenge} topicId={topicId} slug={challenge.slug} />
           </div>
         )}
       </div>

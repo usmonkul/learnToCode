@@ -4,7 +4,7 @@ Instructions for any AI coding tool (Claude Code, Cursor, Copilot, etc.) working
 
 ## What this is
 
-A programming tutorial platform. Students pick a course and read lessons. Lessons are plain JSX files composed from a small library of **content primitives**. There is no CMS and no database for *content* — the filesystem *is* the content, and Vite's `import.meta.glob` discovers it at build time through `src/courses/registry.js`. Students can create an account (Supabase Auth) to track which lessons they've completed and keep a day-streak — see `docs/agents/auth-and-progress.md` if you're touching that. Course content itself stays filesystem-driven either way. Signed-in students can also practice in **Arena** (`/arena`) — self-checked challenges, filesystem-driven the same way courses are, currently one topic (SQL) with a live query sandbox.
+A programming tutorial platform. Students pick a course and read lessons. Lessons are plain JSX files composed from a small library of **content primitives**. There is no CMS and no database for *content* — the filesystem *is* the content, and Vite's `import.meta.glob` discovers it at build time through `src/courses/registry.js`. Students can create an account (Supabase Auth) to track which lessons they've completed and keep a day-streak — see `docs/agents/auth-and-progress.md` if you're touching that. Course content itself stays filesystem-driven either way. Signed-in students can also practice in **Arena** (`/arena`) — self-checked challenges, filesystem-driven the same way courses are, currently two topics: SQL (a live query sandbox) and JavaScript (a live function-implementation sandbox, test-case graded). Solved JavaScript challenges persist per-student in Supabase; SQL challenges still have no submission history.
 
 **The one idea that drives every folder-structure and component decision here: adding a lesson is one file, and adding a course is one folder.** Never reintroduce a hand-maintained index of lessons/courses — that's exactly what the registry exists to avoid.
 
@@ -12,7 +12,7 @@ A programming tutorial platform. Students pick a course and read lessons. Lesson
 
 React 19, Vite, React Router 7, Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`), Zustand 5, lucide-react (icons), `prism-react-renderer` (code highlighting), `@tailwindcss/typography` (prose), `clsx` + `tailwind-merge` (via the `cn()` helper), `@supabase/supabase-js` (auth + progress tracking). Plain JavaScript `.jsx` files — **no TypeScript**, despite `@types/react`/`@types/react-dom` being present (editor intellisense only; there is no `tsconfig.json` and no `.tsx` file anywhere). See `package.json` for exact versions.
 
-One scoped exception: `sql.js` (WASM SQLite, runs entirely client-side) backs the `SqlPlayground` primitive used by the SQL course and the SQL Arena topic (see `docs/agents/content-primitives.md` and `src/lib/sqlEngine.js`). Don't reach for it, or any other execution engine, outside that one documented use.
+Two scoped exceptions to "no live code execution": `sql.js` (WASM SQLite, runs entirely client-side) backs the `SqlPlayground` primitive used by the SQL course and the SQL Arena topic (see `docs/agents/content-primitives.md` and `src/lib/sqlEngine.js`); and a Web Worker (`src/workers/jsChallengeRunner.worker.js`, driven by `src/lib/jsRunner.js`) backs the `JsPlayground` primitive used by the JavaScript Arena topic — it runs a student's function against a challenge's test cases off the main thread, with a timeout, so an infinite loop can't hang the tab. Don't reach for either, or any other execution engine, outside those two documented uses.
 
 No test runner is installed, on purpose — see "Verifying your work" below for what stands in for it.
 
@@ -28,13 +28,17 @@ src/
         01-<slug>.jsx        # export const meta = { title, section }; default export = lesson body
   arena/
     registry.js              # same import.meta.glob pattern as courses/registry.js, for practice challenges
-    <topic-id>/
+    sql/
       topic.meta.js            # { title, icon, description, hasSandbox }
       challenges/
         01-<slug>.js             # default export = { title, difficulty, prompt, starterQuery, solutionQuery }
+    javascript/
+      topic.meta.js            # { title, icon, description, hasSandbox }
+      challenges/
+        01-<slug>.js             # default export = { title, difficulty, prompt, functionName, starterCode, examples, tests }
   components/
-    content/                # primitives lesson (and challenge) authors use directly: CodeBlock, Callout, Quiz, Exercise, Solution, KeyPoints, Figure, SqlPlayground
-    arena/                   # ArenaTopicPage-only: ChallengeList (left pane), ChallengeDetail (prompt + expected-result, nested inside the active list item)
+    content/                # primitives lesson (and challenge) authors use directly: CodeBlock, Callout, Quiz, Exercise, Solution, KeyPoints, Figure, SqlPlayground, JsPlayground
+    arena/                   # ArenaTopicPage-only: ChallengeList (left pane), ChallengeDetail (dispatches to SqlChallengeDetail/JsChallengeDetail by topicId, nested inside the active list item)
     layout/                  # page chrome: TopNav (site nav + auth), Footer (homepage only), Sidebar, LessonNav, Breadcrumbs, CourseCard, UserMenu, ThemeToggle
     ui/                     # generic internals shared by the above (Disclosure, Avatar)
     auth/RequireAuth.jsx     # route guard — redirects signed-out visitors to /login?redirect=<path>
@@ -47,11 +51,15 @@ src/
     themeStore.js            # zustand — light/dark/system preference (see docs/agents/dark-mode.md)
     authStore.js             # zustand — thin mirror of supabase-js's auth session (see docs/agents/auth-and-progress.md)
     progressStore.js         # zustand — lesson completions + streak, fetched from Supabase per session
+    arenaStore.js            # zustand — solved JavaScript Arena challenges, fetched from Supabase per session (see docs/agents/auth-and-progress.md)
   lib/
     cn.js                   # clsx + tailwind-merge classname helper — use this, never string-concat classNames
     courseIcons.js            # resolveCourseIcon(iconName) — the ICONS lookup, shared by CourseCard and HomePage (see the "runtime string" rule below)
     sqlEngine.js               # memoized sql.js/WASM loader — see docs/agents/content-primitives.md
+    jsRunner.js                # runs a JS Arena challenge's tests inside jsChallengeRunner.worker.js, with a timeout — see docs/agents/content-primitives.md
     supabaseClient.js        # singleton Supabase client
+  workers/
+    jsChallengeRunner.worker.js  # executes untrusted student JS off the main thread — see docs/agents/content-primitives.md
   App.jsx                  # route table + RootLayout (TopNav + scroll/sidebar reset on navigation)
 supabase/
   migrations/               # versioned SQL — the source of truth for the Postgres schema, not the dashboard
@@ -89,7 +97,7 @@ Lesson prose and all UI chrome (buttons, nav labels, headings) are written in **
 
 ## Non-goals — do not add these without being explicitly asked
 
-Authentication and progress tracking exist now (Supabase-backed, see `docs/agents/auth-and-progress.md`) — scoped narrowly to sign-in and lesson-completion/streak tracking. The Arena practice-challenges area also exists now (see `docs/agents/registry-contract.md`) — scoped narrowly to challenge-list-plus-sandbox self-checking, SQL only. Still out of scope without an explicit ask: no admin panel or course-authoring UI (content stays filesystem-driven via the registries, auth doesn't change that), no user profile/settings page beyond what's needed for sign-in, no tracking of anything besides lesson completions or challenge attempts (Arena has no submission history — every visit re-runs `solutionQuery` fresh), no automated grading/diffing on Arena challenges (self-check against the computed expected result is the whole mechanism), no `persist` middleware on any zustand store beyond the two existing manual-`localStorage` exceptions (`themeStore.js`'s preference, `supabase-js`'s own session persistence, which `authStore.js` merely mirrors). `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution, **except** `SqlPlayground` (see `docs/agents/content-primitives.md`) — a one-time, explicitly-approved exception for SQL lessons and the SQL Arena topic, not a precedent for adding one to every language or every Arena topic. No TypeScript. No automated test runner.
+Authentication and progress tracking exist now (Supabase-backed, see `docs/agents/auth-and-progress.md`) — scoped narrowly to sign-in and lesson-completion/streak tracking. The Arena practice-challenges area also exists now (see `docs/agents/registry-contract.md`), with two topics: SQL (self-check only — no stored result, no submission history, every visit re-runs `solutionQuery` fresh) and JavaScript (test-case graded via `jsRunner.js`, with solved challenges persisted per-student to `arena_solved_challenges` in Supabase — see `docs/agents/auth-and-progress.md`). Still out of scope without an explicit ask: no admin panel or course-authoring UI (content stays filesystem-driven via the registries, auth doesn't change that), no user profile/settings page beyond what's needed for sign-in, no tracking of anything beyond lesson completions and JS-Arena solved state (no full attempt/submission history — a solve only records that it happened, not the code submitted), no `persist` middleware on any zustand store beyond the two existing manual-`localStorage` exceptions (`themeStore.js`'s preference, `supabase-js`'s own session persistence, which `authStore.js` merely mirrors). `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution **except** the two documented exceptions above (`SqlPlayground`, `JsPlayground` — see `docs/agents/content-primitives.md`) — not a precedent for adding one to every language or every Arena topic without an explicit ask. No TypeScript. No automated test runner (for the app itself — the JS Arena topic's own test-case grading is a feature, not this project's test suite).
 
 ## Writing a course
 
@@ -98,8 +106,9 @@ Adding a new lesson, adding a new course, or authoring/editing lesson prose — 
 ## Adding an Arena challenge (or topic)
 
 1. To add a challenge to the existing `sql` topic: create `src/arena/sql/challenges/NN-<slug>.js` with the next zero-padded number, default-exporting `{ title, difficulty: 'easy' | 'medium' | 'hard', prompt, starterQuery, solutionQuery }`. `prompt` should be a full paragraph (multiple sentences: what the table/columns mean, what the query needs to do, any relevant SQL concept) — a one-line prompt reads as unfinished next to the others. `prompt` is Uzbek prose, same as lesson content — the quoting gotchas in `docs/agents/course-writing.md` apply here too.
-2. To add a whole new topic: create `src/arena/<topic-id>/topic.meta.js` exporting `{ title, icon, description, hasSandbox }`, then challenges under `src/arena/<topic-id>/challenges/` as above. Only set `hasSandbox: true` if there's a runnable primitive for that language wired into `ArenaTopicPage.jsx` — right now that's only `SqlPlayground`/SQL.
-3. It appears on `/arena` automatically — no route, page, or nav code to touch.
+2. To add a challenge to the existing `javascript` topic: create `src/arena/javascript/challenges/NN-<slug>.js`, default-exporting `{ title, difficulty, prompt, functionName, paramNames, starterCode, examples, tests }`. `functionName` is the name the student's function must be defined with; `paramNames` is an array of parameter names in order (e.g. `['a', 'b']`) used purely for display in the Input panel — omit it and it falls back to `arg1`, `arg2`, ...; `starterCode` is the stub shown in the editor (JSDoc comment + a bare `function <functionName>(...) { }`, see any existing challenge for the exact style); `examples` is a small array (1-2) of `{ args, expected }` — shown in the left-pane prompt as worked examples, and what "Yuritish" (Run) grades against; `tests` is the full array of `{ args, expected }` (can overlap with `examples`) that "Yuborish" (Submit) grades against and that determines solved state — deep-equal via `JSON.stringify`, so keep expected values to plain primitives/arrays/objects, no `NaN`/`undefined`/functions. Same Uzbek-prose rules as SQL prompts apply.
+3. To add a whole new topic: create `src/arena/<topic-id>/topic.meta.js` exporting `{ title, icon, description, hasSandbox }`, then challenges under `src/arena/<topic-id>/challenges/` as above. Only set `hasSandbox: true` if there's a runnable primitive for that language wired into `ArenaTopicPage.jsx` — right now that's `SqlPlayground`/SQL and `JsPlayground`/JavaScript. A brand-new language needs its own execution engine and an explicit ask first (see the "no live code execution" non-goal above) — it's real new surface, not just a new content folder.
+4. It appears on `/arena` automatically — no route, page, or nav code to touch. Add its icon to the small `ICONS` map in `src/pages/ArenaPage.jsx` (a lucide-react import, same pattern as `database`/`braces`).
 
 ## Verifying your work
 

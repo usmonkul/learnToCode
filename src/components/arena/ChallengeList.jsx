@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { Check } from 'lucide-react'
 import ChallengeDetail from '@/components/arena/ChallengeDetail'
+import { useArenaStore, solvedKey } from '@/store/arenaStore'
 import { cn } from '@/lib/cn'
 
 const DIFFICULTY_LABELS = { easy: 'Oson', medium: "O'rta", hard: 'Qiyin' }
@@ -10,10 +12,13 @@ const DIFFICULTY_STYLES = {
 }
 
 export default function ChallengeList({ challenges, activeSlug, topicId, schema }) {
+  const solved = useArenaStore((state) => state.solved)
+
   return (
     <div className="flex min-w-0 flex-col gap-1 rounded-3xl bg-canvas p-3.5">
       {challenges.map((challenge, index) => {
         const isActive = challenge.slug === activeSlug
+        const isSolved = solved.has(solvedKey(topicId, challenge.slug))
         return (
           <div key={challenge.slug} className={cn(isActive && 'rounded-[26px] bg-canvas-muted p-1')}>
             <Link
@@ -23,14 +28,15 @@ export default function ChallengeList({ challenges, activeSlug, topicId, schema 
                 isActive ? 'bg-canvas-muted font-medium text-ink' : 'text-ink-muted hover:bg-canvas-muted'
               )}
             >
-              <span>
+              <span className="flex items-center gap-2">
                 {index + 1}. {challenge.title}
+                {isSolved && <Check className="h-3.5 w-3.5 shrink-0 text-brand2-600 dark:text-brand2-400" />}
               </span>
               <span className={cn('shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium', DIFFICULTY_STYLES[challenge.difficulty])}>
                 {DIFFICULTY_LABELS[challenge.difficulty]}
               </span>
             </Link>
-            {isActive && <ChallengeDetail challenge={challenge} schema={schema} />}
+            {isActive && <ChallengeDetail challenge={challenge} topicId={topicId} schema={schema} />}
           </div>
         )
       })}
