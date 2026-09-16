@@ -8,6 +8,8 @@ A programming tutorial platform. Students pick a course and read lessons. Lesson
 
 **The one idea that drives every folder-structure and component decision here: adding a lesson is one file, and adding a course is one folder.** Never reintroduce a hand-maintained index of lessons/courses — that's exactly what the registry exists to avoid.
 
+Students can also browse **Loyihalar** (`/loyihalar`) — a gallery of small, fully-working practice projects (in the spirit of 100jsprojects.com), filesystem-driven the same way courses and Arena are. Each project is a real, working React component (not a challenge to grade). A project's detail page (`/loyihalar/:projectSlug`) is deliberately chromeless — no TopNav/Footer — so opening a project feels like opening its own standalone site rather than a page inside Yaratuvchi.uz; each project is free to have its own visual identity instead of following this file's shared design tokens. Slugs, route params, and query params are always named/valued in English even though UI copy is Uzbek — see "Language" below.
+
 ## Tech stack — do not add competing libraries
 
 React 19, Vite, React Router 7, Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`), Zustand 5, lucide-react (icons), `prism-react-renderer` (code highlighting), `@tailwindcss/typography` (prose), `clsx` + `tailwind-merge` (via the `cn()` helper), `@supabase/supabase-js` (auth + progress tracking). Plain JavaScript `.jsx` files — **no TypeScript**, despite `@types/react`/`@types/react-dom` being present (editor intellisense only; there is no `tsconfig.json` and no `.tsx` file anywhere). See `package.json` for exact versions.
@@ -26,6 +28,11 @@ src/
       course.meta.js       # course-level branding: { title, description, icon }
       lessons/
         01-<slug>.jsx        # export const meta = { title, section }; default export = lesson body
+  projects/
+    registry.js              # same import.meta.glob pattern as courses/registry.js, for the Loyihalar gallery
+    01-<slug>/                 # zero-padded prefix like lessons, <slug> always English — controls listing order, stripped to form the id/URL slug
+      project.meta.js            # { title, description, icon, type, level } — Uzbek prose, shown only on the gallery card
+      Project.jsx                 # default export = the actual working project, rendered chromeless as its own full page (no props)
   arena/
     registry.js              # same import.meta.glob pattern as courses/registry.js, for practice challenges
     sql/
@@ -39,10 +46,11 @@ src/
   components/
     content/                # primitives lesson (and challenge) authors use directly: CodeBlock, Callout, Quiz, Exercise, Solution, KeyPoints, Figure, SqlPlayground, JsPlayground
     arena/                   # ArenaTopicPage-only: ChallengeList (left pane), ChallengeDetail (dispatches to SqlChallengeDetail/JsChallengeDetail by topicId, nested inside the active list item)
-    layout/                  # page chrome: TopNav (site nav + auth), Footer (homepage only), Sidebar, LessonNav, Breadcrumbs, CourseCard, UserMenu, ThemeToggle
+    layout/                  # page chrome: TopNav (site nav + auth), Footer (homepage only), Sidebar, LessonNav, Breadcrumbs, CourseCard, ProjectCard, ProjectGuideModal, UserMenu, ThemeToggle
     ui/                     # generic internals shared by the above (Disclosure, Avatar)
     auth/RequireAuth.jsx     # route guard — redirects signed-out visitors to /login?redirect=<path>
-  pages/                   # one file per route: HomePage (landing, "/"), CoursesPage ("/kurslar"), ArenaPage ("/arena", auth-gated),
+  pages/                   # one file per route: HomePage (landing, "/"), CoursesPage ("/kurslar"), ProjectsPage ("/loyihalar"),
+                            # ProjectDetailPage ("/loyihalar/:projectSlug", chromeless — outside RootLayout, no TopNav/Footer), ArenaPage ("/arena", auth-gated),
                             # ArenaTopicPage ("/arena/:topicId" and "/arena/:topicId/:challengeSlug", auth-gated),
                             # ProfilePage ("/profile", auth-gated), CourseOverviewPage, LessonPage, LoginPage ("/login"),
                             # AuthCallbackPage, NotFoundPage
@@ -55,6 +63,7 @@ src/
   lib/
     cn.js                   # clsx + tailwind-merge classname helper — use this, never string-concat classNames
     courseIcons.js            # resolveCourseIcon(iconName) — the ICONS lookup, shared by CourseCard and HomePage (see the "runtime string" rule below)
+    projectIcons.js            # PROJECT_ICONS lookup for the Loyihalar gallery — same static-map pattern as courseIcons.js, separate map since project icons aren't course icons
     sqlEngine.js               # memoized sql.js/WASM loader — see docs/agents/content-primitives.md
     jsRunner.js                # runs a JS Arena challenge's tests inside jsChallengeRunner.worker.js, with a timeout — see docs/agents/content-primitives.md
     supabaseClient.js        # singleton Supabase client
@@ -95,6 +104,8 @@ Touching sign-in, sessions, lesson-completion/streak tracking, or the Supabase s
 
 Lesson prose and all UI chrome (buttons, nav labels, headings) are written in **Uzbek**. Code, language keywords, and technical terms stay in English; add a bracketed Uzbek translation inline where it helps a beginner (`o'zgaruvchi (variable)`). This is a fixed content convention, not an i18n system — there's no language switcher and there shouldn't be one.
 
+This only covers user-visible prose. Slugs (course/lesson/challenge/project folder and file names, and the `id`/`slug` values derived from them), route path segments, route param names, and query param names are always **English** — regardless of how Uzbek the visible title/prose next to them is. (`/kurslar` and `/loyihalar` are the two top-level exceptions, since the whole nav is Uzbek by design; everything nested under them — course ids, lesson slugs, project slugs — stays English.)
+
 ## Non-goals — do not add these without being explicitly asked
 
 Authentication and progress tracking exist now (Supabase-backed, see `docs/agents/auth-and-progress.md`) — scoped narrowly to sign-in and lesson-completion/streak tracking. The Arena practice-challenges area also exists now (see `docs/agents/registry-contract.md`), with two topics: SQL (self-check only — no stored result, no submission history, every visit re-runs `solutionQuery` fresh) and JavaScript (test-case graded via `jsRunner.js`, with solved challenges persisted per-student to `arena_solved_challenges` in Supabase — see `docs/agents/auth-and-progress.md`). Still out of scope without an explicit ask: no admin panel or course-authoring UI (content stays filesystem-driven via the registries, auth doesn't change that), no user profile/settings page beyond what's needed for sign-in, no tracking of anything beyond lesson completions and JS-Arena solved state (no full attempt/submission history — a solve only records that it happened, not the code submitted), no `persist` middleware on any zustand store beyond the two existing manual-`localStorage` exceptions (`themeStore.js`'s preference, `supabase-js`'s own session persistence, which `authStore.js` merely mirrors). `uiStore.js` itself stays ephemeral (mobile-sidebar-open state only). No live/editable code execution **except** the two documented exceptions above (`SqlPlayground`, `JsPlayground` — see `docs/agents/content-primitives.md`) — not a precedent for adding one to every language or every Arena topic without an explicit ask. No TypeScript. No automated test runner (for the app itself — the JS Arena topic's own test-case grading is a feature, not this project's test suite).
@@ -102,6 +113,14 @@ Authentication and progress tracking exist now (Supabase-backed, see `docs/agent
 ## Writing a course
 
 Adding a new lesson, adding a new course, or authoring/editing lesson prose — see [`docs/agents/course-writing.md`](docs/agents/course-writing.md) for the exact recipe plus the Uzbek-quoting/JSX-tag gotchas that have broken the build before (more than once, on some of them).
+
+## Adding a project (Loyihalar)
+
+1. Create `src/projects/NN-<slug>/` with the next zero-padded number (`NN`) and an **English** `<slug>` — this both orders the gallery and derives the project's `id`/URL slug (numeric prefix stripped), same convention as lesson/challenge filenames. The English-slug rule applies even though `title`/`description` are Uzbek (see "Language" above).
+2. Add `project.meta.js` in that folder, default-exporting `{ title, description, icon, type, level, guide }`. `title`/`description` are Uzbek prose, shown only on the `/loyihalar` gallery card — not on the project's own page. `icon` is a key into the `PROJECT_ICONS` map in `src/lib/projectIcons.js` — add a new entry there (a lucide-react import, same pattern as `courseIcons.js`) if the project needs an icon not already mapped. `type` is the Frontend-Mentor-style skill tag shown as the card's primary chip — one of `'HTML' | 'CSS' | 'JavaScript' | 'React' | 'API'` (pick whichever is the project's main teaching point, not just "it's built in React" — every project is technically React under the hood); adding a new type needs a matching entry in `TYPE_STYLES` in `src/components/layout/ProjectCard.jsx` (chip color + explicit `dark:` pairing, see `docs/agents/dark-mode.md`). `level` is `'Beginner' | 'Intermediate' | 'Advanced'`, same vocabulary as a course's `level`. `guide` is optional data rendered by the fixed info button on the project's own page (see next point) — shape: `{ colors?: [{ name, hex }], fonts?: [string], api?: { name, url } }`. Fill in whichever of the three the project actually uses — a static CSS card has no `api`, a project with no external fetch has no `api`, etc. Keep `hex` values accurate to the Tailwind shades actually used in `Project.jsx`, since this is meant to be a real reference a student can copy from, not decorative.
+3. Add `Project.jsx` in the same folder, default-exporting the actual project as a plain, self-contained React component — no props, no route awareness. **This renders as a full standalone page**, not a widget inside Yaratuvchi.uz's chrome: `ProjectDetailPage` mounts it with no TopNav/Footer and no imposed container, so `Project.jsx` owns its entire page (typically a `min-h-screen` wrapper) and its own visual identity — it does not need to (and generally shouldn't) reuse this file's brand tokens/dark-mode variants; a fixed, self-contained look is the point, the same reasoning as the permanently-dark exceptions in `docs/agents/dark-mode.md`. It's real working UI the student interacts with directly (state, form handling, etc.), not a challenge to grade and not sample/reference code to read.
+4. `ProjectDetailPage` renders a small fixed info button (top-right, permanently-dark styling so it stays visible over any project's design) that opens a modal showing `guide.colors`/`guide.fonts`/`guide.api` — this is generic chrome (`src/components/layout/ProjectGuideModal.jsx`), driven entirely by `project.meta.js`'s `guide` field. A project with no `guide` simply doesn't render the button (the component returns `null`) — don't special-case that in `Project.jsx` itself.
+5. It appears on `/loyihalar` automatically — no route or nav code to touch. Opening a project card routes to `/loyihalar/<slug>`, which renders `Project.jsx` directly behind a small floating "back to gallery" link and the info button above — nothing else from `project.meta.js` is shown there.
 
 ## Adding an Arena challenge (or topic)
 

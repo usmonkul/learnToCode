@@ -3,6 +3,8 @@ import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
 import TopNav from '@/components/layout/TopNav'
 import HomePage from '@/pages/HomePage'
 import CoursesPage from '@/pages/CoursesPage'
+import ProjectsPage from '@/pages/ProjectsPage'
+import ProjectDetailPage from '@/pages/ProjectDetailPage'
 import ArenaPage from '@/pages/ArenaPage'
 import ArenaTopicPage from '@/pages/ArenaTopicPage'
 import CourseOverviewPage from '@/pages/CourseOverviewPage'
@@ -39,9 +41,12 @@ function RootLayout() {
 function App() {
   return (
     <Routes>
+      {/* Chromeless: a project should feel like its own standalone site, not a page inside Yaratuvchi.uz — no TopNav/Footer. */}
+      <Route path="/loyihalar/:projectSlug" element={<ProjectDetailPage />} />
       <Route element={<RootLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/kurslar" element={<CoursesPage />} />
+        <Route path="/loyihalar" element={<ProjectsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/not-found" element={<NotFoundPage />} />

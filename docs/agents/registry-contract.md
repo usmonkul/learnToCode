@@ -1,6 +1,6 @@
 # The registry contracts
 
-Reached from AGENTS.md when changing how content is *discovered* — editing `src/courses/registry.js`, `src/arena/registry.js`, or the shape of `course.meta.js`/`topic.meta.js`. Not needed just to add a lesson or challenge file; the recipes in AGENTS.md cover that.
+Reached from AGENTS.md when changing how content is *discovered* — editing `src/courses/registry.js`, `src/projects/registry.js`, `src/arena/registry.js`, or the shape of `course.meta.js`/`project.meta.js`/`topic.meta.js`. Not needed just to add a lesson, project, or challenge file; the recipes in AGENTS.md cover that.
 
 ## Courses (`src/courses/registry.js`)
 
@@ -13,6 +13,16 @@ This is reference material, not something to reimplement — read the file itsel
 - A course's `id` comes from its folder name, not from anything inside `course.meta.js` — don't add an `id` field there, it would be a second, contradicting source of truth.
 
 Exported API — everything downstream (pages, layout components) reads through this, never through `import.meta.glob` directly: `getAllCourses()`, `getCourse(courseId)`, `getLessons(courseId)`, `getLesson(courseId, slug)`, `getAdjacentLessons(courseId, slug)`, `getGroupedLessons(courseId)`.
+
+## Projects (`src/projects/registry.js`)
+
+"Loyihalar" is the practice-projects gallery at `/loyihalar` — a flat list of small, fully-working project components (in the spirit of 100jsprojects.com), filesystem-driven like courses and Arena. It differs from both in one important way: there's no separate "content" vs. "grading" split — a project's `Project.jsx` *is* the finished, interactive thing a student uses, not prose or a self-check.
+
+- Unlike a course (whose `id` comes from the folder name verbatim) or an Arena challenge (whose `slug` comes from the filename), a project's `id` comes from its **folder name** with the numeric prefix stripped (`01-age-calculator` → `age-calculator`) — same derivation rule as a lesson's slug, just applied to a folder instead of a file, since a project is a folder of exactly two files (`project.meta.js`, `Project.jsx`). That folder name (and therefore the `id`/URL slug) is always English, even though `project.meta.js`'s `title`/`description` are Uzbek — see AGENTS.md's "Language" section.
+- Ordering is a plain string sort on the folder's glob path, same zero-padded-prefix rule as lessons and challenges.
+- The registry merges `project.meta.js`'s export and `Project.jsx`'s default export into one entry keyed by folder; a `Project.jsx` with no matching `project.meta.js` folder is skipped with a `console.warn` (mirrors the courses/arena "missing piece is loud-but-survivable" pattern) — in practice this shouldn't happen since both files always live in the same folder.
+- Exported API: `getAllProjects()`, `getProject(id)`.
+- Routing is intentionally asymmetric with courses/Arena: `/loyihalar` (the gallery) renders inside the normal `RootLayout` (TopNav visible), but `/loyihalar/:projectSlug` (an individual project) is a sibling top-level route in `App.jsx`, outside `RootLayout` entirely — no TopNav, no Footer. `ProjectDetailPage` renders `Project.jsx` directly (full page, no imposed container) behind a small fixed-position "back to gallery" link, so opening a project feels like navigating to its own site. Don't move this route back inside `RootLayout` without an explicit ask — that's the whole point of the split.
 
 ## Arena (`src/arena/registry.js`)
 
