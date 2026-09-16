@@ -16,6 +16,11 @@ import {
   MessageCircleQuestion,
   Mail,
   PawPrint,
+  Target,
+  Smile,
+  Wallet,
+  ClipboardCheck,
+  GraduationCap,
 } from 'lucide-react'
 
 export const PROJECT_ICONS = {
@@ -35,5 +40,10 @@ export const PROJECT_ICONS = {
   'message-circle-question': MessageCircleQuestion,
   mail: Mail,
   'paw-print': PawPrint,
+  target: Target,
+  smile: Smile,
+  wallet: Wallet,
+  'clipboard-check': ClipboardCheck,
+  'graduation-cap': GraduationCap,
   default: Code2,
 }
