@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ChevronDown, Hammer, Search, X } from 'lucide-react'
 import { getAllProjects } from '@/projects/registry'
 import { cn } from '@/lib/cn'
@@ -10,9 +11,32 @@ const LEVEL_OPTIONS = [ALL, 'Beginner', 'Intermediate', 'Advanced']
 
 export default function ProjectsPage() {
   const projects = getAllProjects()
-  const [search, setSearch] = useState('')
-  const [type, setType] = useState(ALL)
-  const [level, setLevel] = useState(ALL)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const search = searchParams.get('q') ?? ''
+  const type = searchParams.get('type') ?? ALL
+  const level = searchParams.get('level') ?? ALL
+
+  function updateParams(next) {
+    setSearchParams(
+      (prev) => {
+        const params = new URLSearchParams(prev)
+        Object.entries(next).forEach(([key, value]) => {
+          if (!value || value === ALL) {
+            params.delete(key)
+          } else {
+            params.set(key, value)
+          }
+        })
+        return params
+      },
+      { replace: true }
+    )
+  }
+
+  const setSearch = (value) => updateParams({ q: value })
+  const setType = (value) => updateParams({ type: value })
+  const setLevel = (value) => updateParams({ level: value })
 
   const filteredProjects = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -30,9 +54,7 @@ export default function ProjectsPage() {
   const hasActiveFilters = search.trim() !== '' || type !== ALL || level !== ALL
 
   function clearFilters() {
-    setSearch('')
-    setType(ALL)
-    setLevel(ALL)
+    setSearchParams({}, { replace: true })
   }
 
   return (

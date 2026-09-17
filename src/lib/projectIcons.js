@@ -25,6 +25,9 @@ import {
   Truck,
   MessageCircle,
   LogIn,
+  Kanban,
+  Paintbrush,
+  Search,
 } from 'lucide-react'
 
 export const PROJECT_ICONS = {
@@ -53,5 +56,8 @@ export const PROJECT_ICONS = {
   truck: Truck,
   'message-circle': MessageCircle,
   'log-in': LogIn,
+  kanban: Kanban,
+  paintbrush: Paintbrush,
+  search: Search,
   default: Code2,
 }
