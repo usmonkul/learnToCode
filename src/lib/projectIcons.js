@@ -21,6 +21,10 @@ import {
   Wallet,
   ClipboardCheck,
   GraduationCap,
+  Users,
+  Truck,
+  MessageCircle,
+  LogIn,
 } from 'lucide-react'
 
 export const PROJECT_ICONS = {
@@ -45,5 +49,9 @@ export const PROJECT_ICONS = {
   wallet: Wallet,
   'clipboard-check': ClipboardCheck,
   'graduation-cap': GraduationCap,
+  users: Users,
+  truck: Truck,
+  'message-circle': MessageCircle,
+  'log-in': LogIn,
   default: Code2,
 }
