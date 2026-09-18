@@ -5,6 +5,7 @@ export default {
   functionName: 'isPrime',
   paramNames: ['n'],
   starterCode: `/**\n * @param {number} n\n * @returns {boolean}\n */\nfunction isPrime(n) {\n  // yechimni yozing\n\n}\n`,
+  hint: "2 dan boshlab n ning kvadrat ildiziga qadar bo'luvchilarni tekshiring; birortasi qoldiqsiz bo'linsa, tub son emas.",
   examples: [
     { args: [2], expected: true },
     { args: [4], expected: false },

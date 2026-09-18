@@ -5,6 +5,7 @@ export default {
   functionName: 'findMax',
   paramNames: ['numbers'],
   starterCode: `/**\n * @param {number[]} numbers\n * @returns {number}\n */\nfunction findMax(numbers) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Math.max(...numbers) — spread operatori massiv elementlarini alohida argumentlarga aylantiradi.",
   examples: [
     { args: [[1, 5, 3]], expected: 5 },
     { args: [[-4, -1, -9]], expected: -1 },

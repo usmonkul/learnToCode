@@ -1,8 +1,11 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, Flame, LogOut, Mail, Trophy } from 'lucide-react'
+import { CheckCircle2, Flame, LogOut, Mail, Swords, Trophy } from 'lucide-react'
 import { useAuthStore, signOut, getDisplayName, getAvatarUrl } from '@/store/authStore'
 import { useProgressStore } from '@/store/progressStore'
+import { useArenaStore, solvedKey } from '@/store/arenaStore'
 import { getAllCourses, getLessons } from '@/courses/registry'
+import { getTopics, getChallenges } from '@/arena/registry'
 import Avatar from '@/components/ui/Avatar'
 
 export default function ProfilePage() {
@@ -10,11 +13,26 @@ export default function ProfilePage() {
   const streak = useProgressStore((state) => state.streak)
   const completedCount = useProgressStore((state) => state.completions.size)
   const isComplete = useProgressStore((state) => state.isComplete)
+  const arenaSolved = useArenaStore((state) => state.solved)
+
+  // Mirrors ArenaTopicPage: RequireAuth only mounts this route once auth is
+  // already resolved, so arenaStore's signedOut->signedIn subscription can
+  // miss that transition — fetch explicitly here too.
+  useEffect(() => {
+    useArenaStore.getState().fetchAll()
+  }, [])
 
   const displayName = getDisplayName(user)
   const avatarUrl = getAvatarUrl(user)
   const courses = getAllCourses()
   const totalLessons = courses.reduce((total, course) => total + getLessons(course.id).length, 0)
+  const arenaTopics = getTopics()
+  const arenaTotal = arenaTopics.reduce((total, topic) => total + getChallenges(topic.id).length, 0)
+  const arenaSolvedCount = arenaTopics.reduce(
+    (total, topic) =>
+      total + getChallenges(topic.id).filter((c) => arenaSolved.has(solvedKey(topic.id, c.slug))).length,
+    0
+  )
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -39,7 +57,7 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-3xl bg-brand-200 p-6 dark:bg-brand-900">
           <Flame className="h-6 w-6 text-brand-800 dark:text-brand-300" />
           <p className="mt-3.5 font-heading text-4xl leading-none text-brand-900 dark:text-brand-100">{streak.current}</p>
@@ -54,6 +72,11 @@ export default function ProfilePage() {
           <CheckCircle2 className="h-6 w-6 text-ink-muted" />
           <p className="mt-3.5 font-heading text-4xl leading-none text-ink">{completedCount}</p>
           <p className="mt-2 text-sm text-ink-muted">Tugallangan darslar · {totalLessons} dan</p>
+        </div>
+        <div className="rounded-3xl bg-canvas p-6">
+          <Swords className="h-6 w-6 text-ink-muted" />
+          <p className="mt-3.5 font-heading text-4xl leading-none text-ink">{arenaSolvedCount}</p>
+          <p className="mt-2 text-sm text-ink-muted">Yechilgan masalalar · {arenaTotal} dan</p>
         </div>
       </div>
 
@@ -73,6 +96,28 @@ export default function ProfilePage() {
               </div>
               <div className="mt-3.5 h-2.5 overflow-hidden rounded-full bg-canvas-muted">
                 <div className="h-full rounded-full bg-brand-600" style={{ width: `${percent}%` }} />
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+
+      <h2 className="mt-11 text-3xl text-ink">Arena bo'yicha progress</h2>
+      <div className="mt-5 flex flex-col gap-3">
+        {arenaTopics.map((topic) => {
+          const challenges = getChallenges(topic.id)
+          const done = challenges.filter((c) => arenaSolved.has(solvedKey(topic.id, c.slug))).length
+          const percent = challenges.length ? Math.round((done / challenges.length) * 100) : 0
+          return (
+            <Link key={topic.id} to={`/arena/${topic.id}`} className="rounded-3xl bg-canvas p-5 hover:bg-canvas/70">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-heading text-lg text-ink">{topic.title}</span>
+                <span className="shrink-0 text-sm text-ink-muted">
+                  {done}/{challenges.length}
+                </span>
+              </div>
+              <div className="mt-3.5 h-2.5 overflow-hidden rounded-full bg-canvas-muted">
+                <div className="h-full rounded-full bg-brand2-500" style={{ width: `${percent}%` }} />
               </div>
             </Link>
           )

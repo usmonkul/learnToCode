@@ -1,12 +1,13 @@
 import { Check } from 'lucide-react'
 import { useArenaStore } from '@/store/arenaStore'
+import HintReveal from '@/components/arena/HintReveal'
 
 function formatCall(challenge, args) {
   const paramNames = challenge.paramNames ?? args.map((_, i) => `arg${i + 1}`)
   return paramNames.map((name, i) => `${name} = ${JSON.stringify(args[i])}`).join('\n')
 }
 
-export default function JsChallengeDetail({ challenge, topicId }) {
+export default function FunctionChallengeDetail({ challenge, topicId }) {
   const isSolved = useArenaStore((state) => state.isSolved(topicId, challenge.slug))
 
   return (
@@ -39,6 +40,8 @@ export default function JsChallengeDetail({ challenge, topicId }) {
           </pre>
         </div>
       ))}
+
+      {challenge.hint && <HintReveal hint={challenge.hint} />}
     </div>
   )
 }

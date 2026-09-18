@@ -5,4 +5,5 @@ export default {
   starterQuery: '',
   solutionQuery:
     'SELECT st.name, COUNT(*) AS sotilgan_soni FROM sold_cars sc JOIN staff st ON sc.seller = st.id GROUP BY st.name ORDER BY sotilgan_soni DESC LIMIT 1;',
+  hint: "Avval GROUP BY va COUNT(*) bilan har bir xodimning sotuvlarini hisoblang, so'ng ORDER BY ... DESC LIMIT 1 bilan eng ko'pini oling.",
 }

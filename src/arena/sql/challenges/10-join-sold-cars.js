@@ -5,4 +5,5 @@ export default {
   starterQuery: '',
   solutionQuery:
     'SELECT c.brand, c.model, st.name AS sotuvchi, sc.sold_price FROM sold_cars sc JOIN cars c ON sc.cars_id = c.id JOIN staff st ON sc.seller = st.id;',
+  hint: "Uchta jadvalni ketma-ket ikkita JOIN bilan bog'lang: avval sold_cars ni cars ga, so'ng staff ga.",
 }

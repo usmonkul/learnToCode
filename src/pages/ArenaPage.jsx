@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { Database, Braces, Swords } from 'lucide-react'
+import { Database, Braces, Terminal, Swords } from 'lucide-react'
 import { getTopics, getChallenges } from '@/arena/registry'
 
 const ICONS = {
   database: Database,
   braces: Braces,
+  terminal: Terminal,
 }
 
 export default function ArenaPage() {

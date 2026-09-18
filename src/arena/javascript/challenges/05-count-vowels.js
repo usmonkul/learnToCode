@@ -5,6 +5,7 @@ export default {
   functionName: 'countVowels',
   paramNames: ['str'],
   starterCode: `/**\n * @param {string} str\n * @returns {number}\n */\nfunction countVowels(str) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Matn bo'ylab har bir harfni tekshiring — agar u \"aeiouAEIOU\" qatorida uchrasa, hisoblagichni oshiring.",
   examples: [
     { args: ['salom'], expected: 2 },
     { args: ['JavaScript'], expected: 3 },

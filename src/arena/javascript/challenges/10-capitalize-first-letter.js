@@ -5,6 +5,7 @@ export default {
   functionName: 'capitalize',
   paramNames: ['str'],
   starterCode: `/**\n * @param {string} str\n * @returns {string}\n */\nfunction capitalize(str) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Birinchi harfni toUpperCase() bilan katta qiling, qolgan qismini slice(1) bilan olib, ikkalasini birlashtiring.",
   examples: [
     { args: ['salom'], expected: 'Salom' },
     { args: ['book'], expected: 'Book' },

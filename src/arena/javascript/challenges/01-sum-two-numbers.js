@@ -5,6 +5,7 @@ export default {
   functionName: 'sum',
   paramNames: ['a', 'b'],
   starterCode: `/**\n * @param {number} a\n * @param {number} b\n * @returns {number}\n */\nfunction sum(a, b) {\n  // yechimni yozing\n\n}\n`,
+  hint: "a va b ni to'g'ridan-to'g'ri qo'shib, natijani return qiling — boshqa hech narsa kerak emas.",
   examples: [
     { args: [2, 3], expected: 5 },
     { args: [-1, 1], expected: 0 },

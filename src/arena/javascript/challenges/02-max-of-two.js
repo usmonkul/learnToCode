@@ -5,6 +5,7 @@ export default {
   functionName: 'maxOfTwo',
   paramNames: ['a', 'b'],
   starterCode: `/**\n * @param {number} a\n * @param {number} b\n * @returns {number}\n */\nfunction maxOfTwo(a, b) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Solishtirish operatoridan (> yoki >=) foydalaning: agar a b dan katta yoki teng bo'lsa, a ni qaytaring, aks holda b ni.",
   examples: [
     { args: [4, 9], expected: 9 },
     { args: [7, 7], expected: 7 },

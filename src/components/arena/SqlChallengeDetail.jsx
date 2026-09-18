@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
+import { Check } from 'lucide-react'
 import { getSqlEngine } from '@/lib/sqlEngine'
+import { useArenaStore } from '@/store/arenaStore'
+import HintReveal from '@/components/arena/HintReveal'
 import { cn } from '@/lib/cn'
 
-export default function ChallengeDetail({ challenge, schema }) {
+export default function ChallengeDetail({ challenge, topicId, schema }) {
+  const isSolved = useArenaStore((state) => state.isSolved(topicId, challenge.slug))
   const [expected, setExpected] = useState(null)
   const [error, setError] = useState(null)
 
@@ -36,6 +40,12 @@ export default function ChallengeDetail({ challenge, schema }) {
 
   return (
     <div className="px-4 py-4">
+      {isSolved && (
+        <span className="mb-3 flex w-fit items-center gap-1.5 rounded-full bg-brand2-100 px-3 py-1 text-xs font-medium text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400">
+          <Check className="h-3.5 w-3.5" />
+          Yechilgan
+        </span>
+      )}
       <p className="whitespace-pre-line text-sm text-ink">{challenge.prompt}</p>
 
       {error && (
@@ -76,6 +86,8 @@ export default function ChallengeDetail({ challenge, schema }) {
           </div>
         </div>
       )}
+
+      {challenge.hint && <HintReveal hint={challenge.hint} />}
     </div>
   )
 }

@@ -5,6 +5,7 @@ export default {
   functionName: 'isEven',
   paramNames: ['n'],
   starterCode: `/**\n * @param {number} n\n * @returns {boolean}\n */\nfunction isEven(n) {\n  // yechimni yozing\n\n}\n`,
+  hint: "n % 2 ifodasi 0 ga teng bo'lsa, son juft. Natijani to'g'ridan-to'g'ri solishtiruv sifatida qaytaring.",
   examples: [
     { args: [4], expected: true },
     { args: [7], expected: false },

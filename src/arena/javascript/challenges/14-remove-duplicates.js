@@ -5,6 +5,7 @@ export default {
   functionName: 'removeDuplicates',
   paramNames: ['numbers'],
   starterCode: `/**\n * @param {number[]} numbers\n * @returns {number[]}\n */\nfunction removeDuplicates(numbers) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Set — takrorlanmaydigan qiymatlar to'plami. [...new Set(numbers)] orqali uni yana massivga aylantiring.",
   examples: [
     { args: [[1, 2, 2, 3, 1]], expected: [1, 2, 3] },
     { args: [[1, 1, 1]], expected: [1] },

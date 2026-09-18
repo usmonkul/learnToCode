@@ -5,6 +5,7 @@ export default {
   functionName: 'sumArray',
   paramNames: ['numbers'],
   starterCode: `/**\n * @param {number[]} numbers\n * @returns {number}\n */\nfunction sumArray(numbers) {\n  // yechimni yozing\n\n}\n`,
+  hint: "reduce metodidan foydalaning: boshlang'ich qiymat 0, har bir elementni jamlab boring.",
   examples: [
     { args: [[1, 2, 3]], expected: 6 },
     { args: [[]], expected: 0 },

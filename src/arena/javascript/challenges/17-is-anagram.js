@@ -5,6 +5,7 @@ export default {
   functionName: 'isAnagram',
   paramNames: ['a', 'b'],
   starterCode: `/**\n * @param {string} a\n * @param {string} b\n * @returns {boolean}\n */\nfunction isAnagram(a, b) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Ikkala matnni kichik harflarga o'tkazib, harflarini alifbo tartibida saralang (sort()) — agar natijalar teng bo'lsa, bu anagramma.",
   examples: [
     { args: ['listen', 'silent'], expected: true },
     { args: ['bola', 'lobo'], expected: false },

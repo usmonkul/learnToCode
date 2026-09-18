@@ -1,15 +1,10 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabaseClient'
 import { useAuthStore } from '@/store/authStore'
+import { todayLocalDate } from '@/lib/date'
 
 function completionKey(courseId, slug) {
   return `${courseId}/${slug}`
-}
-
-// The student's own local calendar date — never derived server-side, so the
-// streak trigger in Postgres never has to guess a timezone.
-function todayLocalDate() {
-  return new Date().toLocaleDateString('en-CA')
 }
 
 export const useProgressStore = create((set, get) => ({
@@ -59,6 +54,17 @@ export const useProgressStore = create((set, get) => ({
       },
       { onConflict: 'user_id,course_id,lesson_slug' }
     )
+
+    await get().refreshStreak()
+  },
+
+  // Re-reads the denormalized streaks row — called after any action that
+  // might have moved it (a lesson completion here, or an Arena solve via
+  // arenaStore.markSolved), since neither insert path updates this store's
+  // state directly.
+  refreshStreak: async () => {
+    const userId = useAuthStore.getState().user?.id
+    if (!userId) return
 
     const { data: streakData } = await supabase
       .from('streaks')

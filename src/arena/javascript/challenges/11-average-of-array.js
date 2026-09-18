@@ -5,6 +5,7 @@ export default {
   functionName: 'average',
   paramNames: ['numbers'],
   starterCode: `/**\n * @param {number[]} numbers\n * @returns {number}\n */\nfunction average(numbers) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Avval barcha elementlar yig'indisini toping (reduce), so'ng uni massiv uzunligiga (length) bo'ling.",
   examples: [
     { args: [[1, 2, 3]], expected: 2 },
     { args: [[2, 4, 6, 8]], expected: 5 },

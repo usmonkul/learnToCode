@@ -5,6 +5,7 @@ export default {
   functionName: 'sumDigits',
   paramNames: ['n'],
   starterCode: `/**\n * @param {number} n\n * @returns {number}\n */\nfunction sumDigits(n) {\n  // yechimni yozing\n\n}\n`,
+  hint: "while sikli ichida n % 10 bilan oxirgi raqamni oling, so'ng n ni 10 ga bo'lib (Math.floor) qisqartiring.",
   examples: [
     { args: [123], expected: 6 },
     { args: [0], expected: 0 },

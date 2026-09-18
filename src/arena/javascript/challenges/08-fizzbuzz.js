@@ -5,6 +5,7 @@ export default {
   functionName: 'fizzBuzz',
   paramNames: ['n'],
   starterCode: `/**\n * @param {number} n\n * @returns {string[]}\n */\nfunction fizzBuzz(n) {\n  // yechimni yozing\n\n}\n`,
+  hint: "1 dan n gacha aylanib chiqing; har bir son uchun avval 15 ga (ham 3 ham 5), keyin 3 ga, keyin 5 ga bo'linishini tekshiring — tartib muhim.",
   examples: [
     { args: [5], expected: ['1', '2', 'Fizz', '4', 'Buzz'] },
     { args: [3], expected: ['1', '2', 'Fizz'] },

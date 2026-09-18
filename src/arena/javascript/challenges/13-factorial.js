@@ -5,6 +5,7 @@ export default {
   functionName: 'factorial',
   paramNames: ['n'],
   starterCode: `/**\n * @param {number} n\n * @returns {number}\n */\nfunction factorial(n) {\n  // yechimni yozing\n\n}\n`,
+  hint: "1 dan boshlab natijani 2 dan n gacha bo'lgan har bir son bilan ko'paytirib boring.",
   examples: [
     { args: [5], expected: 120 },
     { args: [0], expected: 1 },

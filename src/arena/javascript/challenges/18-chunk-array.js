@@ -5,6 +5,7 @@ export default {
   functionName: 'chunkArray',
   paramNames: ['numbers', 'size'],
   starterCode: `/**\n * @param {number[]} numbers\n * @param {number} size\n * @returns {number[][]}\n */\nfunction chunkArray(numbers, size) {\n  // yechimni yozing\n\n}\n`,
+  hint: "size qadam bilan massiv bo'ylab yuring (for sikli, i += size) va har safar slice(i, i + size) orqali bo'lak ajrating.",
   examples: [
     { args: [[1, 2, 3, 4, 5], 2], expected: [[1, 2], [3, 4], [5]] },
     { args: [[1, 2, 3], 1], expected: [[1], [2], [3]] },

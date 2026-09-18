@@ -5,6 +5,7 @@ export default {
   functionName: 'isPalindrome',
   paramNames: ['str'],
   starterCode: `/**\n * @param {string} str\n * @returns {boolean}\n */\nfunction isPalindrome(str) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Matnni kichik harflarga o'tkazing, so'ng uni teskarisiga solishtiring — agar bir xil bo'lsa, bu palindrom.",
   examples: [
     { args: ['ana'], expected: true },
     { args: ['salom'], expected: false },

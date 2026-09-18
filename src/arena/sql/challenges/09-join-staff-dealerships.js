@@ -5,4 +5,5 @@ export default {
   starterQuery: '',
   solutionQuery:
     'SELECT s.name, s.role, d.name AS dilerlik FROM staff s JOIN dealerships d ON s.dealership_id = d.id;',
+  hint: "JOIN ... ON s.dealership_id = d.id ikkala jadvalni bog'lovchi ustun orqali birlashtiradi.",
 }

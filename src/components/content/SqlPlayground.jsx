@@ -1,17 +1,29 @@
 import { useEffect, useRef, useState } from 'react'
-import { Play, RotateCcw } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Play, RotateCcw, UploadCloud, ArrowRight } from 'lucide-react'
 import { getSqlEngine } from '@/lib/sqlEngine'
+import { useArenaStore, solvedKey } from '@/store/arenaStore'
 import { cn } from '@/lib/cn'
 
-export default function SqlPlayground({ schema, initialQuery = '' }) {
+function normalizeResult(output) {
+  return output[output.length - 1] ?? { columns: [], values: [] }
+}
+
+export default function SqlPlayground({ challenge, topicId, slug, schema, initialQuery = '', nextChallenge }) {
   const engineRef = useRef(null)
   const dbRef = useRef(null)
-  const [query, setQuery] = useState(initialQuery)
+  const markSolved = useArenaStore((state) => state.markSolved)
+  const solutions = useArenaStore((state) => state.solutions)
+  const [query, setQuery] = useState(
+    () => useArenaStore.getState().solutions.get(solvedKey(topicId, slug)) ?? initialQuery
+  )
   const [status, setStatus] = useState('loading')
   const [initError, setInitError] = useState(null)
   const [result, setResult] = useState(null)
   const [message, setMessage] = useState(null)
   const [runError, setRunError] = useState(null)
+  const [checkPassed, setCheckPassed] = useState(null)
+  const canSubmit = Boolean(challenge && topicId && slug)
 
   useEffect(() => {
     let cancelled = false
@@ -38,6 +50,15 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Saved-solution history loads asynchronously (arenaStore.fetchAll), so on a
+  // fresh page load the initializer above can run before it arrives — hydrate
+  // it once it shows up, but only if the editor still shows the untouched
+  // starter query (don't clobber a query the student is mid-typing).
+  useEffect(() => {
+    const saved = solutions.get(solvedKey(topicId, slug))
+    if (saved) setQuery((current) => (current === initialQuery ? saved : current))
+  }, [solutions, topicId, slug, initialQuery])
+
   function handleRun() {
     const db = dbRef.current
     if (!db) return
@@ -45,6 +66,7 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
     setRunError(null)
     setMessage(null)
     setResult(null)
+    setCheckPassed(null)
 
     try {
       const output = db.exec(query)
@@ -59,6 +81,41 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
     }
   }
 
+  function handleSubmit() {
+    const db = dbRef.current
+    const SQL = engineRef.current
+    if (!db || !SQL || !challenge) return
+
+    setRunError(null)
+    setMessage(null)
+    setCheckPassed(null)
+
+    let actual
+    try {
+      actual = normalizeResult(db.exec(query))
+      setResult(actual)
+    } catch (error) {
+      setRunError(error.message)
+      return
+    }
+
+    const expectedDb = new SQL.Database()
+    let expected
+    try {
+      expectedDb.run(schema)
+      expected = normalizeResult(expectedDb.exec(challenge.solutionQuery))
+    } finally {
+      expectedDb.close()
+    }
+
+    const passed =
+      JSON.stringify(actual.columns) === JSON.stringify(expected.columns) &&
+      JSON.stringify(actual.values) === JSON.stringify(expected.values)
+
+    setCheckPassed(passed)
+    if (passed) markSolved(topicId, slug, query)
+  }
+
   function handleReset() {
     const SQL = engineRef.current
     if (!SQL) return
@@ -71,6 +128,7 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
     setResult(null)
     setMessage(null)
     setRunError(null)
+    setCheckPassed(null)
   }
 
   return (
@@ -91,6 +149,11 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       <textarea
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter' || !(e.ctrlKey || e.metaKey)) return
+          e.preventDefault()
+          handleRun()
+        }}
         disabled={status !== 'ready'}
         rows={4}
         spellCheck={false}
@@ -99,15 +162,33 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       />
 
       <div className="flex items-center justify-between px-5 pb-4 pt-1">
-        <button
-          type="button"
-          onClick={handleRun}
-          disabled={status !== 'ready'}
-          className="flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700 disabled:opacity-50"
-        >
-          <Play className="h-3.5 w-3.5" />
-          {status === 'loading' ? 'Yuklanmoqda...' : 'Bajarish'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleRun}
+            disabled={status !== 'ready'}
+            className={cn(
+              'flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold disabled:opacity-50',
+              canSubmit
+                ? 'bg-neutral-800 text-neutral-100 hover:bg-neutral-700'
+                : 'bg-brand-600 text-canvas-muted hover:bg-brand-700'
+            )}
+          >
+            <Play className="h-3.5 w-3.5" />
+            {status === 'loading' ? 'Yuklanmoqda...' : 'Bajarish'}
+          </button>
+          {canSubmit && (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={status !== 'ready'}
+              className="flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700 disabled:opacity-50"
+            >
+              <UploadCloud className="h-3.5 w-3.5" />
+              Yuborish
+            </button>
+          )}
+        </div>
         <span className="text-xs text-neutral-500">Ctrl + Enter</span>
       </div>
 
@@ -116,6 +197,33 @@ export default function SqlPlayground({ schema, initialQuery = '' }) {
       )}
 
       {runError && <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">{runError}</p>}
+
+      {checkPassed === true && (
+        <div className="bg-brand2-50 px-5 py-3.5 dark:bg-brand2-950">
+          <p className="text-sm text-brand2-800 dark:text-brand2-400">
+            To'g'ri — natija kutilganiga mos keldi. Yechildi!
+          </p>
+          {nextChallenge ? (
+            <Link
+              to={`/arena/${topicId}/${nextChallenge.slug}`}
+              className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700"
+            >
+              Keyingi masala: {nextChallenge.title}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          ) : (
+            <p className="mt-2 text-xs text-brand2-700 dark:text-brand2-400">
+              Bu mavzudagi barcha masalalar yechildi!
+            </p>
+          )}
+        </div>
+      )}
+
+      {checkPassed === false && (
+        <p className="bg-red-50 px-5 py-3.5 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+          Natija kutilganidan farq qiladi. Chap paneldagi "Kutilgan natija"ni solishtiring.
+        </p>
+      )}
 
       {message && !runError && (
         <p className="bg-canvas-muted px-5 py-3.5 text-sm text-ink">{message}</p>

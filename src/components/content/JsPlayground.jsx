@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Highlight, themes } from 'prism-react-renderer'
-import { Play, UploadCloud, RotateCcw } from 'lucide-react'
+import { Play, UploadCloud, RotateCcw, ArrowRight } from 'lucide-react'
 import { runChallenge } from '@/lib/jsRunner'
-import { useArenaStore } from '@/store/arenaStore'
+import { useArenaStore, solvedKey } from '@/store/arenaStore'
 import { cn } from '@/lib/cn'
 
-function CodeEditor({ code, onChange }) {
+function CodeEditor({ code, onChange, onRunShortcut }) {
   const lines = code.split('\n')
 
   function handleKeyDown(e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault()
+      onRunShortcut()
+      return
+    }
     if (e.key !== 'Tab') return
     e.preventDefault()
     const el = e.target
@@ -58,7 +64,7 @@ function CodeEditor({ code, onChange }) {
   )
 }
 
-export default function JsPlayground({ challenge, topicId, slug }) {
+export default function JsPlayground({ challenge, topicId, slug, nextChallenge }) {
   const [code, setCode] = useState(challenge.starterCode)
   const [status, setStatus] = useState('idle')
   const [tab, setTab] = useState('tests')
@@ -66,15 +72,26 @@ export default function JsPlayground({ challenge, topicId, slug }) {
   const [runResult, setRunResult] = useState(null)
   const [runError, setRunError] = useState(null)
   const markSolved = useArenaStore((state) => state.markSolved)
+  const solutions = useArenaStore((state) => state.solutions)
 
   useEffect(() => {
-    setCode(challenge.starterCode)
+    const saved = useArenaStore.getState().solutions.get(solvedKey(topicId, slug))
+    setCode(saved ?? challenge.starterCode)
     setStatus('idle')
     setTab('tests')
     setActiveIndex(0)
     setRunResult(null)
     setRunError(null)
-  }, [challenge])
+  }, [challenge, topicId, slug])
+
+  // Solved history loads asynchronously (arenaStore.fetchAll), so on a fresh
+  // page load the effect above can run before it arrives — hydrate the saved
+  // solution once it shows up, but only if the editor still shows the
+  // untouched starter code (don't clobber code the student is mid-typing).
+  useEffect(() => {
+    const saved = solutions.get(solvedKey(topicId, slug))
+    if (saved) setCode((current) => (current === challenge.starterCode ? saved : current))
+  }, [solutions, challenge, topicId, slug])
 
   async function runAgainst(type, tests) {
     setStatus('running')
@@ -94,7 +111,7 @@ export default function JsPlayground({ challenge, topicId, slug }) {
     setStatus('idle')
 
     if (type === 'submit' && response.results.every((r) => r.pass)) {
-      markSolved(topicId, slug)
+      markSolved(topicId, slug, code)
     }
   }
 
@@ -136,7 +153,7 @@ export default function JsPlayground({ challenge, topicId, slug }) {
         </button>
       </div>
 
-      <CodeEditor code={code} onChange={setCode} />
+      <CodeEditor code={code} onChange={setCode} onRunShortcut={() => runAgainst('run', challenge.examples)} />
 
       <div className="border-t border-neutral-800 px-5 py-3.5">
         <div className="flex items-center justify-between">
@@ -171,25 +188,28 @@ export default function JsPlayground({ challenge, topicId, slug }) {
               Natijalar
             </button>
           </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => runAgainst('run', challenge.examples)}
-              disabled={status === 'running'}
-              className="flex items-center gap-1.5 rounded-full bg-neutral-800 px-4 py-2 text-xs font-semibold text-neutral-100 hover:bg-neutral-700 disabled:opacity-50"
-            >
-              <Play className="h-3.5 w-3.5" />
-              Yuritish
-            </button>
-            <button
-              type="button"
-              onClick={() => runAgainst('submit', challenge.tests)}
-              disabled={status === 'running'}
-              className="flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700 disabled:opacity-50"
-            >
-              <UploadCloud className="h-3.5 w-3.5" />
-              Yuborish
-            </button>
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => runAgainst('run', challenge.examples)}
+                disabled={status === 'running'}
+                className="flex items-center gap-1.5 rounded-full bg-neutral-800 px-4 py-2 text-xs font-semibold text-neutral-100 hover:bg-neutral-700 disabled:opacity-50"
+              >
+                <Play className="h-3.5 w-3.5" />
+                Yuritish
+              </button>
+              <button
+                type="button"
+                onClick={() => runAgainst('submit', challenge.tests)}
+                disabled={status === 'running'}
+                className="flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700 disabled:opacity-50"
+              >
+                <UploadCloud className="h-3.5 w-3.5" />
+                Yuborish
+              </button>
+            </div>
+            <span className="text-xs text-neutral-500">Ctrl + Enter</span>
           </div>
         </div>
 
@@ -202,6 +222,22 @@ export default function JsPlayground({ challenge, topicId, slug }) {
             {passCount} / {runResult.results.length} test o'tdi
             {runResult.type === 'submit' && passCount === runResult.results.length && ' — Yechildi!'}
           </p>
+        )}
+
+        {runResult?.type === 'submit' && passCount === runResult.results.length && (
+          <div className="mt-3">
+            {nextChallenge ? (
+              <Link
+                to={`/arena/${topicId}/${nextChallenge.slug}`}
+                className="flex w-fit items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-canvas-muted hover:bg-brand-700"
+              >
+                Keyingi masala: {nextChallenge.title}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            ) : (
+              <p className="text-xs text-neutral-400">Bu mavzudagi barcha masalalar yechildi!</p>
+            )}
+          </div>
         )}
 
         {!runError && (

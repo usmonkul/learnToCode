@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom'
-import { Check } from 'lucide-react'
+import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import ChallengeDetail from '@/components/arena/ChallengeDetail'
 import { useArenaStore, solvedKey } from '@/store/arenaStore'
 import { cn } from '@/lib/cn'
-
-const DIFFICULTY_LABELS = { easy: 'Oson', medium: "O'rta", hard: 'Qiyin' }
-const DIFFICULTY_STYLES = {
-  easy: 'bg-brand2-100 text-brand2-800 dark:bg-brand2-950 dark:text-brand2-400',
-  medium: 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-400',
-  hard: 'border border-brand-600 text-brand-700 dark:border-brand-400 dark:text-brand-300',
-}
+import { DIFFICULTY_LABELS, DIFFICULTY_STYLES } from '@/lib/difficulty'
 
 export default function ChallengeList({ challenges, activeSlug, topicId, schema }) {
   const solved = useArenaStore((state) => state.solved)
+
+  if (challenges.length === 0) {
+    return (
+      <div className="rounded-3xl bg-canvas p-6 text-center text-sm text-ink-muted">
+        Bu filtr uchun masala topilmadi.
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-w-0 flex-col gap-1 rounded-3xl bg-canvas p-3.5">
@@ -32,8 +34,20 @@ export default function ChallengeList({ challenges, activeSlug, topicId, schema 
                 {index + 1}. {challenge.title}
                 {isSolved && <Check className="h-3.5 w-3.5 shrink-0 text-brand2-600 dark:text-brand2-400" />}
               </span>
-              <span className={cn('shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium', DIFFICULTY_STYLES[challenge.difficulty])}>
-                {DIFFICULTY_LABELS[challenge.difficulty]}
+              <span className="flex shrink-0 items-center gap-2">
+                <span
+                  className={cn(
+                    'rounded-full px-2.5 py-0.5 text-xs font-medium',
+                    DIFFICULTY_STYLES[challenge.difficulty]
+                  )}
+                >
+                  {DIFFICULTY_LABELS[challenge.difficulty]}
+                </span>
+                {isActive ? (
+                  <ChevronUp className="h-4 w-4 text-ink-muted" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-ink-muted" />
+                )}
               </span>
             </Link>
             {isActive && <ChallengeDetail challenge={challenge} topicId={topicId} schema={schema} />}

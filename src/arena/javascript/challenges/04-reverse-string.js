@@ -5,6 +5,7 @@ export default {
   functionName: 'reverseString',
   paramNames: ['str'],
   starterCode: `/**\n * @param {string} str\n * @returns {string}\n */\nfunction reverseString(str) {\n  // yechimni yozing\n\n}\n`,
+  hint: "Matnni massivga aylantiring (split('')), massivni teskari qiling (reverse()), so'ng yana matnga qaytaring (join('')).",
   examples: [
     { args: ['salom'], expected: 'molas' },
     { args: ['abc'], expected: 'cba' },
