@@ -3,7 +3,6 @@ import { Link, NavLink, useParams } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { NAV_ITEMS } from '@/components/layout/navItems'
-import ThemeToggle from '@/components/layout/ThemeToggle'
 import UserMenu from '@/components/layout/UserMenu'
 import { cn } from '@/lib/cn'
 
@@ -60,13 +59,12 @@ export default function TopNav() {
           )}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <UserMenu />
-          <ThemeToggle />
           <button
             type="button"
             onClick={handleToggleMobileMenu}
-            className="rounded-full p-2 text-ink-muted hover:bg-canvas md:hidden"
+            className="rounded-full p-2 text-ink-muted hover:bg-canvas hover:text-ink md:hidden"
             aria-label={mobileMenuOpen ? 'Menyuni yopish' : 'Menyuni ochish'}
             aria-expanded={mobileMenuOpen}
           >

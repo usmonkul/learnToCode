@@ -45,15 +45,28 @@ export const useProgressStore = create((set, get) => ({
     const key = completionKey(courseId, slug)
     set((state) => ({ completions: new Set(state.completions).add(key) }))
 
-    await supabase.from('lesson_completions').upsert(
+    // ignoreDuplicates → ON CONFLICT DO NOTHING: lesson_completions has no
+    // UPDATE policy, so the default upsert (DO UPDATE) is rejected by RLS the
+    // moment the row already exists (stale client state, second tab).
+    const { error } = await supabase.from('lesson_completions').upsert(
       {
         user_id: userId,
         course_id: courseId,
         lesson_slug: slug,
         activity_date: todayLocalDate(),
       },
-      { onConflict: 'user_id,course_id,lesson_slug' }
+      { onConflict: 'user_id,course_id,lesson_slug', ignoreDuplicates: true }
     )
+
+    if (error) {
+      console.error('markComplete failed', error)
+      set((state) => {
+        const completions = new Set(state.completions)
+        completions.delete(key)
+        return { completions }
+      })
+      return
+    }
 
     await get().refreshStreak()
   },
@@ -66,11 +79,16 @@ export const useProgressStore = create((set, get) => ({
     const userId = useAuthStore.getState().user?.id
     if (!userId) return
 
-    const { data: streakData } = await supabase
+    const { data: streakData, error } = await supabase
       .from('streaks')
       .select('current_streak, longest_streak')
       .eq('user_id', userId)
       .maybeSingle()
+
+    if (error) {
+      console.error('refreshStreak failed', error)
+      return
+    }
 
     set({
       streak: {
