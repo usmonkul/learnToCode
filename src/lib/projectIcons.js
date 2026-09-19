@@ -28,6 +28,10 @@ import {
   Kanban,
   Paintbrush,
   Search,
+  LayoutGrid,
+  PanelsTopLeft,
+  LayoutDashboard,
+  CalendarDays,
 } from 'lucide-react'
 
 export const PROJECT_ICONS = {
@@ -59,5 +63,9 @@ export const PROJECT_ICONS = {
   kanban: Kanban,
   paintbrush: Paintbrush,
   search: Search,
+  'layout-grid': LayoutGrid,
+  'panels-top-left': PanelsTopLeft,
+  'layout-dashboard': LayoutDashboard,
+  'calendar-days': CalendarDays,
   default: Code2,
 }
