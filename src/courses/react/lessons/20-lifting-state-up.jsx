@@ -13,18 +13,10 @@ export const meta = {
 export default function LiftingStateUpLesson() {
   return (
     <>
-      <p>
-        Oldingi darslarda <code>useState</code>ni bitta komponent ichida ko'rdik — tugma bosilsa,
-        o'sha komponentning o'zi qayta render bo'ladi. Lekin amaliyotda tez-tez shunday holat
-        chiqadi: ikkita alohida komponent bir xil ma'lumotni bilishi va bir-biriga mos holda
-        ishlashi kerak bo'ladi. Masalan, bitta komponent mahsulotlar ro'yxatini ko'rsatadi va
-        foydalanuvchi bittasini tanlaydi, ikkinchi komponent esa o'sha tanlangan mahsulotning
-        tafsilotlarini chiqarishi kerak. Agar "tanlangan mahsulot" state'i faqat birinchi
-        komponent ichida yashasa, ikkinchisi undan umuman xabardor bo'lolmaydi.
-      </p>
-
       <h2>Muammo: opa-uka komponentlar orasida state almashish</h2>
       <p>
+        Shu paytgacha state ko'pincha bitta komponent ichida yashadi. Lekin tez-tez ikkita
+        alohida komponent bir xil ma'lumotni bilishi kerak bo'ladi.
         Tasavvur qiling, bizda ikkita komponent bor — <code>RangTanlovchi</code> va{' '}
         <code>Namuna</code> — ikkalasi ham <code>App</code>ning bolalari (sibling, ya'ni
         bir-birining opa-ukasi). <code>RangTanlovchi</code> foydalanuvchiga rang tanlash imkonini
@@ -32,20 +24,20 @@ export default function LiftingStateUpLesson() {
         Agar tanlangan rang state'ini <code>RangTanlovchi</code> ichida saqlasak:
       </p>
       <CodeBlock lang="jsx">{`function RangTanlovchi() {
-  const [rang, setRang] = useState('qizil')
+  const [rang, setRang] = useState('tomato')
 
   return (
     <select value={rang} onChange={(e) => setRang(e.target.value)}>
-      <option value="qizil">Qizil</option>
-      <option value="yashil">Yashil</option>
-      <option value="ko'k">Ko'k</option>
+      <option value="tomato">Qizil</option>
+      <option value="seagreen">Yashil</option>
+      <option value="royalblue">Ko'k</option>
     </select>
   )
 }
 
 function Namuna() {
   // Bu yerda "rang" haqida hech qanday ma'lumot yo'q!
-  return <div className="h-24 w-24" />
+  return <div className="namuna" />
 }`}</CodeBlock>
       <p>
         <code>Namuna</code> komponenti <code>rang</code> state'iga umuman kira olmaydi — u boshqa
@@ -60,41 +52,41 @@ function Namuna() {
         Yechim — <strong>lifting state up</strong> (state'ni yuqoriga ko'tarish) deb ataladigan
         naqsh: state'ni ikkala komponentning eng yaqin umumiy ota-komponentiga (nearest common
         parent) ko'chirib, keyin uni props orqali pastga, ikkala bolaga ham uzatish. Agar
-        bolalardan biri o'sha state'ni o'zgartirishi kerak bo'lsa, ota-komponent{' '}
-        <code>setRang</code> kabi funksiyani ham props sifatida pastga uzatadi — bola shu
+        bolalardan biri o'sha state'ni o'zgartirishi kerak bo'lsa, ota-komponent unga
+        funksiyani ham props sifatida uzatadi (12-darsdagi <code>on...</code> naqshi) — bola shu
         funksiyani chaqiradi, ota state'ni yangilaydi, va React ikkala bolani ham yangi qiymat
         bilan qayta render qiladi:
       </p>
-      <CodeBlock lang="jsx">{`function RangTanlovchi({ rang, setRang }) {
+      <CodeBlock lang="jsx">{`function RangTanlovchi({ rang, onRangChange }) {
   return (
-    <select value={rang} onChange={(e) => setRang(e.target.value)}>
-      <option value="qizil">Qizil</option>
-      <option value="yashil">Yashil</option>
-      <option value="ko'k">Ko'k</option>
+    <select value={rang} onChange={(e) => onRangChange(e.target.value)}>
+      <option value="tomato">Qizil</option>
+      <option value="seagreen">Yashil</option>
+      <option value="royalblue">Ko'k</option>
     </select>
   )
 }
 
 function Namuna({ rang }) {
-  return <div className="h-24 w-24" style={{ backgroundColor: rang }} />
+  return <div className="namuna" style={{ backgroundColor: rang }} />
 }
 
 function App() {
-  const [rang, setRang] = useState('qizil')
+  const [rang, setRang] = useState('tomato')
 
   return (
     <>
-      <RangTanlovchi rang={rang} setRang={setRang} />
+      <RangTanlovchi rang={rang} onRangChange={setRang} />
       <Namuna rang={rang} />
     </>
   )
 }`}</CodeBlock>
       <p>
         Endi state faqat bitta joyda — <code>App</code> ichida — yashaydi. Ikkala bola komponent
-        ham uni props orqali oladi: <code>RangTanlovchi</code> joriy qiymatni ko'rsatish va uni
-        o'zgartirish uchun <code>setRang</code>ni chaqirish imkoniga ega, <code>Namuna</code> esa
+        ham uni props orqali oladi: <code>RangTanlovchi</code> joriy qiymatni ko'rsatadi va
+        o'zgartirish kerak bo'lganda <code>onRangChange</code>ni chaqiradi, <code>Namuna</code> esa
         faqat o'qish uchun qiymatni oladi. <code>select</code>ning qiymati o'zgarganda{' '}
-        <code>setRang</code> chaqiriladi, <code>App</code> qayta render bo'ladi, va yangi{' '}
+        <code>onRangChange</code> (ya'ni <code>App</code>dagi <code>setRang</code>) chaqiriladi, <code>App</code> qayta render bo'ladi, va yangi{' '}
         <code>rang</code> qiymati ikkala bolaga ham qayta uzatiladi — shu tarzda ular doimo
         sinxron qoladi.
       </p>
@@ -108,21 +100,16 @@ function App() {
         ota-komponentiga ko'taring — undan ham yuqoriga ko'tarish shart emas.
       </Callout>
 
-      <h2>Uch qavatli misol: state ikkita "aka-uka" guruh orasida</h2>
+      <h2>Savat misoli: o'zgartiruvchi va o'quvchi</h2>
       <p>
-        Ba'zan state kerak bo'lgan komponentlar bir-biridan uzoqroqda joylashgan bo'lishi mumkin.
-        Masalan, savat sahifasida <code>MahsulotRoyxati</code> va <code>SavatXulosasi</code> ikki
+        Yana bir odatiy holat: savat sahifasida <code>MahsulotRoyxati</code> va <code>SavatXulosasi</code> ikki
         alohida bo'lim, lekin ikkalasi ham "savatga qo'shilgan mahsulotlar" ro'yxatini bilishi
-        kerak. Bu holda ham printsip bir xil — state ikkalasining umumiy ota-komponentiga
-        ko'tariladi, hatto u ancha yuqorida bo'lsa ham:
+        kerak. Bittasi savatni o'zgartiradi, ikkinchisi faqat o'qiydi — printsip baribir bir
+        xil: state ikkalasining umumiy ota-komponentiga ko'tariladi:
       </p>
-      <CodeBlock lang="jsx">{`function MahsulotRoyxati({ savat, setSavat }) {
-  function qoshish(mahsulot) {
-    setSavat([...savat, mahsulot])
-  }
-
+      <CodeBlock lang="jsx">{`function MahsulotRoyxati({ onQoshish }) {
   return (
-    <button onClick={() => qoshish({ nomi: 'Kitob', narxi: 45000 })}>
+    <button onClick={() => onQoshish({ id: 'k1', nomi: 'Kitob', narxi: 45000 })}>
       Savatga qo'shish
     </button>
   )
@@ -136,21 +123,141 @@ function SavatXulosasi({ savat }) {
 function App() {
   const [savat, setSavat] = useState([])
 
+  function handleQoshish(mahsulot) {
+    setSavat((eski) => [...eski, mahsulot])
+  }
+
   return (
     <>
-      <MahsulotRoyxati savat={savat} setSavat={setSavat} />
+      <MahsulotRoyxati onQoshish={handleQoshish} />
       <SavatXulosasi savat={savat} />
     </>
   )
 }`}</CodeBlock>
       <p>
-        <code>MahsulotRoyxati</code> savatni o'zgartiradi, <code>SavatXulosasi</code> esa faqat
-        uni o'qib, jamlaydi — lekin ikkalasi ham bitta manba (single source of truth), ya'ni{' '}
+        <code>MahsulotRoyxati</code> savat qanday tuzilganini umuman bilmaydi — u faqat
+        "shu mahsulot qo'shilsin" deb xabar beradi. Savatni o'zgartirish mantig'i esa uning
+        egasi — <code>App</code> — ichida. <code>SavatXulosasi</code> esa savatni
+        faqat o'qib, jamlaydi. Ikkalasi ham bitta manbaga (single source of truth) —{' '}
         <code>App</code>dagi <code>savat</code> state'iga tayanadi. Bu naqsh katta ilovalarda
         ham xuddi shu tarzda ishlaydi, faqat komponentlar orasidagi qavatlar soni ko'proq
-        bo'lishi mumkin — keyingi darsda buni Context orqali qanday soddalashtirishni
-        ko'ramiz.
+        bo'lishi mumkin — buni qanday soddalashtirishni 23-darsda ko'ramiz.
       </p>
+
+      <h2>Klassik misol: faqat bitta ochiq panel</h2>
+      <p>
+        Ko'p so'raladigan savollar (FAQ) sahifasi: har bir savol bosilganda javobi ochiladi.
+        Birinchi variantda har bir panel o'zining <code>ochiq</code> state'iga ega:
+      </p>
+      <CodeBlock lang="jsx">{`function Panel({ savol, children }) {
+  const [ochiq, setOchiq] = useState(false)
+  return (
+    <section>
+      <button onClick={() => setOchiq(!ochiq)}>{savol}</button>
+      {ochiq && <p>{children}</p>}
+    </section>
+  )
+}`}</CodeBlock>
+      <p>
+        Endi yangi talab keldi: <strong>bir vaqtda faqat bitta panel ochiq bo'lsin</strong>.
+        Panellar bir-birining state'ini ko'ra olmaydi, shuning uchun buni ularning ichida hal
+        qilib bo'lmaydi. State'ni yuqoriga ko'taramiz — uch qadamda:
+      </p>
+      <ol>
+        <li>
+          <strong>Boladan olib tashlang.</strong> <code>Panel</code>dan <code>useState</code>ni
+          o'chirib, <code>ochiq</code>ni prop qiling.
+        </li>
+        <li>
+          <strong>Otaga qo'shing.</strong> Ota "qaysi panel ochiq"ni saqlaydi — 19-darsdagi
+          qoidaga ko'ra boolean'lar emas, bitta indeks yoki id.
+        </li>
+        <li>
+          <strong>Pastga uzating.</strong> Har bir panelga <code>ochiq</code> va{' '}
+          <code>onOchish</code> props'ini bering.
+        </li>
+      </ol>
+      <CodeBlock lang="jsx">{`function Panel({ savol, ochiq, onOchish, children }) {
+  return (
+    <section>
+      <button onClick={onOchish}>{savol}</button>
+      {ochiq && <p>{children}</p>}
+    </section>
+  )
+}
+
+export default function FAQ() {
+  const [ochiqId, setOchiqId] = useState('yetkazish')
+
+  return (
+    <>
+      <Panel
+        savol="Yetkazib berish qancha vaqt oladi?"
+        ochiq={ochiqId === 'yetkazish'}
+        onOchish={() => setOchiqId('yetkazish')}
+      >
+        Toshkent bo'ylab 40–60 daqiqa.
+      </Panel>
+      <Panel
+        savol="Qanday to'lash mumkin?"
+        ochiq={ochiqId === 'tolov'}
+        onOchish={() => setOchiqId('tolov')}
+      >
+        Naqd, karta yoki Click/Payme orqali.
+      </Panel>
+    </>
+  )
+}`}</CodeBlock>
+      <p>
+        Endi <code>Panel</code> o'z holatini o'zi hal qilmaydi — uni ota boshqaradi. Bunday
+        komponent <strong>boshqariladigan</strong> (controlled) deb ataladi — xuddi 17-darsdagi
+        controlled input kabi: qiymat props'dan keladi, o'zgarish esa handler orqali so'raladi.
+        O'z state'iga ega birinchi variant esa <strong>boshqarilmaydigan</strong>{' '}
+        (uncontrolled): uni ishlatish oson, lekin otasi uning ichidagi holatga ta'sir qila
+        olmaydi. Komponent yozayotganda o'zingizdan so'rang: bu holatni tashqaridan boshqarish
+        kerak bo'ladimi?
+      </p>
+
+      <h2>Prop drilling</h2>
+      <p>
+        State'ni ko'targan sari u daraxtda yuqoriroqqa chiqadi va pastga tushish yo'li uzayadi.
+        Ba'zan ma'lumot o'zi kerak bo'lmagan oraliq komponentlar orqali 3–4 qavat "o'tkazilib"
+        tushiriladi:
+      </p>
+      <CodeBlock lang="jsx">{`<App foydalanuvchi={f}>
+  <Sahifa foydalanuvchi={f}>          // o'zi ishlatmaydi, faqat uzatadi
+    <Sarlavha foydalanuvchi={f}>      // o'zi ishlatmaydi, faqat uzatadi
+      <Avatar foydalanuvchi={f} />    // faqat shu ishlatadi`}</CodeBlock>
+      <p>
+        Bu <strong>prop drilling</strong> deb ataladi. Ikki-uch qavatda bu muammo emas — aksincha,
+        ma'lumot qayerdan kelayotgani aniq ko'rinadi. Juda chuqur bo'lib ketsa, yechimlar bor:
+        ko'pincha 6-darsdagi <code>children</code> bilan composition oraliq qavatlarni
+        qisqartiradi, eng chuqur holatlar uchun esa context (23-dars) bor.
+      </p>
+
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>Ikki joyda bir xil state.</strong> Ikkala bolada alohida{' '}
+            <code>useState</code> va ularni qo'lda "sinxronlashga" urinish — ular albatta bir
+            kun ajralib ketadi. Bitta egasi bo'lsin.
+          </li>
+          <li>
+            <strong>Juda yuqoriga ko'tarish.</strong> Faqat bitta komponentga kerak bo'lgan state'ni{' '}
+            <code>App</code>ga chiqarish — keraksiz props va keraksiz renderlar.
+          </li>
+          <li>
+            <strong>Bolada props'dan state yaratish.</strong> Ko'tarilgan state'ni bola yana{' '}
+            <code>useState(prop)</code> bilan nusxalasa, ota yangilaganda bola eskicha qoladi
+            (19-dars).
+          </li>
+          <li>
+            <strong>Setter'ni o'ylamay uzatish.</strong> Bolaga <code>setSavat</code> berilsa, u
+            savatni istalgan ko'rinishga keltirishi mumkin. <code>onQoshish</code> kabi aniq
+            handler'lar ma'lumotni qanday o'zgarishini ota qo'lida saqlaydi.
+          </li>
+        </ul>
+      </Callout>
 
       <Quiz
         question="Ikkita opa-uka komponent (RangTanlovchi va Namuna) bir xil 'tanlangan rang' qiymatini bo'lishishi kerak. Bu qiymat qayerda useState orqali e'lon qilinishi to'g'ri?"
@@ -158,13 +265,25 @@ function App() {
           "RangTanlovchi ichida, chunki u qiymatni birinchi bo'lib o'zgartiradi",
           "Namuna ichida, chunki u qiymatni ko'rsatadi",
           'Ikkalasining umumiy ota-komponentida (masalan, App), keyin props orqali ikkalasiga uzatiladi',
-          "Ikkalasida alohida-alohida, keyin ikkala state'ni useEffect bilan sinxronlash kerak",
+          "Ikkalasida alohida-alohida, keyin har bir handler'da ikkalasini qo'lda sinxronlash kerak",
         ]}
         correctIndex={2}
         explanation="State faqat bitta komponentga tegishli bo'ladi va boshqa komponentlarga avtomatik ko'rinmaydi. Ikkita opa-uka komponent bir xil qiymatni bo'lishishi uchun, u ularning umumiy ota-komponentida yashashi va props orqali pastga uzatilishi kerak — shunda ikkalasi ham doimo sinxron qoladi."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Tab komponentlari ichida har birining o'z faol state'i bor edi. Endi tashqaridagi tugma bosilganda 3-tab ochilishi kerak. Nima qilish kerak?"
+        options={[
+          "Faol tab state'ini ota komponentga ko'tarib, tablarni boshqariladigan qilish",
+          "Tugmadan document.querySelector bilan tabni topib, uni bosish",
+          "Har bir tab ichida tugmani ham joylashtirish",
+          "Tugma bosilganda butun sahifani qayta yuklash",
+        ]}
+        correctIndex={0}
+        explanation="Ota komponent bolaning ichki state'iga ta'sir qila olmaydi. Tashqaridan boshqarish kerak bo'lsa, state otaga ko'tariladi va tablar faol qiymatni props orqali oladi — ular boshqariladigan (controlled) bo'ladi."
+      />
+
+      <Exercise title="1-mashq: kirim va ko'zgu">
         <p>
           <code>Kirim</code> va <code>Kozgu</code> nomli ikkita opa-uka komponent yozing.{' '}
           <code>Kirim</code> — <code>{'<input>'}</code> orqali matn kiritish imkonini beradi,{' '}
@@ -174,11 +293,11 @@ function App() {
           <code>Kozgu</code> darhol yangilanib tursin.
         </p>
         <Solution>
-          <CodeBlock lang="jsx">{`function Kirim({ matn, setMatn }) {
+          <CodeBlock lang="jsx">{`function Kirim({ matn, onMatnChange }) {
   return (
     <input
       value={matn}
-      onChange={(e) => setMatn(e.target.value)}
+      onChange={(e) => onMatnChange(e.target.value)}
       placeholder="Biror narsa yozing..."
     />
   )
@@ -193,11 +312,69 @@ function App() {
 
   return (
     <>
-      <Kirim matn={matn} setMatn={setMatn} />
+      <Kirim matn={matn} onMatnChange={setMatn} />
       <Kozgu matn={matn} />
     </>
   )
 }`}</CodeBlock>
+        </Solution>
+      </Exercise>
+
+      <Exercise title="2-mashq: valyuta konvertori">
+        <p>
+          Ikki input: "So'm" va "Dollar" (kurs: 1 $ = 12 600 so'm). Istalganiga yozilganda
+          ikkinchisi avtomatik yangilansin. Bitta <code>ValyutaInput</code> komponentini yozib,
+          uni ikki marta ishlating. Diqqat: ikki state (so'm va dollar) saqlamang — 19-darsni
+          eslang. Qaysi minimal ma'lumot yetarli?
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`import { useState } from 'react'
+
+const KURS = 12600
+
+function ValyutaInput({ belgi, qiymat, onQiymatChange }) {
+  return (
+    <label>
+      {belgi}:{' '}
+      <input value={qiymat} onChange={(e) => onQiymatChange(e.target.value)} />
+    </label>
+  )
+}
+
+function aylantir(matn, koeff) {
+  const son = Number(matn)
+  if (matn === '' || Number.isNaN(son)) return ''
+  return String(Math.round(son * koeff * 100) / 100)
+}
+
+export default function Konvertor() {
+  // minimal state: oxirgi yozilgan qiymat va u qaysi valyutada
+  const [kiritma, setKiritma] = useState({ valyuta: 'som', matn: '' })
+
+  const som = kiritma.valyuta === 'som' ? kiritma.matn : aylantir(kiritma.matn, KURS)
+  const dollar = kiritma.valyuta === 'dollar' ? kiritma.matn : aylantir(kiritma.matn, 1 / KURS)
+
+  return (
+    <>
+      <ValyutaInput
+        belgi="So'm"
+        qiymat={som}
+        onQiymatChange={(matn) => setKiritma({ valyuta: 'som', matn })}
+      />
+      <ValyutaInput
+        belgi="Dollar"
+        qiymat={dollar}
+        onQiymatChange={(matn) => setKiritma({ valyuta: 'dollar', matn })}
+      />
+    </>
+  )
+}`}</CodeBlock>
+          <p>
+            Ikkala input ham boshqariladigan: qiymat otadan keladi. Ota faqat "foydalanuvchi
+            nima yozdi va qayerga" ni saqlaydi; ikkinchi qiymat hisoblanadi. Ikki alohida state
+            bo'lganida, bittasini yangilab, ikkinchisini qayta hisoblashni har safar unutmaslik
+            kerak bo'lardi — va yaxlitlash tufayli yozilayotgan son "sakrab" ketardi.
+          </p>
         </Solution>
       </Exercise>
 
@@ -212,13 +389,16 @@ function App() {
           <strong>lifting state up</strong> deb ataladi.
         </li>
         <li>
-          Ota-komponent state qiymatini props orqali pastga uzatadi, kerak bo'lsa setter
-          funksiyani ham (masalan, <code>setRang</code>) uzatadi — shunda bola komponent ham
-          qiymatni o'qiy oladi, ham uni o'zgartirishni so'rashi mumkin.
+          Ota-komponent state qiymatini props orqali pastga uzatadi, o'zgartirish uchun esa{' '}
+          <code>on...</code> handler'ini — bola qiymatni o'qiydi va o'zgarishni so'raydi.
         </li>
         <li>
           Bola komponent state'ni to'g'ridan-to'g'ri o'zgartirmaydi — u faqat ota-dan kelgan
           funksiyani chaqiradi; state'ning o'zi hamon faqat ota-komponentda yashaydi.
+        </li>
+        <li>
+          Holati props'dan boshqariladigan komponent — controlled, o'z state'iga ega —
+          uncontrolled. Tashqaridan boshqarish kerak bo'lsa, state'ni ko'taring.
         </li>
         <li>
           Umumiy qoida: state — uni ishlatadigan komponentlarning eng pastki umumiy joyida
