@@ -10,23 +10,44 @@ export const meta = {
   section: 'Boshlash',
 }
 
-export default function JsxAsoslariLesson() {
+export default function JsxLesson() {
   return (
     <>
+      <h2>Muammo: UI'ni JavaScript bilan "qurish" og'ir</h2>
       <p>
-        Oldingi darsda komponentlar <code>{'<h1>Mening ilovam</h1>'}</code>ga o'xshash yozuv
-        qaytarishini ko'rdik va bu yozuvni JSX deb atadik, lekin uning qoidalariga chuqur
-        kirmadik. Bu dars aynan shu — JSX sintaksisining o'zi — haqida: u qanday ishlaydi,
-        HTML'dan qaysi jihatlari bilan farq qiladi, va uning ichiga qanday qilib JavaScript
-        qiymatlarini "quyish" mumkin.
+        JSX bo'lmaganda, oddiy kartochkani ham DOM API orqali qadam-baqadam qurishga to'g'ri
+        kelardi:
+      </p>
+      <CodeBlock lang="js">{`const karta = document.createElement('div')
+karta.className = 'karta'
+const sarlavha = document.createElement('h2')
+sarlavha.textContent = kitob.nomi
+const muallif = document.createElement('p')
+muallif.textContent = 'Muallif: ' + kitob.muallif
+karta.append(sarlavha, muallif)`}</CodeBlock>
+      <p>
+        Yetti qator kod — va natija qanday ko'rinishini tasavvur qilish uchun uni boshda
+        "ijro etib" ko'rish kerak. JSX esa xuddi shu tuzilmani HTML'ga o'xshash, bir qarashda
+        o'qiladigan ko'rinishda yozishga imkon beradi:
+      </p>
+      <CodeBlock lang="jsx">{`<div className="karta">
+  <h2>{kitob.nomi}</h2>
+  <p>Muallif: {kitob.muallif}</p>
+</div>`}</CodeBlock>
+      <p>
+        Bu dars JSX sintaksisining o'zi haqida: u qanday ishlaydi, ichiga JavaScript
+        qiymatlarini qanday "quyish" mumkin, va HTML'dan qaysi jihatlari bilan farq qiladi.
+        Misollarni 2-darsda yaratgan loyihangizning <code>App.jsx</code> faylida sinab ko'ring.
       </p>
 
       <h2>JSX qanday ishlaydi?</h2>
       <p>
         JSX — HTML emas, balki JavaScript'ning kengaytmasi (extension). Brauzer JSX'ni
-        to'g'ridan-to'g'ri o'qiy olmaydi; kod ishga tushishidan oldin Vite (Babel orqali) har
-        bir JSX yozuvini oddiy <code>React.createElement()</code> chaqiruviga aylantirib
-        beradi. Masalan, quyidagi yozuv:
+        to'g'ridan-to'g'ri o'qiy olmaydi; kod ishga tushishidan oldin Vite har bir JSX
+        yozuvini oddiy funksiya chaqiruviga aylantirib beradi. Zamonaviy React'da bu funksiya{' '}
+        <code>react/jsx-runtime</code> modulidagi <code>jsx()</code>, lekin g'oya eski{' '}
+        <code>React.createElement()</code> bilan bir xil, shuning uchun uni misol qilib olamiz.
+        Quyidagi yozuv:
       </p>
       <CodeBlock lang="jsx">{`const element = <h1 className="sarlavha">Salom!</h1>`}</CodeBlock>
       <p>kompilyatsiyadan keyin konseptual jihatdan shunga aylanadi:</p>
@@ -76,9 +97,74 @@ function Salom() {
       <CodeBlock lang="jsx">{`// XATO: if — statement, ifoda emas
 return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
       <p>
-        Buning o'rniga har doim qiymat qaytaradigan ifoda ko'rinishidagi yechim kerak bo'ladi —
-        buni keyingi darslarda ko'proq ko'ramiz.
+        Buning o'rniga qiymat qaytaradigan ifoda kerak bo'ladi — masalan, ternary operatori:{' '}
+        <code>{"{yosh > 18 ? 'Katta' : 'Kichik'}"}</code>. Shartga qarab turli narsa chizishning
+        barcha usullarini 7-darsda ko'ramiz.
       </p>
+
+      <h3>Atributlarda ham jingalak qavs</h3>
+      <p>
+        Jingalak qavslar faqat teglar orasidagi matnda emas, atribut qiymatida ham ishlaydi.
+        Qo'shtirnoq — matn (satr) uchun, jingalak qavs — JavaScript qiymati uchun:
+      </p>
+      <CodeBlock lang="jsx">{`const kitob = {
+  nomi: "O'tkan kunlar",
+  muqova: '/images/otkan-kunlar.jpg',
+  sahifalar: 384,
+}
+
+function KitobMuqovasi() {
+  return (
+    <img
+      src={kitob.muqova}          // JS qiymati — qo'shtirnoqsiz!
+      alt={kitob.nomi}
+      width={120}                 // son
+      className="muqova"          // oddiy satr — qo'shtirnoq bilan
+    />
+  )
+}`}</CodeBlock>
+      <p>
+        Diqqat: <code>{'src="{kitob.muqova}"'}</code> deb yozsangiz, React buni so'zma-so'z{' '}
+        <code>{'"{kitob.muqova}"'}</code> degan matn deb tushunadi va rasm yuklanmaydi. Yoki
+        qo'shtirnoq, yoki jingalak qavs — ikkalasi birga emas.
+      </p>
+
+      <h3>JSX ham — oddiy qiymat</h3>
+      <p>
+        JSX ifoda bo'lgani uchun uni o'zgaruvchiga saqlash, funksiyadan qaytarish yoki boshqa
+        JSX ichiga qo'yish mumkin:
+      </p>
+      <CodeBlock lang="jsx">{`const belgi = <span className="yangi">YANGI</span>
+
+function KitobNomi() {
+  return <h2>O'tkan kunlar {belgi}</h2>
+}`}</CodeBlock>
+
+      <h3>Jingalak qavs ichida nima chiziladi?</h3>
+      <p>
+        Hamma JavaScript qiymati ham ekranga bir xil chiqmaydi. Buni bilish keyinchalik
+        ko'plab "nega ekranda 0 chiqyapti?" degan savollardan qutqaradi:
+      </p>
+      <ul>
+        <li>
+          <strong>Satr va son</strong> — matn sifatida chiziladi: <code>{'{"Salom"}'}</code>,{' '}
+          <code>{'{42}'}</code>. Diqqat: <code>0</code> ham son, u ham chiziladi.
+        </li>
+        <li>
+          <strong><code>true</code>, <code>false</code>, <code>null</code>,{' '}
+          <code>undefined</code></strong> — hech narsa chizilmaydi. Bu shartli render uchun juda
+          qulay (7-darsda).
+        </li>
+        <li>
+          <strong>Massiv</strong> — har bir elementi ketma-ket chiziladi:{' '}
+          <code>{"{['a', 'b']}"}</code> → "ab". Ro'yxat chizish shunga asoslangan (8-darsda).
+        </li>
+        <li>
+          <strong>Oddiy obyekt</strong> — xato! <code>{'{kitob}'}</code> deb yozsangiz,
+          ilova <code>Objects are not valid as a React child</code> xatosi bilan to'xtaydi.
+          Obyektning o'zini emas, uning maydonini chizing: <code>{'{kitob.nomi}'}</code>.
+        </li>
+      </ul>
       <Callout type="tip" title="JSX ichida izoh yozish">
         Oddiy JavaScript'dagi <code>//</code> izohi JSX teglari orasida ishlamaydi, chunki u
         yerda siz JavaScript emas, "belgilash (markup)" rejimidasiz. JSX ichida izoh yozish
@@ -132,8 +218,8 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
         <code>{'<h2>'}</code>ning o'zi qoladi.
       </p>
       <Callout type="note" title="Yodda tuting">
-        Bu darsdagi barcha misollarda komponent bir nechta elementni <code>{'<>...</>'}</code>
-        {' '}ichida qaytarganini ko'rasiz — bu React kodida juda keng tarqalgan naqsh.
+        Keyingi darslarda komponent bir nechta elementni <code>{'<>...</>'}</code> ichida
+        qaytarganini tez-tez ko'rasiz — bu React kodida juda keng tarqalgan naqsh.
       </Callout>
 
       <h2>JSX va HTML orasidagi asosiy farqlar</h2>
@@ -155,12 +241,10 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
         shu nomdan foydalanadi:
       </p>
       <CodeBlock lang="jsx">{`<div className="karta">Salom!</div>`}</CodeBlock>
-      <Callout type="warning" title="Keng tarqalgan xato">
-        Agar <code>class="karta"</code> deb yozsangiz, kod baribir kompilyatsiya bo'ladi, lekin
-        brauzer konsolida <code>Invalid DOM property `class`. Did you mean `className`?</code>{' '}
-        ogohlantirishi chiqadi va CSS klassingiz kutilganidek qo'llanmaydi. Bu — boshlanuvchilar
-        orasida eng keng tarqalgan JSX xatolaridan biri.
-      </Callout>
+      <p>
+        Xuddi shu sababdan <code>{'<label>'}</code>ning <code>for</code> atributi JSX'da{' '}
+        <code>htmlFor</code> bo'ladi (<code>for</code> ham JavaScript'da band so'z).
+      </p>
 
       <h3>O'z-o'zini yopadigan teglar</h3>
       <p>
@@ -175,7 +259,7 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
 // TO'G'RI — o'z-o'zini yopadigan teg
 <img src="rasm.jpg" />`}</CodeBlock>
       <p>
-        Bu qoida ichi bo'sh bo'lmasligi mumkin bo'lgan teglarga ham tegishli:{' '}
+        Bu qoida odatda mazmunli teglarga ham tegishli:{' '}
         <code>{'<div></div>'}</code> to'g'ri, lekin agar ichida hech narsa bo'lmasa, uni{' '}
         <code>{'<div />'}</code> deb ham yozish mumkin.
       </p>
@@ -184,16 +268,46 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
       <p>
         Bir nechta so'zdan iborat HTML atributlari (masalan, <code>onclick</code>,{' '}
         <code>tabindex</code>) JSX'da camelCase uslubida yoziladi — bu JavaScript'ning o'zining
-        nomlash konvensiyasi:
+        nomlash konvensiyasi. Istisno — <code>aria-*</code> va <code>data-*</code> atributlari:
+        ular HTML'dagidek chiziqcha bilan qoladi (<code>aria-label</code>,{' '}
+        <code>data-id</code>).
       </p>
       <CodeBlock lang="jsx">{`<button onClick={() => console.log('bosildi')} tabIndex={0}>
   Bosish
 </button>`}</CodeBlock>
       <p>
-        Voqealar (event) uchun barcha handler atributlari shu qoidaga bo'ysunadi:{' '}
+        Hodisa (event) uchun barcha ishlovchi atributlari shu qoidaga bo'ysunadi:{' '}
         <code>onClick</code>, <code>onChange</code>, <code>onSubmit</code> va hokazo — bularni
-        keyingi darslarda batafsil ko'ramiz, hozircha faqat nomlash uslubiga e'tibor bering.
+        12-darsda batafsil ko'ramiz, hozircha faqat nomlash uslubiga e'tibor bering.
       </p>
+
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong><code>class</code> va <code>for</code> yozish.</strong> Kod kompilyatsiya
+            bo'ladi, lekin konsolda <code>Invalid DOM property `class`. Did you mean
+            `className`?</code> chiqadi. To'g'risi — <code>className</code> va{' '}
+            <code>htmlFor</code>.
+          </li>
+          <li>
+            <strong>Atributda qo'shtirnoq va jingalak qavsni aralashtirish.</strong>{' '}
+            <code>{'src="{url}"'}</code> — so'zma-so'z matn; to'g'risi <code>{'src={url}'}</code>.
+          </li>
+          <li>
+            <strong>Obyektni to'g'ridan-to'g'ri chizish.</strong>{' '}
+            <code>{'<p>{foydalanuvchi}</p>'}</code> — "Objects are not valid as a React child"
+            xatosi. Maydonini chizing: <code>{'{foydalanuvchi.ism}'}</code>.
+          </li>
+          <li>
+            <strong>Yopilmagan teg.</strong> <code>{'<input>'}</code>, <code>{'<img>'}</code>,{' '}
+            <code>{'<br>'}</code> — JSX'da doim <code>{'<input />'}</code>.
+          </li>
+          <li>
+            <strong>Ikki ildiz element.</strong> <code>return</code> ichida yonma-yon ikkita
+            teg — "Adjacent JSX elements must be wrapped..." yoki shunga o'xshash sintaksis xatosi. Fragmentga o'rang.
+          </li>
+        </ul>
+      </Callout>
 
       <Quiz
         question={`Bir talaba komponentida <div class="karta">Salom!</div> deb yozgan JSX kodini ishga tushirganda brauzer konsolida "Invalid DOM property \`class\`. Did you mean \`className\`?" ogohlantirishini ko'radi. Bu ogohlantirish nimani bildiradi?`}
@@ -207,7 +321,14 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
         explanation="JSX HTML atributiga emas, DOM xususiyatiga mos keladi, va brauzer DOM'ida CSS klassi xususiyati className deb ataladi (chunki class so'zi JavaScript'da band). Shuning uchun JSX'da har doim className ishlatiladi, class emas."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Komponent quyidagini qaytaradi: <p>{0}{false}{null}{'React'}</p>. Ekranda nima ko'rinadi?"
+        options={['0React', 'React', '0falsenullReact', "Xato: bu qiymatlarni chizib bo'lmaydi"]}
+        correctIndex={0}
+        explanation="0 — son, shuning uchun u matn sifatida chiziladi. false va null esa hech narsa chizmaydi. Natija: 0React. Shartli renderda 0 ning ekranga chiqib qolishi aynan shu qoidadan kelib chiqadi."
+      />
+
+      <Exercise title="1-mashq: xatolarni tuzating">
         <p>
           Quyidagi <code>ProfilKarta</code> komponenti bir nechta JSX qoidasini buzgani uchun
           build paytida xatolik beradi. Xatolarni toping va komponentni to'g'ri JSX bilan qayta
@@ -246,10 +367,44 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
         </Solution>
       </Exercise>
 
+      <Exercise title="2-mashq: ma'lumotdan kartochka">
+        <p>
+          <code>App.jsx</code>da quyidagi obyekt bor. Undan foydalanib <code>KitobKartasi</code>{' '}
+          komponentini yozing: muqova rasmi (<code>src</code> va <code>alt</code> obyektdan
+          olinsin), nomi <code>{'<h2>'}</code>da, muallifi <code>{'<p>'}</code>da, va narxi
+          chegirma bilan hisoblanib "Narxi: 72000 so'm" ko'rinishida chiqsin. Hech qaysi matnni
+          qo'lda takrorlab yozmang — hammasi obyektdan kelsin.
+        </p>
+        <CodeBlock lang="jsx">{`const kitob = {
+  nomi: "O'tkan kunlar",
+  muallif: "Abdulla Qodiriy",
+  muqova: '/images/otkan-kunlar.jpg',
+  narx: 90000,
+  chegirma: 0.2, // 20%
+}`}</CodeBlock>
+        <Solution>
+          <CodeBlock lang="jsx">{`function KitobKartasi() {
+  return (
+    <div className="karta">
+      <img src={kitob.muqova} alt={kitob.nomi} width={120} />
+      <h2>{kitob.nomi}</h2>
+      <p>{kitob.muallif}</p>
+      <p>Narxi: {kitob.narx * (1 - kitob.chegirma)} so'm</p>
+    </div>
+  )
+}`}</CodeBlock>
+          <p>
+            <code>{'{kitob.narx * (1 - kitob.chegirma)}'}</code> — jingalak qavs ichida
+            istalgan ifoda ishlaydi, shu jumladan arifmetika. Agar obyektdagi narx o'zgarsa,
+            kartochka ham o'zi to'g'ri natijani ko'rsatadi.
+          </p>
+        </Solution>
+      </Exercise>
+
       <KeyPoints>
         <li>
-          JSX — JavaScript'ning kengaytmasi; kompilyatsiya vaqtida har bir yozuv{' '}
-          <code>React.createElement()</code> chaqiruviga aylanadi.
+          JSX — JavaScript'ning kengaytmasi; kompilyatsiya vaqtida har bir yozuv oddiy funksiya
+          chaqiruviga (konseptual jihatdan <code>React.createElement()</code>ga) aylanadi.
         </li>
         <li>
           Jingalak qavs <code>{'{ }'}</code> ichiga faqat JavaScript ifodasi (expression)
@@ -264,6 +419,11 @@ return <p>{if (yosh > 18) { 'Katta' }}</p>`}</CodeBlock>
         <li>
           HTML'ning <code>class</code>i JSX'da <code>className</code> bo'ladi, ko'p so'zli
           atributlar esa camelCase'da yoziladi (<code>onClick</code>, <code>tabIndex</code>).
+        </li>
+        <li>
+          Atributda qo'shtirnoq — matn, jingalak qavs — JS qiymati (<code>{'src={url}'}</code>).
+          Satr va sonlar chiziladi, <code>true/false/null/undefined</code> chizilmaydi, oddiy
+          obyekt esa xato beradi.
         </li>
         <li>
           Ichi bo'sh teglar (<code>{'<img>'}</code>, <code>{'<input>'}</code> kabi) JSX'da{' '}

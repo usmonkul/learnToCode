@@ -8,22 +8,69 @@ import Figure from '@/components/content/Figure'
 import componentTree from '@/assets/component-tree.svg'
 
 export const meta = {
-  title: 'React nima va nega hooklar',
+  title: "React nima va u nima uchun kerak",
   section: 'Boshlash',
 }
 
-export default function ReactNimaLesson() {
+export default function WhatIsReactLesson() {
   return (
     <>
+      <h2>Muammo: ekranni ma'lumot bilan sinxron saqlash</h2>
       <p>
-        React — foydalanuvchi interfeyslarini (UI) qurish uchun ishlatiladigan JavaScript
-        kutubxonasi. U sizga butun sahifani bir yo'la yozish o'rniga, uni kichik, qayta
-        ishlatiladigan qismlarga bo'lib chiqishni, so'ng ularni bir-biriga birlashtirib katta
-        ilova hosil qilishni taklif qiladi. Ana shu kichik qismlar — <strong>komponent</strong>lar
-        (component) deb ataladi, va butun React dunyoqarashi ular atrofida qurilgan.
+        Tasavvur qiling, siz oddiy JavaScript bilan savatcha yozyapsiz. Sahifaning tepasida
+        savatchadagi mahsulotlar soni ko'rsatilgan nishon (badge) bor, pastda esa "Savatchaga
+        qo'shish" tugmasi va savatcha ro'yxati. Har safar tugma bosilganda siz uchta joyni qo'lda
+        yangilashingiz kerak:
+      </p>
+      <CodeBlock lang="js">{`let soni = 0
+
+tugma.addEventListener('click', () => {
+  soni += 1
+  nishon.textContent = soni                 // 1-joy: tepadagi nishon
+  royxat.appendChild(yangiQator())          // 2-joy: ro'yxat
+  jamiNarx.textContent = hisoblaJami()      // 3-joy: jami narx
+})
+
+ochirishTugmasi.addEventListener('click', () => {
+  soni -= 1
+  nishon.textContent = soni
+  // ... ro'yxatdan qatorni topib o'chirish
+  // ... jami narxni qayta hisoblash — yoki unutib qo'yish!
+})`}</CodeBlock>
+      <p>
+        Ilova kattalashgan sari bunday "ma'lumot o'zgardi — endi ekranning qaysi qismlarini
+        yangilashim kerak edi?" degan savollar ko'payib boradi. Bitta joyni unutsangiz, nishonda
+        3 turadi, ro'yxatda esa 2 ta mahsulot — ekran ma'lumotga mos kelmay qoladi. Bu xatoni
+        topish ham qiyin, chunki u faqat ma'lum ketma-ketlikdagi bosishlardan keyin paydo
+        bo'ladi.
+      </p>
+      <p>
+        <strong>React</strong> aynan shu muammoni hal qilish uchun yaratilgan: siz faqat
+        ma'lumotni o'zgartirasiz, ekranning qaysi qismini qanday yangilashni esa React o'zi
+        hal qiladi.
+      </p>
+
+      <h2>React nima?</h2>
+      <p>
+        React — foydalanuvchi interfeyslarini (UI) qurish uchun JavaScript{' '}
+        <strong>kutubxonasi</strong> (library). Uni Meta (Facebook) kompaniyasi 2013-yilda ochiq
+        kodli qilib chiqargan; bugun Instagram, Netflix, Airbnb va minglab boshqa ilovalar React
+        bilan yozilgan. U dunyodagi eng ko'p ishlatiladigan frontend vositasi, shuning uchun
+        frontend vakansiyalarining katta qismi React bilimini talab qiladi.
+      </p>
+      <p>
+        "Kutubxona" so'zi muhim: React faqat bitta ishni qiladi — ma'lumotdan UI yasaydi.
+        Sahifalar orasida yurish (routing), serverdan ma'lumot olish yoki formalarni tekshirish
+        uchun u tayyor yechim bermaydi — bular uchun alohida kutubxonalar bor, ularni keyingi
+        kursda (<code>react-advanced</code>) ko'rib chiqamiz.
       </p>
 
       <h2>Komponent (component) nima?</h2>
+      <p>
+        React sizga butun sahifani bir yo'la yozish o'rniga, uni kichik, qayta ishlatiladigan
+        qismlarga bo'lib chiqishni, so'ng ularni birlashtirib katta ilova hosil qilishni taklif
+        qiladi. Ana shu kichik qismlar <strong>komponent</strong>lar (component) deb ataladi.
+      </p>
       <p>
         Komponentni LEGO qismiga o'xshatish mumkin: har biri kichik va o'z-o'zidan tugallangan,
         lekin ularni birlashtirib istagancha katta va murakkab narsa yasash mumkin. React'da
@@ -35,8 +82,8 @@ export default function ReactNimaLesson() {
       <p>
         <code>return</code>dan keyingi <code>{'<h1>Mening ilovam</h1>'}</code> ko'rinishidagi
         yozuv — bu JSX (JavaScript'ning HTML'ga o'xshab ko'rinadigan kengaytmasi). Uning
-        sintaksisini keyingi darsda batafsil o'rganamiz; hozircha shuni bilish kifoya: bu yerda
-        biz funksiyaga "ekranda shu narsani chiqar" deb aytayapmiz.
+        qoidalarini 3-darsda batafsil o'rganamiz; hozircha shuni bilish kifoya: bu yerda biz
+        funksiyaga "ekranda shu narsani chiqar" deb aytayapmiz.
       </p>
       <p>
         Haqiqiy ilova odatda o'nlab, hattoki yuzlab komponentdan iborat bo'ladi, va ular
@@ -50,23 +97,20 @@ export default function ReactNimaLesson() {
         caption="1-rasm: komponentlar daraxti — App eng tepada, qolganlari uning ichiga joylashadi"
       />
       <p>
-        Bu daraxtning har bir qutisi — alohida komponent. Ular birgalikda ishlab, yagona sahifani
-        hosil qiladi. Bir komponentni tuzatish yoki qayta ishlatish qolganlariga deyarli
-        ta'sir qilmaydi — bu esa katta ilovalarni ham boshqarib bo'ladigan holda saqlab turadi.
+        Bu daraxtning har bir qutisi — alohida komponent. Bir komponentni tuzatish yoki qayta
+        ishlatish qolganlariga deyarli ta'sir qilmaydi — bu esa katta ilovalarni ham boshqarib
+        bo'ladigan holda saqlab turadi. Bitta <code>MahsulotKartasi</code> komponentini yozib,
+        uni sahifada 50 marta turli ma'lumot bilan ishlatish mumkin.
       </p>
 
       <h2>Nega React deklarativ (declarative) deb ataladi?</h2>
       <p>
-        React paydo bo'lishidan oldin (va React'siz ham) veb-sahifani o'zgartirish uchun brauzer
-        DOM'iga to'g'ridan-to'g'ri, qadam-baqadam buyruq berish kerak edi: element yarat, unga matn
-        qo'y, sahifaga qo'shib qo'y, keyin foydalanuvchi biror narsa bosganda o'zgargan qismini
-        qo'lda toping va yangilang. Konseptual jihatdan bu shunga o'xshaydi:
+        Yuqoridagi savatcha misolida biz brauzerga qadam-baqadam buyruq berdik: matnni
+        o'zgartir, qator qo'sh, narxni qayta yoz. Bu yondashuv <strong>imperativ</strong>{' '}
+        (imperative) deb ataladi — natijaga <em>qanday</em> yetib borishni aytamiz. Oddiyroq
+        misol:
       </p>
-      <CodeBlock lang="js">{`const sarlavha = document.createElement('h1')
-sarlavha.textContent = 'Salom, Aziz!'
-document.body.appendChild(sarlavha)
-
-const tugma = document.createElement('button')
+      <CodeBlock lang="js">{`const tugma = document.createElement('button')
 tugma.textContent = 'Bosish soni: 0'
 let soni = 0
 tugma.addEventListener('click', () => {
@@ -75,97 +119,120 @@ tugma.addEventListener('click', () => {
 })
 document.body.appendChild(tugma)`}</CodeBlock>
       <p>
-        Bu yondashuv — <strong>imperativ</strong>: biz React'ga (yoki brauzerga) natijaga qanday
-        yetib borishni, qadamma-qadam aytamiz. Kod ko'payishi bilan qaysi qism qachon
-        yangilanishini kuzatib borish tobora qiyinlashadi.
+        React'da esa siz ekran <em>nima</em> ko'rinishi kerakligini{' '}
+        <strong>tasvirlaysiz</strong>, va bu tasvir ma'lumotga bog'liq bo'ladi:
+      </p>
+      <CodeBlock lang="jsx">{`function Hisoblagich() {
+  // soni qayerdan kelishini 13-darsda ko'ramiz
+  return <button>Bosish soni: {soni}</button>
+}`}</CodeBlock>
+      <p>
+        Bu yerda "matnni yangila" degan buyruq yo'q. Biz faqat "tugmada doim joriy son yozilgan
+        bo'lsin" deymiz. <code>soni</code> o'zgarsa, React komponentni qayta chaqiradi, yangi
+        natijani eskisi bilan solishtiradi va brauzer DOM'ida faqat o'zgargan qismni — shu
+        holatda bitta matnni — yangilaydi.
       </p>
       <Callout type="tip" title="Restoran analogiyasi">
-        Imperativ yondashuv — bu oshpazga taomni tayyorlashning har bir qadamini aytib berish
-        ("suvni qaynatib, tuzini solib, ..."). Deklarativ yondashuv esa — shunchaki menyudan
-        "osh" deb buyurtma qilish: siz nima istayotganingizni aytasiz, qanday tayyorlanishini esa
-        oshpazga (React'ga) ishonib topshirasiz.
+        Imperativ yondashuv — oshpazga taomni tayyorlashning har bir qadamini aytib berish
+        ("suvni qaynatib, tuzini solib, ..."). Deklarativ yondashuv esa — menyudan "osh" deb
+        buyurtma qilish: siz nima istayotganingizni aytasiz, qanday tayyorlanishini esa oshpazga
+        (React'ga) topshirasiz.
       </Callout>
       <p>
-        React'da esa siz ekranda nima ko'rinishi kerakligini <strong>tasvirlaysiz</strong>, DOM'ni
-        qadam-baqadam qanday o'zgartirishni esa React'ning o'ziga qoldirasiz. Ma'lumot
-        o'zgarganda, React kerakli joylarni o'zi hisoblab, DOM'ni mos ravishda yangilaydi. Yuqoridagi
-        misolning tasvirlovchi (hali to'liq ishlamaydigan) ko'rinishi shunday bo'lardi:
-      </p>
-      <CodeBlock lang="jsx">{`function Salomlash() {
-  return (
-    <div>
-      <h1>Salom, Aziz!</h1>
-      <button>Bosish soni: 0</button>
-    </div>
-  )
-}`}</CodeBlock>
-      <p>
-        Diqqat: bu komponent hozircha hech narsani hisoblamaydi — u faqat "boshlang'ich holatda
-        ekran qanday ko'rinishi kerak" degan tasvirni beradi. Sonni haqiqatan oshirib borishni esa
-        komponentga "eslab qolish" qobiliyati kerak, va aynan shu joyda hooklar ishga tushadi.
+        Butun React g'oyasini bitta formula bilan ifodalash mumkin:{' '}
+        <strong>UI = f(ma'lumot)</strong>. Komponent — ma'lumotni olib, ekran tasvirini
+        qaytaradigan funksiya. Ma'lumot bir xil bo'lsa, tasvir ham bir xil bo'ladi. Savatchadagi
+        "nishon 3, ro'yxatda 2 ta" xatosi bu modelda paydo bo'la olmaydi, chunki nishon ham,
+        ro'yxat ham bitta ma'lumotdan chizilyapti.
       </p>
 
-      <h2>Funksional komponent — React kodi shunday yoziladi</h2>
+      <h2>Komponentning "xotirasi" — hooklar haqida bir og'iz</h2>
       <p>
-        Zamonaviy React'da komponentlar shunchaki JSX qaytaradigan oddiy JavaScript funksiyalari
-        sifatida yoziladi — buni "funksional komponent" (function component) deb atashadi. Bu
-        React kodini yozishning yagona keng tarqalgan usuli: alohida "eski" yoki "yangi" usul
-        haqida o'ylashning hojati yo'q — funksiya yozib, undan JSX qaytarish kifoya.
+        Yuqoridagi <code>Hisoblagich</code>da <code>soni</code> qayerdan kelishini aytmadik.
+        Komponent qandaydir qiymatni "eslab qolishi" uchun React <strong>hook</strong>lar
+        beradi — nomi <code>use</code> bilan boshlanadigan maxsus funksiyalar (
+        <code>useState</code>, <code>useEffect</code> va boshqalar). Ular kursning katta qismini
+        tashkil qiladi, lekin birinchi hookni 13-darsda, avval komponent va JSX asoslarini
+        o'rganib bo'lganimizdan keyin ko'ramiz.
       </p>
-      <Callout type="note" title="Yodda tuting">
-        Komponent nomi doim katta harf bilan boshlanadi (<code>Sarlavha</code>,{' '}
-        <code>Salomlash</code>) — buning sababini keyingi darsda ko'rib chiqamiz. Hozircha shu
-        odatga rioya qiling.
-      </Callout>
 
-      <h2>Hook degani nima?</h2>
+      <h2>Bu kursda nimani o'rganasiz</h2>
+      <ol>
+        <li>
+          <strong>Boshlash</strong> — React loyihasini kompyuteringizda yaratish, JSX va
+          komponentlar.
+        </li>
+        <li>
+          <strong>UI'ni tasvirlash</strong> — props, ro'yxatlar, shartli render, stil berish.
+          Yakunida: osh markazi menyusi loyihasi.
+        </li>
+        <li>
+          <strong>Interaktivlik</strong> — hodisalar, state, React qanday render qilishi, forma.
+          Yakunida: uy vazifalari kuzatuvchisi.
+        </li>
+        <li>
+          <strong>State boshqaruvi</strong> — state'ni to'g'ri tuzish, ulashish,{' '}
+          <code>useReducer</code> va context. Yakunida: bozor savatchasi.
+        </li>
+        <li>
+          <strong>Ref va effektlar</strong> — tashqi dunyo bilan ishlash, serverdan ma'lumot
+          olish, o'z hooklaringizni yozish. Yakunida: kitob qidiruv ilovasi.
+        </li>
+      </ol>
       <p>
-        Hook — nomi <code>use</code> bilan boshlanadigan maxsus funksiya (<code>useState</code>,{' '}
-        <code>useEffect</code> va boshqalar), u funksional komponentga React'ning ichki
-        imkoniyatlaridan foydalanish yo'lini ochadi: masalan, komponentga qandaydir qiymatni
-        "eslab qolish" yoki tashqi dunyo (masalan, taymer yoki tarmoq so'rovi) bilan
-        sinxronlashish imkonini beradi. Yuqoridagi tugmani haqiqatan ishlaydigan qilib ko'raylik:
+        Kurs JavaScript'ni yaxshi bilishingizni nazarda tutadi: funksiyalar, massiv metodlari (
+        <code>map</code>, <code>filter</code>), destructuring, spread (<code>...</code>),
+        modullar (<code>import</code>/<code>export</code>) va <code>fetch</code>. Agar bular
+        notanish bo'lsa, avval JavaScript kurslarini tugatib oling.
       </p>
-      <CodeBlock lang="jsx">{`import { useState } from 'react'
 
-function Hisoblagich() {
-  const [soni, setSoni] = useState(0)
-
-  return <button onClick={() => setSoni(soni + 1)}>Bosish soni: {soni}</button>
-}`}</CodeBlock>
-      <p>
-        Bu yerda <code>useState(0)</code> — bitta hook chaqiruvi. U <code>Hisoblagich</code>{' '}
-        komponentiga <code>soni</code> degan qiymatni ikkita renderlar orasida ham eslab qolishga
-        yordam beradi, <code>setSoni</code> esa uni o'zgartirish uchun berilgan funksiya.{' '}
-        <code>useState</code>ning ichida qanday ishlashini keyingi darslarda batafsil
-        o'rganamiz — hozircha shuni bilish kifoya: hook'lar aynan funksional komponentlarga
-        React'ning "xotira" va boshqa imkoniyatlaridan foydalanish yo'lini ochadi.
-      </p>
-      <Callout type="note" title="Nomlash odati">
-        Barcha React hooklari nomi <code>use</code> bilan boshlanadi: <code>useState</code>,{' '}
-        <code>useEffect</code>, <code>useRef</code> va hokazo. Kodda <code>use...</code> ko'rgan
-        joyingizda — bu hook chaqirilganini bildiradi.
-      </Callout>
-      <Callout type="warning" title="Keng tarqalgan xato">
-        React komponenti ichida <code>document.getElementById</code> yoki shunga o'xshash
-        usullar bilan DOM'ni to'g'ridan-to'g'ri qo'lda o'zgartirmang. React DOM'ni o'zi
-        boshqaradi, va uning "orqasidan" qo'lda aralashish kutilmagan xatolarga olib kelishi
-        mumkin. Buning o'rniga ekran qanday ko'rinishi kerakligini tasvirlab bering — qolganini
-        React o'ziga qoldirsin.
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>DOM'ni qo'lda o'zgartirish.</strong> React komponenti ichida{' '}
+            <code>document.getElementById(...).textContent = ...</code> kabi kod yozmang. React
+            DOM'ni o'zi boshqaradi; uning "orqasidan" qo'lda aralashish keyingi renderda
+            o'chib ketadi yoki kutilmagan xatolarga olib keladi.
+          </li>
+          <li>
+            <strong>React'ni hamma narsani qiladigan framework deb o'ylash.</strong> React
+            faqat UI qatlami. "React'da qanday qilib sahifa almashtiraman?" degan savolga javob
+            — alohida kutubxona.
+          </li>
+          <li>
+            <strong>JavaScript asoslarini o'tkazib yuborish.</strong> React xatolarining
+            ko'pchiligi aslida JavaScript xatolari (massiv yoki obyektni joyida o'zgartirish,
+            obyekt nusxasini noto'g'ri olish). Kurs davomida spread va <code>map</code>/<code>filter</code>{' '}
+            juda ko'p ishlatiladi.
+          </li>
+        </ul>
       </Callout>
 
       <Quiz
-        question="Sonni oshirish uchun ikki usul bor: (1) button.textContent'ni har bosishda qo'lda yangilash, (2) soni qiymatini useState orqali saqlab, JSX'da {soni} deb yozish. Ikkinchi usul qanday yondashuv deb ataladi?"
-        options={['Deklarativ', 'Rekursiv', 'Statik', 'Asenkron']}
+        question="Sonni oshirish uchun ikki usul bor: (1) button.textContent'ni har bosishda qo'lda yangilash, (2) sonni saqlab, JSX'da {soni} deb yozish va qolganini React'ga qoldirish. Ikkinchi usul qanday yondashuv deb ataladi?"
+        options={['Deklarativ', 'Imperativ', 'Rekursiv', 'Asinxron']}
         correctIndex={0}
-        explanation="Ikkinchi usulda biz UI qanday ko'rinishi kerakligini tasvirlaymiz (deklarativ), DOM'ni qadam-baqadam qo'lda yangilashni esa React'ning o'ziga topshiramiz."
+        explanation="Ikkinchi usulda biz UI qanday ko'rinishi kerakligini tasvirlaymiz (deklarativ), DOM'ni qadam-baqadam yangilashni esa React'ga topshiramiz. Birinchi usul — imperativ."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Quyidagilardan qaysi biri React'ning o'z vazifasi hisoblanadi?"
+        options={[
+          "Ma'lumotdan UI yasash va ma'lumot o'zgarganda ekranni yangilash",
+          "Sahifalar orasida URL bo'yicha yurish (routing)",
+          "Ma'lumotlar bazasiga so'rov yuborish",
+          "Server tomonida foydalanuvchini autentifikatsiya qilish",
+        ]}
+        correctIndex={0}
+        explanation="React — UI kutubxonasi: u faqat ma'lumotdan interfeys yasaydi va uni yangilab turadi. Routing, server bilan ishlash va autentifikatsiya uchun alohida kutubxonalar yoki server kodi ishlatiladi."
+      />
+
+      <Exercise title="1-mashq: birinchi komponent">
         <p>
-          Quyidagi UI'ni tasvirlaydigan <code>Kutubxona</code> nomli funksional komponent yozing:
-          sahifada <code>{'<h1>Kutubxona</h1>'}</code> sarlavhasi va uning ostida{' '}
-          <code>{'<p>Xush kelibsiz!</p>'}</code> matni chiqishi kerak.
+          Quyidagi UI'ni tasvirlaydigan <code>Kutubxona</code> nomli komponent yozing: sahifada{' '}
+          <code>{'<h1>Kutubxona</h1>'}</code> sarlavhasi va uning ostida{' '}
+          <code>{'<p>Xush kelibsiz!</p>'}</code> matni chiqishi kerak. Hozircha kodni qog'ozda
+          yoki matn muharririda yozing — loyihani keyingi darsda yaratamiz.
         </p>
         <Solution>
           <CodeBlock lang="jsx">{`function Kutubxona() {
@@ -179,26 +246,53 @@ function Hisoblagich() {
         </Solution>
       </Exercise>
 
+      <Exercise title="2-mashq: sahifani komponentlarga bo'lish">
+        <p>
+          Onlayn do'konning mahsulot sahifasini tasavvur qiling: tepada logotip va qidiruv
+          qatori bor sarlavha, chapda kategoriyalar menyusi, o'rtada mahsulot kartalari to'ri
+          (har bir kartada rasm, nom, narx va "Savatchaga" tugmasi), pastda esa footer. Bu
+          sahifani qanday komponentlarga bo'lgan bo'lardingiz? Komponentlar daraxtini matn
+          ko'rinishida chizing.
+        </p>
+        <Solution>
+          <p>Bitta yaxshi variant (yagona to'g'ri javob yo'q):</p>
+          <CodeBlock lang="text">{`App
+├── Header
+│   ├── Logo
+│   └── SearchBar
+├── CategoryMenu
+├── ProductGrid
+│   └── ProductCard   (har bir mahsulot uchun bittadan)
+│       └── AddToCartButton
+└── Footer`}</CodeBlock>
+          <p>
+            Asosiy qoida: takrorlanadigan narsa (mahsulot kartasi) — albatta alohida komponent;
+            mustaqil ma'noga ega bo'lak (qidiruv, menyu) — ham alohida komponent bo'lishga
+            loyiq. <code>ProductCard</code>ni bir marta yozib, uni har bir mahsulot uchun qayta
+            ishlatamiz.
+          </p>
+        </Solution>
+      </Exercise>
+
       <KeyPoints>
         <li>
+          React — ma'lumotdan UI yasaydigan JavaScript kutubxonasi; u ekranni ma'lumot bilan
+          sinxron saqlash muammosini hal qiladi.
+        </li>
+        <li>
           Komponent — ekranda biror narsa chiqaradigan, qayta ishlatiladigan oddiy JavaScript
-          funksiyasi; React ilovasi komponentlar daraxtidan tashkil topadi.
+          funksiyasi; ilova komponentlar daraxtidan tashkil topadi.
         </li>
         <li>
-          React deklarativ: siz ekran qanday ko'rinishi kerakligini tasvirlaysiz, DOM'ni
-          qadam-baqadam qo'lda yangilash esa React'ning zimmasida.
+          React deklarativ: siz ekran qanday ko'rinishi kerakligini tasvirlaysiz (UI =
+          f(ma'lumot)), DOM'ni yangilash esa React'ning ishi.
         </li>
         <li>
-          Zamonaviy React kodi to'liq funksional komponentlar va hooklar yordamida yoziladi.
+          Komponent qiymatni "eslab qolishi" uchun hooklar ishlatiladi — ular <code>use</code>{' '}
+          bilan boshlanadi; birinchisi, <code>useState</code>, 13-darsda.
         </li>
         <li>
-          Hook — nomi <code>use</code> bilan boshlanadigan maxsus funksiya (<code>useState</code>
-          , <code>useEffect</code> va h.k.), u komponentga qiymatni eslab qolish yoki tashqi
-          dunyo bilan sinxronlashish kabi imkoniyatlarni ochadi.
-        </li>
-        <li>
-          Komponent ichida DOM'ni qo'lda o'zgartirmang — bu React'ning ishi, siz esa faqat
-          natijani tasvirlaysiz.
+          React komponenti ichida DOM'ni qo'lda o'zgartirmang — bu React'ning ishi.
         </li>
       </KeyPoints>
     </>
