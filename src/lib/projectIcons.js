@@ -32,6 +32,10 @@ import {
   PanelsTopLeft,
   LayoutDashboard,
   CalendarDays,
+  UtensilsCrossed,
+  NotebookPen,
+  ShoppingBasket,
+  BookOpenText,
 } from 'lucide-react'
 
 export const PROJECT_ICONS = {
@@ -67,5 +71,9 @@ export const PROJECT_ICONS = {
   'panels-top-left': PanelsTopLeft,
   'layout-dashboard': LayoutDashboard,
   'calendar-days': CalendarDays,
+  'utensils-crossed': UtensilsCrossed,
+  'notebook-pen': NotebookPen,
+  'shopping-basket': ShoppingBasket,
+  'book-open-text': BookOpenText,
   default: Code2,
 }

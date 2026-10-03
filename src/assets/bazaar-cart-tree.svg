@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" width="640" height="340" role="img" aria-labelledby="bz-tree-title">
+  <title id="bz-tree-title">Bozor savatchasi komponentlar daraxti: SavatProvider butun ilovani o'raydi; Sarlavha, MahsulotKartasi, SavatPaneli va SavatQatori savat context'ini to'g'ridan-to'g'ri o'qiydi yoki dispatch qiladi</title>
+  <defs>
+    <marker id="bz-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c67139" />
+    </marker>
+  </defs>
+  <rect width="640" height="340" fill="#ffffff" />
+
+  <rect x="10" y="10" width="620" height="320" rx="16" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" stroke-dasharray="6,4" />
+  <text x="26" y="32" font-size="12" font-weight="bold" fill="#3d472b" font-family="monospace">&lt;SavatProvider&gt;  — useReducer(savatReducer)</text>
+
+  <rect x="220" y="46" width="200" height="48" rx="10" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="320" y="67" text-anchor="middle" font-size="14" font-weight="bold" fill="#402310" font-family="sans-serif">Bozor</text>
+  <text x="320" y="85" text-anchor="middle" font-size="10" fill="#402310" font-family="monospace">kategoriya, buyurtma + dispatch</text>
+
+  <line x1="270" y1="94" x2="90" y2="140" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+  <line x1="300" y1="94" x2="250" y2="140" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+  <line x1="340" y1="94" x2="420" y2="140" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+  <line x1="370" y1="94" x2="560" y2="140" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+
+  <rect x="30" y="140" width="120" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="90" y="160" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">Sarlavha</text>
+  <text x="90" y="176" text-anchor="middle" font-size="10" fill="#3d472b" font-family="monospace">useSavat</text>
+
+  <rect x="180" y="140" width="140" height="44" rx="8" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="250" y="166" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">KategoriyaFiltri</text>
+
+  <rect x="350" y="140" width="140" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="420" y="160" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">SavatPaneli</text>
+  <text x="420" y="176" text-anchor="middle" font-size="10" fill="#3d472b" font-family="monospace">useSavat + dispatch</text>
+
+  <rect x="510" y="140" width="100" height="44" rx="8" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="560" y="166" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">Tasdiq</text>
+
+  <path d="M290,94 C230,120 160,180 170,228" fill="none" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+  <line x1="420" y1="184" x2="420" y2="232" stroke="#c67139" stroke-width="2" marker-end="url(#bz-arrow)" />
+  
+
+  <rect x="90" y="232" width="160" height="48" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="170" y="252" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">MahsulotKartasi ×11</text>
+  <text x="170" y="270" text-anchor="middle" font-size="10" fill="#3d472b" font-family="monospace">useSavat + dispatch</text>
+
+  <rect x="350" y="232" width="140" height="48" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="420" y="252" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">SavatQatori ×n</text>
+  <text x="420" y="270" text-anchor="middle" font-size="10" fill="#3d472b" font-family="monospace">dispatch</text>
+
+  <rect x="30" y="298" width="16" height="16" rx="3" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="52" y="311" font-size="11" fill="#6a675e" font-family="sans-serif">savat context'idan foydalanadi (props'siz)</text>
+</svg>

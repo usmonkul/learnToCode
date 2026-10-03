@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" width="680" height="300" role="img" aria-labelledby="el-title">
+  <title id="el-title">Effect vaqt chizig'i: render, commit va ekranga chizilgandan keyin effect ishlaydi; dependency o'zgarganda avval eski effect'ning cleanup'i, keyin yangi effect; komponent olib tashlanganda oxirgi cleanup</title>
+  <defs>
+    <marker id="el-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c67139" />
+    </marker>
+  </defs>
+  <rect width="680" height="300" fill="#ffffff" />
+
+  <line x1="20" y1="150" x2="660" y2="150" stroke="#e3e1da" stroke-width="3" marker-end="url(#el-arrow)" />
+  <text x="650" y="172" text-anchor="end" font-size="11" fill="#6a675e" font-family="sans-serif">vaqt</text>
+
+  <!-- 1st render -->
+  <text x="110" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">1-render (roomId = "osh")</text>
+  <rect x="30" y="44" width="70" height="36" rx="6" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="65" y="67" text-anchor="middle" font-size="11" fill="#402310" font-family="sans-serif">render</text>
+  <rect x="106" y="44" width="70" height="36" rx="6" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="141" y="67" text-anchor="middle" font-size="11" fill="#402310" font-family="sans-serif">commit+paint</text>
+  <rect x="60" y="100" width="130" height="36" rx="6" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="125" y="123" text-anchor="middle" font-size="12" font-weight="bold" fill="#402310" font-family="sans-serif">effect: ulanish "osh"</text>
+
+  <!-- dependency change -->
+  <text x="360" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">roomId "manti"ga o'zgardi</text>
+  <rect x="270" y="44" width="70" height="36" rx="6" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="305" y="67" text-anchor="middle" font-size="11" fill="#402310" font-family="sans-serif">render</text>
+  <rect x="346" y="44" width="70" height="36" rx="6" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="381" y="67" text-anchor="middle" font-size="11" fill="#402310" font-family="sans-serif">commit+paint</text>
+  <rect x="240" y="164" width="150" height="36" rx="6" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="315" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="#3d472b" font-family="sans-serif">cleanup: uzish "osh"</text>
+  <rect x="300" y="100" width="150" height="36" rx="6" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="375" y="123" text-anchor="middle" font-size="12" font-weight="bold" fill="#402310" font-family="sans-serif">effect: ulanish "manti"</text>
+  <text x="315" y="222" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">avval eskisi tozalanadi,</text>
+  <text x="315" y="236" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">keyin yangisi ishlaydi</text>
+
+  <!-- unmount -->
+  <text x="575" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">Komponent olib tashlandi</text>
+  <rect x="495" y="164" width="160" height="36" rx="6" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="575" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="#3d472b" font-family="sans-serif">cleanup: uzish "manti"</text>
+
+  <text x="340" y="282" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">Effect ekran chizilgandan KEYIN ishlaydi; har bir "ulanish"ning o'z "uzish"i bor</text>
+</svg>

@@ -26,3 +26,11 @@ Uzbek prose is where the build breaks. These four have each bitten this repo —
 ## Workflow
 
 When writing a batch of lesson files for one course (or a multi-lesson addition), don't `git add`/commit after each individual file. Track progress with TodoWrite instead, and stage + commit the whole finished batch together — one clean commit (or a small number) covering the finished body of work, not a commit trail per lesson.
+
+## React course term list
+
+In `react` (and later `react-advanced`) prose, the English technical term is the noun. On its first use in each lesson, add the Uzbek gloss in brackets; after that, use the English term alone. Don't swap in a different Uzbek word for the same concept:
+
+component (komponent) · props (xususiyatlar) · state (holat) · render (chizish) · re-render (qayta chizish) · event handler (hodisa ishlovchisi) · hook (no gloss) · effect (yon ta'sir) · ref (havola) · key (kalit) · context (kontekst) · reducer (no gloss) · immutable (o'zgarmas) · controlled input (boshqariladigan input)
+
+The lesson order, the lesson template, and the section project format are in `docs/superpowers/specs/2026-10-03-react-course-restructure-design.md`.

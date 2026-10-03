@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" width="640" height="280" role="img" aria-labelledby="sp-title">
+  <title id="sp-title">State daraxtdagi o'ringa bog'langan: bir xil o'rinda bir xil komponent bo'lsa state saqlanadi; key o'zgarsa yoki komponent turi o'zgarsa, state o'chib qayta yaratiladi</title>
+  <rect width="640" height="280" fill="#ffffff" />
+
+  <text x="110" y="26" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">Oldin</text>
+  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">Keyin</text>
+  <text x="530" y="26" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">State</text>
+
+  <!-- row 1: same type same position -->
+  <rect x="30" y="44" width="160" height="56" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="110" y="68" text-anchor="middle" font-size="13" fill="#402310" font-family="monospace">&lt;Chat kimga="Ali"/&gt;</text>
+  <text x="110" y="88" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">qoralama: "Salom"</text>
+  <rect x="240" y="44" width="160" height="56" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="320" y="68" text-anchor="middle" font-size="13" fill="#402310" font-family="monospace">&lt;Chat kimga="Vali"/&gt;</text>
+  <text x="320" y="88" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">qoralama: "Salom"</text>
+  <text x="530" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c67139" font-family="sans-serif">SAQLANADI</text>
+  <text x="530" y="88" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">o'rin va tur bir xil</text>
+
+  <!-- row 2: key changed -->
+  <rect x="30" y="118" width="160" height="56" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="110" y="142" text-anchor="middle" font-size="12" fill="#402310" font-family="monospace">&lt;Chat key="ali" .../&gt;</text>
+  <text x="110" y="162" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">qoralama: "Salom"</text>
+  <rect x="240" y="118" width="160" height="56" rx="8" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="320" y="142" text-anchor="middle" font-size="12" fill="#3d472b" font-family="monospace">&lt;Chat key="vali" .../&gt;</text>
+  <text x="320" y="162" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">qoralama: ""</text>
+  <text x="530" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d472b" font-family="sans-serif">QAYTA YARATILADI</text>
+  <text x="530" y="162" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">key boshqa — boshqa komponent</text>
+
+  <!-- row 3: type changed -->
+  <rect x="30" y="192" width="160" height="56" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="110" y="216" text-anchor="middle" font-size="13" fill="#402310" font-family="monospace">&lt;Chat .../&gt;</text>
+  <text x="110" y="236" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">qoralama: "Salom"</text>
+  <rect x="240" y="192" width="160" height="56" rx="8" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="320" y="216" text-anchor="middle" font-size="13" fill="#3d472b" font-family="monospace">&lt;Profil .../&gt;</text>
+  <text x="320" y="236" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">Chat va uning state'i o'chdi</text>
+  <text x="530" y="218" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d472b" font-family="sans-serif">YO'QOLADI</text>
+  <text x="530" y="236" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">o'rinda boshqa tur</text>
+
+  <text x="320" y="270" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">React state'ni JSX'ga emas, daraxtdagi o'ringa (tur + key) bog'laydi</text>
+</svg>

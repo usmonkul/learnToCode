@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-labelledby="ct-title">
+  <title id="ct-title">Context: provider daraxtning bir qismini o'raydi; ichidagi istalgan chuqurlikdagi komponent useContext bilan qiymatni oraliq komponentlarsiz o'qiydi</title>
+  <defs>
+    <marker id="ct-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c67139" />
+    </marker>
+    <marker id="ct-arrow2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7a8a5e" />
+    </marker>
+  </defs>
+  <rect width="640" height="300" fill="#ffffff" />
+
+  <rect x="130" y="44" width="480" height="236" rx="16" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" stroke-dasharray="6,4" />
+  <text x="146" y="66" font-size="12" font-weight="bold" fill="#3d472b" font-family="monospace">&lt;TemaContext value="tungi"&gt;</text>
+
+  <rect x="20" y="10" width="110" height="40" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="75" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#402310" font-family="sans-serif">App</text>
+  <line x1="130" y1="30" x2="300" y2="84" stroke="#c67139" stroke-width="2" marker-end="url(#ct-arrow)" />
+
+  <rect x="250" y="84" width="110" height="38" rx="8" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="305" y="108" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">Sahifa</text>
+  <line x1="305" y1="122" x2="305" y2="146" stroke="#c67139" stroke-width="2" marker-end="url(#ct-arrow)" />
+
+  <rect x="250" y="146" width="110" height="38" rx="8" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="305" y="170" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">Header</text>
+  <line x1="290" y1="184" x2="220" y2="214" stroke="#c67139" stroke-width="2" marker-end="url(#ct-arrow)" />
+  <line x1="320" y1="184" x2="420" y2="214" stroke="#c67139" stroke-width="2" marker-end="url(#ct-arrow)" />
+
+  <rect x="150" y="214" width="130" height="40" rx="8" fill="#ffffff" stroke="#c67139" stroke-width="2" />
+  <text x="215" y="239" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">Logo</text>
+
+  <rect x="360" y="214" width="150" height="48" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="3" />
+  <text x="435" y="234" text-anchor="middle" font-size="13" font-weight="bold" fill="#402310" font-family="sans-serif">TemaTugmasi</text>
+  <text x="435" y="252" text-anchor="middle" font-size="10" fill="#402310" font-family="monospace">useContext(TemaContext)</text>
+
+  <path d="M240,62 C560,40 600,160 512,226" fill="none" stroke="#7a8a5e" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ct-arrow2)" />
+  <text x="560" y="120" text-anchor="middle" font-size="11" fill="#3d472b" font-family="sans-serif">"tungi" —</text>
+  <text x="560" y="134" text-anchor="middle" font-size="11" fill="#3d472b" font-family="sans-serif">to'g'ridan-to'g'ri</text>
+
+  <text x="20" y="150" font-size="11" fill="#6a675e" font-family="sans-serif">Sahifa va Header</text>
+  <text x="20" y="164" font-size="11" fill="#6a675e" font-family="sans-serif">hech qanday props</text>
+  <text x="20" y="178" font-size="11" fill="#6a675e" font-family="sans-serif">uzatmaydi</text>
+</svg>

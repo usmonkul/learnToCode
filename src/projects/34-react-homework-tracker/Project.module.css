@@ -1,0 +1,231 @@
+.sahifa {
+  min-height: 100vh;
+  background: #eef2f7;
+  padding: 48px 16px 64px;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #111827;
+}
+
+.daftar {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fffdf7;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.12);
+  padding: 32px 32px 24px 56px;
+  position: relative;
+}
+
+/* daftar hoshiyasi */
+.daftar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36px;
+  width: 2px;
+  background: #ef4444;
+  opacity: 0.6;
+}
+
+.sarlavha {
+  margin: 0 0 4px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e3a8a;
+  font-family: inherit;
+}
+
+.kichikMatn {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Forma */
+.forma {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.forma input,
+.forma select {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.matnMaydoni {
+  grid-column: 1 / -1;
+}
+
+.qoshishTugmasi {
+  grid-column: 1 / -1;
+  font: inherit;
+  font-weight: 600;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #1e3a8a;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.qoshishTugmasi:hover {
+  background: #1e40af;
+}
+
+.xato {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+/* Filtrlar */
+.filtrlar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+}
+
+.filtrTugmalari {
+  display: flex;
+  gap: 4px;
+}
+
+.filtr {
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+}
+
+.filtrFaol {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+}
+
+.hisob {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Ro'yxat */
+.royxat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.qator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.qator input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: #1e3a8a;
+  cursor: pointer;
+}
+
+.qatorMatni {
+  flex: 1;
+  min-width: 0;
+}
+
+.vazifaMatni {
+  margin: 0;
+  font-size: 15px;
+}
+
+.bajarilgan .vazifaMatni {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.fan {
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+  background: #e0e7ff;
+  color: #1e3a8a;
+}
+
+.muddatOtgan {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.ochirish {
+  font-size: 18px;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+.ochirish:hover {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.bosh {
+  text-align: center;
+  color: #6b7280;
+  padding: 32px 0;
+  margin: 0;
+}
+
+.pastki {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.tozalash {
+  font: inherit;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tozalash:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

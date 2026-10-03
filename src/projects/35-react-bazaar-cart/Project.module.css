@@ -1,0 +1,326 @@
+.sahifa {
+  min-height: 100vh;
+  background: #fdfaf3;
+  color: #1f2a1f;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  padding: 76px 16px 64px;
+}
+
+.konteyner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* Sarlavha */
+.sarlavha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.logo {
+  margin: 0;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 800;
+  color: #2f6b3a;
+}
+
+.shior {
+  margin: 2px 0 0;
+  color: #6b705c;
+  font-size: 14px;
+}
+
+.savatBelgisi {
+  position: relative;
+  font-size: 30px;
+}
+
+.nishon {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #e9a23b;
+  color: #1f2a1f;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+}
+
+/* Maket */
+.asosiy {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 820px) {
+  .asosiy {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Kategoriyalar */
+.kategoriyalar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.kategoriya {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid #e7e2d3;
+  background: #ffffff;
+  color: #1f2a1f;
+  cursor: pointer;
+}
+
+.kategoriyaFaol {
+  background: #2f6b3a;
+  border-color: #2f6b3a;
+  color: #ffffff;
+}
+
+/* Mahsulotlar */
+.tor {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.karta {
+  background: #ffffff;
+  border: 1px solid #e7e2d3;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kartaBelgi {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.kartaNomi {
+  margin: 0;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.kartaNarx {
+  margin: 4px 0 14px;
+  font-weight: 600;
+  color: #2f6b3a;
+}
+
+.kartaNarx span {
+  color: #6b705c;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.qoshishTugmasi {
+  margin-top: auto;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: none;
+  background: #2f6b3a;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.qoshishTugmasi:hover {
+  background: #275a31;
+}
+
+/* Savatcha paneli */
+.panel {
+  position: sticky;
+  top: 16px;
+  background: #ffffff;
+  border: 1px solid #e7e2d3;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.panelSarlavha {
+  margin: 0 0 12px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.bosh {
+  color: #6b705c;
+  margin: 0;
+}
+
+.qatorlar {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.qator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ece0;
+}
+
+.qatorBelgi {
+  font-size: 22px;
+}
+
+.qatorMatni {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.qatorMatni span {
+  color: #6b705c;
+  font-size: 13px;
+}
+
+.miqdor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.miqdor button {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid #e7e2d3;
+  background: #fdfaf3;
+  cursor: pointer;
+  font-size: 15px;
+  color: #1f2a1f;
+}
+
+.olib {
+  border: none;
+  background: transparent;
+  color: #a3a38f;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.olib:hover {
+  color: #b42318;
+}
+
+.hisob {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.hisob dd {
+  margin: 0;
+  text-align: right;
+}
+
+.jami {
+  font-weight: 800;
+  font-size: 16px;
+  padding-top: 6px;
+  border-top: 1px dashed #e7e2d3;
+}
+
+.maslahat {
+  margin: 12px 0 0;
+  font-size: 13px;
+  background: #fdf1d6;
+  color: #7a5200;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.rasmiylashtirish {
+  width: 100%;
+  margin-top: 14px;
+  font: inherit;
+  font-weight: 700;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #e9a23b;
+  color: #1f2a1f;
+  cursor: pointer;
+}
+
+.rasmiylashtirish:hover {
+  background: #dd9426;
+}
+
+.tozalash {
+  width: 100%;
+  margin-top: 8px;
+  font: inherit;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+  color: #6b705c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Tasdiq */
+.tasdiq {
+  max-width: 460px;
+  margin: 40px auto 0;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e7e2d3;
+  border-radius: 18px;
+  padding: 32px 28px;
+}
+
+.tasdiq h2 {
+  font-family: inherit;
+  margin: 8px 0 16px;
+}
+
+.tasdiq ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  color: #6b705c;
+  line-height: 1.8;
+}
+
+.tasdiqBelgi {
+  font-size: 44px;
+}
+
+.tasdiqJami {
+  font-weight: 800;
+  font-size: 18px;
+}
