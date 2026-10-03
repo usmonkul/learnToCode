@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 330" width="560" height="330" role="img" aria-labelledby="rm-tree-title">
+  <title id="rm-tree-title">Osh markazi menyusi komponentlar daraxti: App ichida Sarlavha va har bir bo'lim uchun Bolim; Bolim ichida TaomKartasi; TaomKartasi ichida Belgi va Narx</title>
+  <defs>
+    <marker id="rm-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c67139" />
+    </marker>
+  </defs>
+  <rect width="560" height="330" fill="#ffffff" />
+
+  <line x1="280" y1="58" x2="150" y2="102" stroke="#c67139" stroke-width="2" marker-end="url(#rm-arrow)" />
+  <line x1="280" y1="58" x2="400" y2="102" stroke="#c67139" stroke-width="2" marker-end="url(#rm-arrow)" />
+  <line x1="400" y1="146" x2="400" y2="182" stroke="#c67139" stroke-width="2" marker-end="url(#rm-arrow)" />
+  <line x1="400" y1="226" x2="330" y2="262" stroke="#c67139" stroke-width="2" marker-end="url(#rm-arrow)" />
+  <line x1="400" y1="226" x2="470" y2="262" stroke="#c67139" stroke-width="2" marker-end="url(#rm-arrow)" />
+
+  <rect x="225" y="14" width="110" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="280" y="41" text-anchor="middle" font-size="15" font-weight="bold" fill="#402310" font-family="sans-serif">App</text>
+
+  <rect x="85" y="102" width="130" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="150" y="129" text-anchor="middle" font-size="14" fill="#402310" font-family="sans-serif">Sarlavha</text>
+
+  <rect x="335" y="102" width="130" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="400" y="129" text-anchor="middle" font-size="14" fill="#402310" font-family="sans-serif">Bolim</text>
+  <text x="478" y="129" text-anchor="start" font-size="12" fill="#6a675e" font-family="sans-serif">× har bo'lim</text>
+
+  <rect x="335" y="182" width="130" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="400" y="209" text-anchor="middle" font-size="14" fill="#402310" font-family="sans-serif">TaomKartasi</text>
+  <text x="478" y="209" text-anchor="start" font-size="12" fill="#6a675e" font-family="sans-serif">× har taom</text>
+
+  <rect x="275" y="262" width="110" height="40" rx="8" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="330" y="287" text-anchor="middle" font-size="13" fill="#3d472b" font-family="sans-serif">Belgi</text>
+  <rect x="415" y="262" width="110" height="40" rx="8" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="470" y="287" text-anchor="middle" font-size="13" fill="#3d472b" font-family="sans-serif">Narx</text>
+
+  <text x="40" y="200" text-anchor="start" font-size="12" fill="#6a675e" font-family="sans-serif">menu.js</text>
+  <text x="40" y="218" text-anchor="start" font-size="12" fill="#6a675e" font-family="sans-serif">(ma'lumot)</text>
+  <path d="M66,186 V36 H220" fill="none" stroke="#7a8a5e" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#rm-arrow)" />
+  <text x="40" y="318" text-anchor="start" font-size="12" fill="#6a675e" font-family="sans-serif">Ma'lumot App'ga import qilinadi va props orqali pastga tushadi</text>
+</svg>

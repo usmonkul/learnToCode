@@ -13,242 +13,354 @@ export const meta = {
 export default function ConditionalRenderingLesson() {
   return (
     <>
+      <h2>Muammo: ma'lumotga qarab har xil ko'rinish</h2>
       <p>
-        Oldingi bo'limda <code>useState</code> va event handlerlar orqali komponent ichida
-        o'zgaruvchan holat (state) yaratish va uni foydalanuvchi harakatiga javoban yangilashni
-        ko'rdik. Lekin state o'zgarganda ko'pincha ekranda butunlay boshqa narsa ko'rinishi kerak
-        bo'ladi: foydalanuvchi tizimga kirgan bo'lsa — bitta ko'rinish, kirmagan bo'lsa —
-        boshqasi; ro'yxat bo'sh bo'lsa — bitta xabar, to'la bo'lsa — o'zi. Bu —{' '}
-        <strong>shartli render (conditional rendering)</strong>: JSX'ni odatiy JavaScript shartlari
-        yordamida "shu holatda shu, boshqa holatda boshqa narsa chiqsin" deb boshqarish.
+        Haqiqiy UI deyarli hech qachon bir xil ko'rinmaydi. Mahsulot sotuvda bo'lsa — "Savatchaga"
+        tugmasi, tugagan bo'lsa — "Sotuvda yo'q" yozuvi. Foydalanuvchi tizimga kirgan bo'lsa —
+        uning ismi, kirmagan bo'lsa — "Kirish" tugmasi. Chegirma bo'lsa — eski narx ustidan
+        chizilgan, bo'lmasa — oddiy narx.
+      </p>
+      <p>
+        HTML'da bunday "agar ... bo'lsa" degan narsa yo'q. JSX esa JavaScript bo'lgani uchun, bu
+        mantiqni oddiy JavaScript vositalari — <code>if</code>, <code>&&</code> va ternary
+        operatori — bilan yozamiz. Bu <strong>shartli render (conditional rendering)</strong> deb
+        ataladi. Bu darsdagi barcha misollarda shart props'dan keladi; 13-darsdan boshlab xuddi
+        shu usullarni state bilan ishlatamiz.
       </p>
 
       <h2>
-        <code>&&</code> operatori bilan ko'rsatish/yashirish
+        <code>if</code> va erta <code>return</code>
       </h2>
       <p>
-        Eng oddiy holat — biror narsani faqat bitta shart to'g'ri bo'lganda ko'rsatish, aks holda
-        umuman hech narsa chiqarmaslik. Bunga JavaScript'ning <code>&&</code> (mantiqiy VA)
-        operatori juda mos keladi, chunki uning natijasi to'g'ridan-to'g'ri JSX ichiga
-        joylashtirilishi mumkin:
+        Eng sodda va eng o'qiladigan usul — komponent funksiyasining ichida oddiy{' '}
+        <code>if</code> bilan har xil JSX qaytarish:
       </p>
-      <CodeBlock lang="jsx">{`function Bildirishnoma({ xabar }) {
-  return (
-    <div>
-      <h2>Pochta qutisi</h2>
-      {xabar && <p className="ogohlantirish">{xabar}</p>}
-    </div>
-  )
-}`}</CodeBlock>
-      <p>
-        <code>&&</code> operatori chapdan o'ngga baholanadi: agar chap tomon (<code>xabar</code>)
-        "falsy" (<code>false</code>, <code>null</code>, <code>undefined</code>, bo'sh satr{' '}
-        <code>""</code>) bo'lsa, butun ifoda o'sha falsy qiymatga aylanadi va React uni hech narsa
-        deb render qiladi. Agar chap tomon "truthy" bo'lsa (masalan, bo'sh bo'lmagan satr), ifoda
-        o'ng tomonga — <code>{'<p>{xabar}</p>'}</code>ga — aylanadi va u ekranga chiqadi. Shu
-        tariqa bitta qatorda "shart to'g'ri bo'lsa — chiqar, bo'lmasa — chiqarma" degan mantiqni
-        yozib bo'ladi.
-      </p>
-
-      <h2>
-        Klassik xato: <code>0 &&</code> muammosi
-      </h2>
-      <p>
-        <code>&&</code>ning qulayligi bitta jiddiy tuzoq bilan keladi. Agar chap tomon son{' '}
-        <code>0</code> bo'lsa, <code>0</code> — falsy qiymat, lekin u <code>false</code> yoki{' '}
-        <code>null</code> emas, balki <strong>o'zi</strong>. React esa <code>false</code>,{' '}
-        <code>null</code> va <code>undefined</code>ni ekranga hech narsa chiqarmasdan tashlab
-        yuboradi, lekin <code>0</code>ni — chiqaradi, chunki u haqiqiy, ko'rsatsa bo'ladigan
-        qiymat. Natijada quyidagi kod kutilmagan holatda ekranga yolg'iz <code>0</code> raqamini
-        chiqarib qo'yadi:
-      </p>
-      <CodeBlock lang="jsx">{`function Savatcha({ mahsulotlarSoni }) {
-  return (
-    <div>
-      {/* XATO: mahsulotlarSoni === 0 bo'lganda, ekranga "0" chiqadi! */}
-      {mahsulotlarSoni && <p>Savatchada {mahsulotlarSoni} ta mahsulot bor</p>}
-    </div>
-  )
-}`}</CodeBlock>
-      <p>
-        Savatcha bo'sh bo'lganda (<code>mahsulotlarSoni === 0</code>) hech qanday xabar
-        chiqmasligi kerak edi, lekin ekranda tanho <code>0</code> yozuvi paydo bo'ladi — chunki{' '}
-        <code>0 && <p>...</p></code> ifodasining natijasi <code>0</code>ning o'zi, va React uni
-        haqiqiy kontent deb render qiladi. Buni tuzatish uchun chap tomonni doim haqiqiy boolean
-        qiymatga aylantirish kerak — masalan, taqqoslash operatoridan foydalanib:
-      </p>
-      <CodeBlock lang="jsx">{`function Savatcha({ mahsulotlarSoni }) {
-  return (
-    <div>
-      {/* TO'G'RI: mahsulotlarSoni > 0 — har doim true yoki false */}
-      {mahsulotlarSoni > 0 && <p>Savatchada {mahsulotlarSoni} ta mahsulot bor</p>}
-    </div>
-  )
-}`}</CodeBlock>
-      <Callout type="warning" title="&& chap tomoni doim boolean bo'lsin">
-        <code>&&</code>dan foydalanganda chap tomonga son yoki satrni to'g'ridan-to'g'ri
-        qo'ymang — <code>{'soni > 0'}</code>, <code>{'satr.length > 0'}</code>,{' '}
-        <code>Boolean(qiymat)</code>{' '}
-        kabi ifodalar bilan uni haqiqiy <code>true</code>/<code>false</code>ga aylantiring. Aks
-        holda <code>0</code> yoki bo'sh satr kabi "falsy, lekin ko'rsatsa bo'ladigan" qiymatlar
-        ekranga tasodifan chiqib qolishi mumkin.
-      </Callout>
-
-      <h2>
-        Ternary operator: ikkalasidan biri
-      </h2>
-      <p>
-        <code>&&</code> faqat "ko'rsatish yoki hech narsa chiqarmaslik" holatiga mos keladi. Agar
-        ikkita variantning birontasi har doim ko'rinishi kerak bo'lsa — masalan, "Kirish" yoki
-        "Chiqish" tugmasi — u holda <strong>ternary operator</strong> (<code>shart ? A : B</code>)
-        qulayroq:
-      </p>
-      <CodeBlock lang="jsx">{`function HolatBelgisi({ ulangan }) {
-  return (
-    <p>
-      {ulangan ? <span className="yashil">Ulangan</span> : <span className="qizil">Uzilgan</span>}
-    </p>
-  )
-}`}</CodeBlock>
-      <p>
-        Ternary — bu oddiy <code>if/else</code>ning ifoda (expression) ko'rinishi: u qiymat
-        qaytaradi, shuning uchun JSX ichiga to'g'ridan-to'g'ri joylashtirish mumkin, aksincha{' '}
-        <code>if/else</code> operatori esa qiymat qaytarmaydi va JSX ichida ishlatib bo'lmaydi.
-      </p>
-
-      <h2>O'zgaruvchida hisoblab, keyin render qilish</h2>
-      <p>
-        Shartlar ko'payib, bir-birining ichiga joylashgan (nested) ternarylar paydo bo'la
-        boshlasa, JSX o'qishga qiyin bo'lib qoladi. Bunday holatda shartni <code>return</code>dan{' '}
-        <strong>oldin</strong>, alohida o'zgaruvchida hisoblab qo'yish va keyin JSX ichida shunchaki
-        o'sha o'zgaruvchini chiqarish ancha toza yechim:
-      </p>
-      <CodeBlock lang="jsx">{`function Buyurtma({ holat }) {
-  let matn
-
-  if (holat === 'kutilmoqda') {
-    matn = <p className="sariq">Buyurtma kutilmoqda...</p>
-  } else if (holat === 'yolda') {
-    matn = <p className="ko'k">Buyurtma yo'lda</p>
-  } else if (holat === 'yetkazildi') {
-    matn = <p className="yashil">Buyurtma yetkazildi</p>
-  } else {
-    matn = <p className="qizil">Noma'lum holat</p>
+      <CodeBlock lang="jsx">{`function MahsulotHolati({ qoldiq }) {
+  if (qoldiq === 0) {
+    return <p className="tugagan">Sotuvda yo'q</p>
   }
-
-  return (
-    <div className="buyurtma-kartasi">
-      <h3>Buyurtma #{id}</h3>
-      {matn}
-    </div>
-  )
+  return <p className="mavjud">Omborda {qoldiq} dona bor</p>
 }`}</CodeBlock>
       <p>
-        Bu yondashuvning afzalligi shundaki, tanlash mantig'i (qaysi holatda nima ko'rsatilishi
-        kerakligi) va chiqarish (rendering) qismi bir-biridan ajratilgan. Shartlar necha marta
-        ko'paysa ham, <code>return</code> ichidagi JSX o'zgarmay qoladi — u shunchaki{' '}
-        <code>{'{matn}'}</code>ni chiqaradi.
+        <code>if</code> JSX'ning <em>ichida</em> ishlamaydi (u ifoda emas, 3-darsni eslang),
+        lekin JSX'dan <em>oldin</em>, funksiya tanasida — bemalol. Bu usul ikki variant butunlay
+        boshqa-boshqa ko'rinishga ega bo'lganda eng qulay.
       </p>
 
-      <h2>
-        Hech narsa render qilmaslik: <code>return null</code>
-      </h2>
+      <h3>
+        Hech narsa chizmaslik: <code>return null</code>
+      </h3>
       <p>
-        Ba'zan komponent umuman hech narsa chiqarmasligi kerak bo'ladi — masalan, ko'rsatiladigan
-        ma'lumot hali kelmagan yoki foydalanuvchi biror narsani yashirgan bo'lsa. Bunday holatda
-        komponent funksiyasining boshida shartni tekshirib, <code>null</code> qaytarish qulay:
+        Ba'zan komponent umuman hech narsa chiqarmasligi kerak — masalan, ko'rsatiladigan xabar
+        yo'q bo'lsa. Buning uchun <code>null</code> qaytaring:
       </p>
-      <CodeBlock lang="jsx">{`function OgohlantirishPaneli({ xabarlar }) {
-  if (xabarlar.length === 0) {
+      <CodeBlock lang="jsx">{`function OgohlantirishPaneli({ xabar }) {
+  if (!xabar) {
     return null
   }
 
   return (
     <div className="ogohlantirish-paneli">
-      {xabarlar.map((xabar) => (
-        <p key={xabar.id}>{xabar.matn}</p>
-      ))}
+      <strong>Diqqat:</strong> {xabar}
+    </div>
+  )
+}
+
+<OgohlantirishPaneli xabar="Ertaga dars bo'lmaydi" />   // panel chiqadi
+<OgohlantirishPaneli />                                  // hech narsa chiqmaydi`}</CodeBlock>
+      <p>
+        React uchun komponentdan <code>null</code> qaytarish — mutlaqo normal holat: ekranga hech
+        qanday DOM elementi chiqmaydi. Bu naqsh "guard" (qo'riqchi) deb ham ataladi: funksiya
+        boshida "ko'rsatishga hech narsa bo'lmasa — darhol chiqib ket", qolgan kod esa faqat
+        normal holat uchun yoziladi.
+      </p>
+
+      <h2>Ternary operator: ikkalasidan biri</h2>
+      <p>
+        Ko'pincha butun komponent emas, faqat uning kichik bir bo'lagi shartga bog'liq bo'ladi.
+        Butun JSX'ni ikki marta yozmaslik uchun <strong>ternary operator</strong> (
+        <code>shart ? A : B</code>) to'g'ridan-to'g'ri JSX ichida ishlatiladi:
+      </p>
+      <CodeBlock lang="jsx">{`function MahsulotKartasi({ nomi, narx, qoldiq }) {
+  return (
+    <div className="karta">
+      <h3>{nomi}</h3>
+      <p>{narx} so'm</p>
+      {qoldiq > 0 ? (
+        <button>Savatchaga</button>
+      ) : (
+        <span className="tugagan">Sotuvda yo'q</span>
+      )}
     </div>
   )
 }`}</CodeBlock>
       <p>
-        React uchun komponentdan <code>null</code> qaytarish — mutlaqo normal holat: u ekranga
-        hech qanday DOM elementi chiqarmaydi, xuddi o'sha komponent umuman chaqirilmagandek. Bu
-        naqsh ayniqsa komponent funksiyasining eng boshida, "agar ko'rsatishga hech narsa bo'lmasa
-        — darhol chiqib ket" tarzida ishlatilganda foydali — qolgan kod esa "normal holat" uchun
-        yozilgan bo'lib qoladi, shartlar bilan chalkashmaydi.
+        Ternary — <code>if/else</code>ning ifoda ko'rinishi: u qiymat qaytaradi, shuning uchun JSX
+        ichiga joylashtirish mumkin. Ko'p qatorli JSX'ni ternary ichida qavslarga olib, yuqoridagi
+        kabi formatlash odat tusiga kirgan.
       </p>
-      <Callout type="note" title="undefined emas, aynan null">
-        Komponent hech narsa qaytarmasligi kerak bo'lganda, aynan <code>null</code> qaytaring, oddiy{' '}
-        <code>return</code> (qiymatsiz, ya'ni <code>undefined</code> qaytaradigan) emas. Ikkalasi
-        ham amalda bir xil natija beradi — ekranga hech narsa chiqmaydi — lekin{' '}
-        <code>null</code> "men ataylab hech narsa qaytarmayapman" degan niyatni aniqroq bildiradi.
-      </Callout>
+      <p>Ternary atributlarda ham juda qulay:</p>
+      <CodeBlock lang="jsx">{`<span className={qoldiq > 0 ? 'belgi yashil' : 'belgi qizil'}>
+  {qoldiq > 0 ? 'Mavjud' : 'Tugagan'}
+</span>`}</CodeBlock>
 
-      <Quiz
-        question="mahsulotlarSoni === 0 bo'lganda, {mahsulotlarSoni && <p>Mahsulotlar bor</p>} ifodasi ekranga nima chiqaradi?"
-        options={[
-          'Hech narsa chiqmaydi, chunki 0 — falsy qiymat',
-          "Ekranga yolg'iz \"0\" raqami chiqadi",
-          '<p>Mahsulotlar bor</p> baribir chiqadi',
-          "Build vaqtida xatolik yuz beradi",
-        ]}
-        correctIndex={1}
-        explanation="0 && <p>...</p> ifodasining natijasi 0ning o'zi bo'ladi, chunki && chap tomon falsy bo'lganda o'sha qiymatni qaytaradi. React esa 0ni haqiqiy, ko'rsatsa bo'ladigan qiymat deb hisoblaydi va uni ekranga chiqaradi — hech narsa chiqarmasdan tashlab yubormaydi. Shu sababli soni > 0 kabi haqiqiy boolean shart ishlatish kerak."
-      />
+      <h2>
+        <code>&&</code> operatori: ko'rsatish yoki hech narsa
+      </h2>
+      <p>
+        Agar "aks holda" qismi bo'sh bo'lsa — ya'ni shart to'g'ri bo'lganda nimadir chiqadi,
+        bo'lmasa hech narsa — ternary'dagi <code>: null</code> ni yozib o'tirmaslik uchun{' '}
+        <code>&&</code> (mantiqiy VA) ishlatiladi:
+      </p>
+      <CodeBlock lang="jsx">{`function KitobKartasi({ nomi, yangi, chegirma }) {
+  return (
+    <div className="karta">
+      <h3>
+        {nomi} {yangi && <span className="belgi">YANGI</span>}
+      </h3>
+      {chegirma && <p className="chegirma">Chegirma: {chegirma}%</p>}
+    </div>
+  )
+}`}</CodeBlock>
+      <p>
+        <code>&&</code> chapdan o'ngga baholanadi: chap tomon falsy (<code>false</code>,{' '}
+        <code>null</code>, <code>undefined</code>, <code>0</code>, <code>""</code>) bo'lsa,
+        butun ifoda o'sha falsy qiymatning o'ziga teng bo'ladi; truthy bo'lsa — o'ng tomondagi
+        JSX'ga. 3-darsdan eslaysiz: <code>false</code>, <code>null</code> va{' '}
+        <code>undefined</code> ekranda hech narsa chizmaydi.
+      </p>
 
-      <Exercise>
-        <p>
-          <code>useState</code> yordamida <code>isLoggedIn</code> nomli boolean state yarating
-          (boshlang'ich qiymati <code>false</code>). Komponent quyidagicha ishlashi kerak: agar{' '}
-          <code>isLoggedIn</code> — <code>false</code> bo'lsa, "Kirish" yozuvli tugma chiqsin;
-          agar <code>true</code> bo'lsa, "Chiqish" yozuvli tugma chiqsin. Tugmani bosganda{' '}
-          <code>isLoggedIn</code> qiymati teskarisiga o'zgarsin (event handlerni oldingi darsda
-          ko'rgan usulda yozing).
-        </p>
-        <Solution>
-          <CodeBlock lang="jsx">{`import { useState } from 'react'
+      <h3>
+        Klassik tuzoq: <code>0 &&</code>
+      </h3>
+      <p>
+        Lekin <code>0</code> ham falsy, va 3-darsda ko'rganimizdek, u <strong>chiziladi</strong>.
+        Yuqoridagi <code>KitobKartasi</code>ga <code>{'chegirma={0}'}</code> uzatilsa, ekranda
+        yolg'iz <code>0</code> raqami paydo bo'ladi:
+      </p>
+      <CodeBlock lang="jsx">{`// chegirma = 0 bo'lganda: {0 && <p>...</p>}  →  {0}  →  ekranda "0"
+{chegirma && <p className="chegirma">Chegirma: {chegirma}%</p>}
 
-function KirishChiqish() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+// TO'G'RI: chap tomon har doim haqiqiy true/false
+{chegirma > 0 && <p className="chegirma">Chegirma: {chegirma}%</p>}`}</CodeBlock>
+      <p>
+        Qoida oddiy: <code>&&</code>ning chap tomoniga son yoki satrni to'g'ridan-to'g'ri
+        qo'ymang. <code>{'soni > 0'}</code>, <code>{'royxat.length > 0'}</code>,{' '}
+        <code>{"matn !== ''"}</code> kabi taqqoslash bilan uni boolean'ga aylantiring.
+      </p>
 
-  function handleBosish() {
-    setIsLoggedIn(!isLoggedIn)
+      <h2>Ko'p variant: o'zgaruvchi yoki lug'at obyekt</h2>
+      <p>
+        Ikki emas, to'rt-besh variant bo'lsa, ternary'larni bir-birining ichiga joylashtirish (
+        <code>a ? x : b ? y : z</code>) tezda o'qib bo'lmaydigan holga keladi. Bunday holatda
+        variantni <code>return</code>dan oldin o'zgaruvchiga hisoblab qo'ying:
+      </p>
+      <CodeBlock lang="jsx">{`function BuyurtmaKartasi({ id, holat }) {
+  let holatMatni
+  if (holat === 'kutilmoqda') {
+    holatMatni = <p className="sariq">Buyurtma kutilmoqda...</p>
+  } else if (holat === 'yolda') {
+    holatMatni = <p className="kok">Buyurtma yo'lda</p>
+  } else if (holat === 'yetkazildi') {
+    holatMatni = <p className="yashil">Buyurtma yetkazildi</p>
+  } else {
+    holatMatni = <p className="qizil">Noma'lum holat</p>
   }
 
   return (
-    <button onClick={handleBosish}>
-      {isLoggedIn ? 'Chiqish' : 'Kirish'}
-    </button>
+    <div className="buyurtma-kartasi">
+      <h3>Buyurtma #{id}</h3>
+      {holatMatni}
+    </div>
   )
 }`}</CodeBlock>
+      <p>
+        Variantlar faqat matn yoki klass bilan farq qilsa, undan ham ixchamroq usul — kalitlari
+        holat nomlari bo'lgan <strong>lug'at obyekt</strong>:
+      </p>
+      <CodeBlock lang="jsx">{`const HOLATLAR = {
+  kutilmoqda: { matn: 'Buyurtma kutilmoqda...', klass: 'sariq' },
+  yolda: { matn: "Buyurtma yo'lda", klass: 'kok' },
+  yetkazildi: { matn: 'Buyurtma yetkazildi', klass: 'yashil' },
+}
+
+function BuyurtmaKartasi({ id, holat }) {
+  const info = HOLATLAR[holat] ?? { matn: "Noma'lum holat", klass: 'qizil' }
+
+  return (
+    <div className="buyurtma-kartasi">
+      <h3>Buyurtma #{id}</h3>
+      <p className={info.klass}>{info.matn}</p>
+    </div>
+  )
+}`}</CodeBlock>
+      <p>
+        Yangi holat qo'shish endi bitta qator — <code>HOLATLAR</code>ga yangi kalit. Komponent
+        kodiga tegish shart emas.
+      </p>
+
+      <Callout type="note" title="Qaysi usulni qachon tanlash kerak?">
+        <ul>
+          <li>Butun komponent boshqacha yoki hech narsa — <code>if</code> + erta <code>return</code>.</li>
+          <li>JSX ichidagi kichik bo'lak, ikki variant — ternary.</li>
+          <li>JSX ichidagi kichik bo'lak, "bor yoki yo'q" — <code>&&</code> (chap tomon boolean!).</li>
+          <li>Uch va undan ko'p variant — o'zgaruvchi yoki lug'at obyekt.</li>
+        </ul>
+      </Callout>
+
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>
+              <code>0 &&</code>.
+            </strong>{' '}
+            Son chap tomonda — ekranda tasodifiy <code>0</code>. Doim taqqoslang:{' '}
+            <code>{'soni > 0 &&'}</code>.
+          </li>
+          <li>
+            <strong>JSX ichida <code>if</code> yozish.</strong>{' '}
+            <code>{'{if (x) { ... }}'}</code> — sintaksis xatosi. JSX ichida ternary yoki{' '}
+            <code>&&</code>, JSX'dan oldin esa <code>if</code>.
+          </li>
+          <li>
+            <strong>Ichma-ich ternary'lar.</strong> <code>a ? x : b ? y : c ? z : w</code> —
+            ishlaydi, lekin uni hech kim o'qiy olmaydi. O'zgaruvchi yoki lug'at obyektga
+            o'tkazing.
+          </li>
+          <li>
+            <strong>Ternary'da "aks holda" qismini unutish.</strong>{' '}
+            <code>{'{shart ? <A />}'}</code> — sintaksis xatosi. Ikkinchi qism kerak bo'lmasa,{' '}
+            <code>&&</code> ishlating.
+          </li>
+        </ul>
+      </Callout>
+
+      <Quiz
+        question="tanlanganlarSoni === 0 bo'lganda, {tanlanganlarSoni && <p>Tanlanganlar bor</p>} ifodasi ekranga nima chiqaradi?"
+        options={[
+          "Hech narsa chiqmaydi, chunki 0 — falsy qiymat",
+          "Ekranga yolg'iz 0 raqami chiqadi",
+          "<p>Tanlanganlar bor</p> baribir chiqadi",
+          "Build vaqtida xatolik yuz beradi",
+        ]}
+        correctIndex={1}
+        explanation="0 && <p>...</p> ifodasining natijasi 0 ning o'zi, chunki && chap tomon falsy bo'lganda o'sha qiymatni qaytaradi. React esa 0 ni chizadi (false/null/undefined'dan farqli o'laroq). Shuning uchun tanlanganlarSoni > 0 && ... deb yozish kerak."
+      />
+
+      <Quiz
+        question="Komponentda 5 xil buyurtma holati bor va har birida faqat matn va rang o'zgaradi. Eng toza yechim qaysi?"
+        options={[
+          "Holat nomlarini kalit qilib, matn va rangni lug'at obyektda saqlash",
+          "JSX ichida to'rtta ichma-ich ternary",
+          "Har bir holat uchun alohida && qatori",
+          "Har bir holat uchun alohida komponent va beshta if",
+        ]}
+        correctIndex={0}
+        explanation="Variantlar faqat ma'lumot (matn, klass) bilan farq qilganda, lug'at obyekt eng ixcham: mantiq bitta qator HOLATLAR[holat], yangi holat qo'shish esa obyektga bitta kalit qo'shish. Ichma-ich ternary o'qilmaydi, beshta && esa takrorlanuvchi kod."
+      />
+
+      <Exercise title="1-mashq: kirish tugmasi">
+        <p>
+          <code>FoydalanuvchiPaneli</code> komponentini yozing. U <code>ism</code> prop'ini
+          oladi. Agar <code>ism</code> berilgan bo'lsa — "Salom, Aziz!" matni va "Chiqish"
+          tugmasi chiqsin; berilmagan bo'lsa — faqat "Kirish" tugmasi. <code>App</code>da uni bir
+          marta <code>ism</code> bilan, bir marta <code>ism</code>siz chaqirib tekshiring.
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`function FoydalanuvchiPaneli({ ism }) {
+  if (!ism) {
+    return <button>Kirish</button>
+  }
+
+  return (
+    <div>
+      <span>Salom, {ism}!</span>
+      <button>Chiqish</button>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <>
+      <FoydalanuvchiPaneli ism="Aziz" />
+      <FoydalanuvchiPaneli />
+    </>
+  )
+}`}</CodeBlock>
+          <p>
+            Ikki holat butunlay boshqa JSX bo'lgani uchun erta <code>return</code> eng toza
+            variant. Ternary bilan ham yozish mumkin edi, lekin u ancha uzun chiqadi.
+          </p>
+        </Solution>
+      </Exercise>
+
+      <Exercise title="2-mashq: narx kartasi">
+        <p>
+          <code>NarxKartasi</code> komponenti <code>nomi</code>, <code>narx</code>,{' '}
+          <code>chegirma</code> (foizda, standart qiymati <code>0</code>) va <code>qoldiq</code>{' '}
+          props'larini oladi. Talablar:
+        </p>
+        <ul>
+          <li>
+            Chegirma bo'lsa: eski narx <code>{'<s>'}</code> tegi ichida (chizilgan), yonida yangi
+            narx. Bo'lmasa: faqat oddiy narx.
+          </li>
+          <li>Chegirma 0 bo'lganda ekranda hech qanday ortiqcha "0" chiqmasin.</li>
+          <li>Qoldiq 5 dan kam (lekin 0 dan katta) bo'lsa, "Oz qoldi!" yozuvi chiqsin.</li>
+          <li>Qoldiq 0 bo'lsa, butun karta o'rniga faqat "{'{nomi}'} — sotuvda yo'q" matni.</li>
+        </ul>
+        <Solution>
+          <CodeBlock lang="jsx">{`function NarxKartasi({ nomi, narx, chegirma = 0, qoldiq }) {
+  if (qoldiq === 0) {
+    return <p className="tugagan">{nomi} — sotuvda yo'q</p>
+  }
+
+  const yangiNarx = narx * (1 - chegirma / 100)
+
+  return (
+    <div className="karta">
+      <h3>{nomi}</h3>
+      {chegirma > 0 ? (
+        <p>
+          <s>{narx} so'm</s> <strong>{yangiNarx} so'm</strong>
+        </p>
+      ) : (
+        <p>{narx} so'm</p>
+      )}
+      {qoldiq < 5 && <p className="ogohlantirish">Oz qoldi!</p>}
+    </div>
+  )
+}`}</CodeBlock>
+          <p>
+            Uchta usul birga ishladi: tugagan mahsulot uchun erta <code>return</code>, narx
+            uchun ternary, "Oz qoldi" uchun <code>&&</code>. <code>{'qoldiq < 5'}</code> har doim
+            boolean bo'lgani uchun "0" muammosi yo'q; <code>qoldiq === 0</code> holati esa
+            yuqorida allaqachon chiqib ketgan.
+          </p>
         </Solution>
       </Exercise>
 
       <KeyPoints>
         <li>
-          <code>{'{shart && <Element />}'}</code> — biror narsani faqat shart to'g'ri bo'lganda
-          ko'rsatish, aks holda hech narsa chiqarmaslik uchun ishlatiladi.
+          Shartli render — oddiy JavaScript: JSX'dan oldin <code>if</code>, JSX ichida ternary
+          yoki <code>&&</code>.
         </li>
         <li>
-          <code>&&</code>ning chap tomoni son yoki satr bo'lib, <code>0</code> yoki bo'sh satr
-          kabi falsy-lekin-ko'rsatsa-bo'ladigan qiymat bo'lib qolsa, React uni ekranga
-          chiqaradi — shuning uchun chap tomon doim haqiqiy boolean bo'lishi kerak (
-          <code>{'soni > 0'}</code> kabi).
+          <code>return null</code> — komponent hech narsa chizmasligi uchun; funksiya boshidagi
+          "guard" sifatida juda qulay.
         </li>
         <li>
-          <code>shart ? A : B</code> ternary operatori — ikkita variantdan biri har doim
-          ko'rsatilishi kerak bo'lganda ishlatiladi, chunki u <code>if/else</code>dan farqli
-          o'laroq qiymat qaytaradigan ifoda.
+          <code>shart ? A : B</code> — ikki variantdan biri; <code>{'shart && <A />'}</code> —
+          "bor yoki yo'q".
         </li>
         <li>
-          Shartlar murakkablashib, ko'p sonli nested ternarylar paydo bo'lsa, mantiqni{' '}
-          <code>return</code>dan oldin alohida o'zgaruvchida hisoblab, keyin JSX ichida
-          o'zgaruvchini chiqarish o'qilishini osonlashtiradi.
+          <code>&&</code>ning chap tomoni doim boolean bo'lsin: aks holda <code>0</code>{' '}
+          ekranga chiqib qoladi.
         </li>
         <li>
-          Komponent funksiyasi boshida shartni tekshirib <code>return null</code> qilish —
-          "ko'rsatishga hech narsa bo'lmasa, darhol chiqib ket" degan keng tarqalgan naqsh.
+          Uch va undan ko'p variant uchun — <code>return</code>dan oldingi o'zgaruvchi yoki lug'at
+          obyekt, ichma-ich ternary emas.
         </li>
       </KeyPoints>
     </>

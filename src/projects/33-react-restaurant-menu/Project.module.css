@@ -1,0 +1,163 @@
+.sahifa {
+  min-height: 100vh;
+  background: #fbf6ee;
+  color: #2b1d14;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  padding: 48px 16px 64px;
+}
+
+.konteyner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Sarlavha */
+.sarlavha {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.restoranNomi {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 44px;
+  margin: 0;
+  color: #b4531f;
+  letter-spacing: 0.02em;
+}
+
+.manzil {
+  margin: 8px 0 0;
+  color: #7a6a5c;
+  font-size: 14px;
+}
+
+/* Bo'lim */
+.bolim {
+  margin-top: 36px;
+}
+
+.bolimSarlavhasi {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid #b4531f;
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+}
+
+.bolimNomi {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 26px;
+  margin: 0;
+}
+
+.bolimIzohi {
+  font-size: 13px;
+  color: #7a6a5c;
+}
+
+.ogohlantirish {
+  background: #fdecea;
+  color: #b42318;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.royxat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+/* Taom kartasi */
+.karta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #eadfce;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.tugagan {
+  opacity: 0.55;
+}
+
+.taomNomi {
+  margin: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.tavsif {
+  margin: 6px 0 0;
+  color: #7a6a5c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Belgi */
+.belgi {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: #f1e7da;
+  color: #7a6a5c;
+}
+
+.yashil {
+  background: #e8efdc;
+  color: #5f7a3a;
+}
+
+.qizil {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.sariq {
+  background: #fdf1d6;
+  color: #9a6200;
+}
+
+/* Narx */
+.narx {
+  white-space: nowrap;
+  text-align: right;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.eskiNarx {
+  display: block;
+  font-weight: 400;
+  font-size: 13px;
+  color: #7a6a5c;
+  text-decoration: line-through;
+}
+
+.yangiNarx {
+  color: #b4531f;
+}
+
+.footer {
+  margin-top: 48px;
+  text-align: center;
+  font-size: 13px;
+  color: #7a6a5c;
+}

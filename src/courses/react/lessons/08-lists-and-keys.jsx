@@ -4,6 +4,8 @@ import Quiz from '@/components/content/Quiz'
 import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
+import Figure from '@/components/content/Figure'
+import listKeys from '@/assets/list-keys.svg'
 
 export const meta = {
   title: "Ro'yxatlar va key'lar",
@@ -13,6 +15,12 @@ export const meta = {
 export default function ListsAndKeysLesson() {
   return (
     <>
+      <h2>Muammo: 50 ta kartani qo'lda yozib bo'lmaydi</h2>
+      <p>
+        5-darsda <code>KitobKartasi</code>ni ikki marta, qo'lda chaqirdik. Lekin do'konda 50 ta
+        kitob bo'lsa-chi? Yoki ular serverdan keladi va ularning soni oldindan noma'lum
+        bo'lsa? Har birini <code>{'<KitobKartasi ... />'}</code> deb qo'lda yozish imkonsiz.
+      </p>
       <p>
         Ko'pincha ilovada ma'lumot bitta obyekt emas, balki obyektlar massivi ko'rinishida
         keladi — kitoblar ro'yxati, xarid savatchasi, sharhlar. Bunday massivni ekranga
@@ -64,6 +72,11 @@ function MevalarRoyxati() {
         shaxsi bo'yicha moslashtiradi — qaysi element o'zgarmagan, qaysi biri yangi qo'shilgan,
         qaysi biri o'chirilgan yoki qayta tartiblangan ekanini aniq biladi.
       </p>
+      <Figure
+        src={listKeys}
+        alt="Chapda oldingi render: v1 va v2 elementlari. O'ngda yangi render: tepada yangi v3, pastda o'sha v1 va v2. Bir xil key'li elementlar strelka bilan bog'langan."
+        caption="1-rasm: ro'yxat boshiga element qo'shilganda React eski elementlarni key bo'yicha topadi"
+      />
       <Callout type="tip" title="key — prop emas, ko'rsatma">
         <code>key</code> odatdagi propga o'xshab ko'rinsa-da, u komponentning o'ziga{' '}
         <code>props.key</code> sifatida uzatilmaydi — u faqat React'ning ichki mexanizmi uchun,
@@ -105,7 +118,7 @@ const vazifalar = ['Idish yuvish', 'Non olish', "Uy yig'ishtirish"]
         element hali ham shu joyda" deb hisoblaydi va uning ichidagi matnni "Non olish"dan
         "Idish yuvish"ga <strong>yangilaydi</strong> — aslida bu butunlay yangi element bo'lishi
         kerak edi. Agar har bir <code>{'<li>'}</code> ichida masalan checkbox holati yoki input
-        matni kabi o'z ichki state'i bo'lsa (masalan, controlled input), bu state ham noto'g'ri
+        matni kabi o'z ichki state (holat)i bo'lsa (masalan, boshqarilmagan input yoki checkbox), bu holat ham noto'g'ri
         elementga "yopishib qoladi" — foydalanuvchi "Non olish"ni belgilab qo'ygan bo'lsa, endi
         checkbox "Idish yuvish" qatorida belgilangan holda qoladi, garchi u hech qachon
         belgilanmagan bo'lsa ham. Xuddi shunday muammo ro'yxat o'rtasidan element o'chirilganda
@@ -138,46 +151,148 @@ vazifalar.map((vazifa) => (
         ma'lumotning o'z id'sidan foydalaning.
       </Callout>
 
-      <h2>
-        <code>useState</code>dan kelgan ro'yxatni render qilish
-      </h2>
+      <h2>Ro'yxat elementini alohida komponentga ajratish</h2>
       <p>
-        Amaliyotda ro'yxat ko'pincha state'ning o'zida saqlanadi va foydalanuvchi harakati bilan
-        o'zgaradi. Oddiy xaridlar ro'yxati misolida ko'raylik:
+        Odatda <code>map</code> ichida oddiy <code>{'<li>'}</code> emas, butun bir komponent
+        chiziladi. Bunda <code>key</code> <strong>map qaytarayotgan eng tashqi elementga</strong>{' '}
+        — ya'ni komponent tegiga — beriladi, komponentning ichidagi JSX'ga emas:
       </p>
-      <CodeBlock lang="jsx">{`import { useState } from 'react'
+      <CodeBlock lang="jsx">{`const kitoblar = [
+  { id: 1, nomi: "O'tkan kunlar", muallif: 'Abdulla Qodiriy' },
+  { id: 2, nomi: 'Kecha va kunduz', muallif: "Cho'lpon" },
+  { id: 3, nomi: 'Sariq devni minib', muallif: "Xudoyberdi To'xtaboyev" },
+]
 
-function XaridlarRoyxati() {
-  const [mahsulotlar, setMahsulotlar] = useState([
-    { id: 1, nomi: 'Sut' },
-    { id: 2, nomi: 'Non' },
-    { id: 3, nomi: 'Tuxum' },
-  ])
+function KitobKartasi({ nomi, muallif }) {
+  return (
+    <li className="karta">       {/* bu yerda key KERAK EMAS */}
+      <h3>{nomi}</h3>
+      <p>{muallif}</p>
+    </li>
+  )
+}
 
-  function handleOchirish(id) {
-    setMahsulotlar(mahsulotlar.filter((mahsulot) => mahsulot.id !== id))
-  }
-
+function KitoblarRoyxati() {
   return (
     <ul>
-      {mahsulotlar.map((mahsulot) => (
-        <li key={mahsulot.id}>
-          {mahsulot.nomi}
-          <button onClick={() => handleOchirish(mahsulot.id)}>O'chirish</button>
-        </li>
+      {kitoblar.map((kitob) => (
+        <KitobKartasi key={kitob.id} nomi={kitob.nomi} muallif={kitob.muallif} />
       ))}
     </ul>
   )
 }`}</CodeBlock>
       <p>
-        Bu yerda muhim narsa — <code>mahsulotlar</code> massivini to'g'ridan-to'g'ri
-        o'zgartirmaymiz (masalan, <code>.push()</code> yoki <code>.splice()</code> orqali),
-        balki <code>.filter()</code> yangi massiv qaytaradi va biz o'sha yangi massivni{' '}
-        <code>setMahsulotlar</code> orqali state'ga o'rnatamiz. Bu — oldingi darsda ko'rgan
-        "state'ni to'g'ridan-to'g'ri o'zgartirmaslik" qoidasining ro'yxatlar uchun ko'rinishi.
-        Bu — Amaliy loyiha bo'limida quriladigan vazifalar ro'yxati (todo-list) ilovasining ham
-        asosiy mexanizmi, faqat o'sha yerda funksionallik kengroq bo'ladi.
+        <code>key</code> komponentga prop sifatida yetib bormaydi: <code>KitobKartasi</code>{' '}
+        ichida <code>props.key</code> — <code>undefined</code>. Agar komponentga id kerak bo'lsa,
+        uni alohida prop bilan uzating: <code>{'<KitobKartasi key={kitob.id} id={kitob.id} />'}</code>.
       </p>
+
+      <h3>Bir nechta element qaytarish: Fragment va key</h3>
+      <p>
+        Agar har bir element uchun ikki qo'shni teg kerak bo'lsa (masalan, lug'atdagi{' '}
+        <code>{'<dt>'}</code> va <code>{'<dd>'}</code>), qisqa <code>{'<>...</>'}</code>{' '}
+        fragmentga key berib bo'lmaydi. Buning uchun to'liq <code>Fragment</code> yozuvi
+        ishlatiladi:
+      </p>
+      <CodeBlock lang="jsx">{`import { Fragment } from 'react'
+
+function Lugat({ sozlar }) {
+  return (
+    <dl>
+      {sozlar.map((soz) => (
+        <Fragment key={soz.id}>
+          <dt>{soz.atama}</dt>
+          <dd>{soz.tarjima}</dd>
+        </Fragment>
+      ))}
+    </dl>
+  )
+}`}</CodeBlock>
+
+      <h2>Filtrlash, saralash va bo'sh ro'yxat</h2>
+      <p>
+        Ro'yxatni chizishdan oldin uni oddiy JavaScript massiv metodlari bilan tayyorlab olish
+        mumkin. <code>filter</code> va <code>map</code> zanjiri — React kodida eng ko'p
+        uchraydigan naqshlardan biri:
+      </p>
+      <CodeBlock lang="jsx">{`function ArzonKitoblar({ kitoblar }) {
+  const arzonlari = kitoblar
+    .filter((kitob) => kitob.narx < 50000)
+    .toSorted((a, b) => a.narx - b.narx)   // narx bo'yicha o'sish tartibida
+
+  if (arzonlari.length === 0) {
+    return <p>Hozircha arzon kitoblar yo'q.</p>
+  }
+
+  return (
+    <ul>
+      {arzonlari.map((kitob) => (
+        <li key={kitob.id}>
+          {kitob.nomi} — {kitob.narx} so'm
+        </li>
+      ))}
+    </ul>
+  )
+}`}</CodeBlock>
+      <p>Uchta narsaga e'tibor bering:</p>
+      <ul>
+        <li>
+          <strong><code>toSorted</code>, <code>sort</code> emas.</strong> <code>sort()</code>{' '}
+          massivni <em>joyida</em> o'zgartiradi — bu props'ni o'zgartirish bo'lardi (5-dars).{' '}
+          <code>toSorted()</code> esa yangi, saralangan nusxa qaytaradi. Eski brauzerlar uchun
+          muqobili — <code>{'[...kitoblar].sort(...)'}</code>.
+        </li>
+        <li>
+          <strong>Bo'sh holat.</strong> Ro'yxat bo'sh bo'lsa, foydalanuvchiga bo'sh joy emas,
+          tushunarli xabar ko'rsating — bu 7-darsdagi shartli render.
+        </li>
+        <li>
+          <strong>Hisoblangan qiymat.</strong> <code>arzonlari</code> — har renderda props'dan
+          qayta hisoblanadigan oddiy o'zgaruvchi. Uni alohida saqlash shart emas.
+        </li>
+      </ul>
+
+      <Callout type="note" title="Ro'yxat o'zgarganda nima bo'ladi?">
+        Hozircha ro'yxatlarimiz o'zgarmas — ular props yoki fayldagi massivdan keladi. Ro'yxatga
+        element qo'shish, o'chirish va uni yangilash (state bilan) — 16-darsning mavzusi. O'sha
+        yerda <code>key</code> nega muhimligini amalda ko'rasiz.
+      </Callout>
+
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>Key'ni unutish.</strong> Konsolda{' '}
+            <code>Each child in a list should have a unique "key" prop</code> ogohlantirishi
+            chiqadi. Ilova ishlayveradi, lekin ro'yxat o'zgarganda xatolar paydo bo'ladi.
+          </li>
+          <li>
+            <strong>Key'ni noto'g'ri joyga qo'yish.</strong> Key komponent <em>ichidagi</em>{' '}
+            <code>{'<li>'}</code>ga emas, <code>map</code> qaytarayotgan komponent tegiga
+            beriladi.
+          </li>
+          <li>
+            <strong>Indeks yoki tasodifiy key.</strong> <code>{'key={index}'}</code> ro'yxat
+            o'zgarganda muammo beradi; <code>{'key={Math.random()}'}</code> esa undan ham yomon —
+            har renderda barcha elementlar "yangi" deb qayta yaratiladi.
+          </li>
+          <li>
+            <strong>Takrorlanadigan key.</strong> Bir ro'yxat ichida ikki element bir xil key
+            olsa (masalan, key sifatida nom ishlatilganda ikki "Olma" bo'lsa), React ularni
+            adashtiradi. Key faqat bitta ro'yxat ichida noyob bo'lishi kerak.
+          </li>
+          <li>
+            <strong><code>map</code>dan qaytarishni unutish.</strong>{' '}
+            <code>{'kitoblar.map((k) => { <li>{k.nomi}</li> })'}</code> — jingalak qavsli
+            funksiya tanasida <code>return</code> yo'q, natija — <code>undefined</code>lar
+            massivi va bo'sh ekran. Oddiy qavs <code>{'(k) => (<li>...</li>)'}</code> yoki
+            aniq <code>return</code> yozing.
+          </li>
+          <li>
+            <strong><code>sort()</code> bilan props'ni buzish</strong> — <code>toSorted()</code>{' '}
+            yoki nusxa ustida saralang.
+          </li>
+        </ul>
+      </Callout>
 
       <Quiz
         question="Xaridlar ro'yxatida har bir <li> ga key sifatida massiv indeksi (index) berilgan. Foydalanuvchi ro'yxat o'rtasidagi bitta mahsulotni o'chirsa, nima uchun bu muammoli bo'lishi mumkin?"
@@ -191,7 +306,19 @@ function XaridlarRoyxati() {
         explanation="Element o'chirilganda undan keyingi barcha elementlarning indeksi bittaga kamayadi. React key=indeks bo'yicha eski va yangi elementlarni moslashtirganda, indeksi o'zgargan, lekin ma'lumoti aslida boshqa bo'lgan elementlarni bir xil deb hisoblaydi — natijada checkbox holati, input matni kabi ichki state noto'g'ri elementga yopishib qolishi mumkin. Shu sababli ma'lumotning o'z barqaror id'sini key sifatida ishlatish tavsiya etiladi."
       />
 
-      <Exercise>
+      <Quiz
+        question="Quyidagi kodda ekran bo'sh qoladi, xato ham chiqmaydi: {kitoblar.map((kitob) => { <li key={kitob.id}>{kitob.nomi}</li> })}. Sabab nima?"
+        options={[
+          "Strelkali funksiya jingalak qavsli tanaga ega, lekin return yo'q — map undefined'lar qaytaradi",
+          "key sifatida id ishlatib bo'lmaydi",
+          "map JSX ichida ishlamaydi, oldin o'zgaruvchiga saqlash kerak",
+          "li elementi ul ichida bo'lishi shart emas",
+        ]}
+        correctIndex={0}
+        explanation="(x) => { ... } — funksiya tanasi; undan qiymat qaytishi uchun return kerak. (x) => ( ... ) esa ifodani avtomatik qaytaradi. return yo'q bo'lsa, map [undefined, undefined, ...] qaytaradi, va React undefined'ni hech narsa deb chizadi."
+      />
+
+      <Exercise title="1-mashq: talabalar ro'yxati">
         <p>
           Quyidagi massivni <code>.map()</code> yordamida ro'yxat qilib render qiluvchi
           komponent yozing:
@@ -224,6 +351,56 @@ function TalabalarRoyxati() {
         </Solution>
       </Exercise>
 
+      <Exercise title="2-mashq: kategoriyali menyu">
+        <p>
+          Quyidagi taomlar massivi berilgan. <code>Menyu</code> komponentini yozing: u faqat{' '}
+          <code>mavjud: true</code> bo'lgan taomlarni, narx bo'yicha arzondan qimmatga saralab,
+          har birini alohida <code>TaomQatori</code> komponenti orqali chiqarsin ("Lag'mon —
+          28000 so'm"). Agar mavjud taom bo'lmasa, "Bugun menyu bo'sh" yozuvi chiqsin. Asl
+          massivni o'zgartirmang.
+        </p>
+        <CodeBlock lang="jsx">{`const taomlar = [
+  { id: 't1', nomi: 'Osh', narx: 35000, mavjud: true },
+  { id: 't2', nomi: "Lag'mon", narx: 28000, mavjud: true },
+  { id: 't3', nomi: 'Manti', narx: 30000, mavjud: false },
+  { id: 't4', nomi: "Sho'rva", narx: 25000, mavjud: true },
+]`}</CodeBlock>
+        <Solution>
+          <CodeBlock lang="jsx">{`function TaomQatori({ nomi, narx }) {
+  return (
+    <li>
+      {nomi} — {narx} so'm
+    </li>
+  )
+}
+
+function Menyu({ taomlar }) {
+  const korsatiladigan = taomlar
+    .filter((taom) => taom.mavjud)
+    .toSorted((a, b) => a.narx - b.narx)
+
+  if (korsatiladigan.length === 0) {
+    return <p>Bugun menyu bo'sh</p>
+  }
+
+  return (
+    <ul>
+      {korsatiladigan.map((taom) => (
+        <TaomQatori key={taom.id} nomi={taom.nomi} narx={taom.narx} />
+      ))}
+    </ul>
+  )
+}
+
+// <Menyu taomlar={taomlar} />
+// Natija: Sho'rva — 25000, Lag'mon — 28000, Osh — 35000`}</CodeBlock>
+          <p>
+            Key <code>TaomQatori</code> tegiga berildi, ichidagi <code>{'<li>'}</code>ga emas.{' '}
+            <code>toSorted</code> asl <code>taomlar</code> massivini o'zgarishsiz qoldiradi.
+          </p>
+        </Solution>
+      </Exercise>
+
       <KeyPoints>
         <li>
           <code>.map()</code> massivning har bir elementini JSX elementiga aylantiradi, natijada
@@ -241,13 +418,14 @@ function TalabalarRoyxati() {
           moslashtirishga olib keladi.
         </li>
         <li>
-          Ro'yxatni <code>useState</code>da saqlab, uni <code>.filter()</code>,{' '}
-          <code>.map()</code> kabi metodlar bilan yangi massiv yaratib yangilash — mavjud
-          massivni to'g'ridan-to'g'ri o'zgartirmaslik qoidasining ro'yxatlar uchun ko'rinishi.
+          Chizishdan oldin ro'yxatni <code>filter</code>/<code>toSorted</code> bilan tayyorlang;
+          asl massivni o'zgartiradigan <code>sort</code>/<code>push</code> ishlatmang. Bo'sh
+          ro'yxat uchun alohida xabar ko'rsating.
         </li>
         <li>
-          <code>key</code> — komponentning o'ziga <code>props</code> sifatida yetib bormaydi, u
-          faqat React'ning ichki reconciliation mexanizmi uchun ishlatiladigan maxsus ko'rsatma.
+          <code>key</code> <code>map</code> qaytargan eng tashqi elementga (odatda komponent
+          tegiga) beriladi va komponentning o'ziga prop sifatida yetib bormaydi; bir nechta teg
+          uchun <code>{'<Fragment key={...}>'}</code>.
         </li>
       </KeyPoints>
     </>

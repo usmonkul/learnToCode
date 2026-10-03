@@ -15,6 +15,7 @@ export const meta = {
 export default function PropsLesson() {
   return (
     <>
+      <h2>Muammo: bir xil komponent, har xil ma'lumot</h2>
       <p>
         Oldingi darsda <code>Sarlavha</code> va <code>Footer</code> kabi komponentlarni{' '}
         <code>App</code> ichiga joylashtirishni ko'rdik — lekin ular har doim bir xil, qattiq
@@ -126,58 +127,130 @@ function App() {
         standart qiymat ishlatilmaydi.
       </Callout>
 
+      <h2>Props sifatida istalgan JavaScript qiymati</h2>
+      <p>
+        Qo'shtirnoqdagi qiymat har doim <strong>satr</strong> bo'ladi. Son, mantiqiy qiymat,
+        massiv yoki obyekt uzatish uchun jingalak qavs kerak — xuddi 3-darsdagi atributlar
+        kabi:
+      </p>
+      <CodeBlock lang="jsx">{`<KitobKartasi
+  sarlavha="O'tkan kunlar"            // satr
+  sahifalar={384}                       // son
+  mavjud={true}                         // boolean
+  janrlar={['roman', 'tarixiy']}        // massiv
+  muallif={{ ism: 'Abdulla', familiya: 'Qodiriy' }}  // obyekt — ikki qavat qavs!
+/>`}</CodeBlock>
+      <p>
+        <code>{"muallif={{ ... }}"}</code>dagi ikki qavat qavs maxsus sintaksis emas: tashqi
+        juft — "bu yerda JavaScript qiymati", ichki juft — obyekt literalining o'zi.
+      </p>
+      <p>
+        Mantiqiy prop uchun qisqa yozuv ham bor: qiymatsiz yozilgan atribut <code>true</code>{' '}
+        degani. <code>{'<KitobKartasi mavjud />'}</code> ={' '}
+        <code>{'<KitobKartasi mavjud={true} />'}</code>.
+      </p>
+      <p>
+        Props sifatida hatto funksiya ham uzatish mumkin — bola komponent otaga "xabar berishi"
+        aynan shu yo'l bilan bo'ladi. Buni 12-darsda, hodisalar bilan birga ko'ramiz.
+      </p>
+
+      <h3>Obyektni spread bilan uzatish</h3>
+      <p>
+        Agar ma'lumot allaqachon obyektda bo'lsa va uning maydon nomlari props nomlariga mos
+        kelsa, spread sintaksisi bilan hammasini birdaniga uzatish mumkin:
+      </p>
+      <CodeBlock lang="jsx">{`const kitob = { sarlavha: "O'tkan kunlar", muallif: 'Abdulla Qodiriy' }
+
+<KitobKartasi {...kitob} />
+// bu bilan bir xil:
+<KitobKartasi sarlavha={kitob.sarlavha} muallif={kitob.muallif} />`}</CodeBlock>
+      <p>
+        Qulay, lekin me'yorida ishlating: <code>{'{...kitob}'}</code> ko'rinishida komponent
+        aslida qaysi props'ni olayotgani ko'rinmay qoladi.
+      </p>
+
       <h2>Props — faqat o'qish uchun (read-only)</h2>
       <p>
-        Eng muhim qoida: komponent o'ziga kelgan props'ni hech qachon qayta yozmasligi
-        (reassign) yoki o'zgartirmasligi kerak. Quyidagi kod — xato namuna:
+        Eng muhim qoida: komponent o'ziga kelgan props'ni <strong>o'zgartirmasligi</strong>{' '}
+        (mutate) kerak. Ayniqsa xavfli holat — prop sifatida obyekt yoki massiv kelganda:
       </p>
-      <CodeBlock lang="jsx">{`function KitobKartasi({ sarlavha }) {
-  sarlavha = sarlavha.toUpperCase() // XATO: propsni qayta yozish
-  return <h3>{sarlavha}</h3>
+      <CodeBlock lang="jsx">{`function ChegirmaliKarta({ kitob }) {
+  kitob.narx = kitob.narx * 0.9     // XATO: ota komponentning obyektini o'zgartiryapti!
+  return <p>{kitob.nomi}: {kitob.narx} so'm</p>
 }`}</CodeBlock>
       <p>
-        Bu kod JavaScript nuqtai nazaridan ishlab ketadi — <code>sarlavha</code> shunchaki
-        mahalliy (lokal) o'zgaruvchi, va uni qayta yozish sintaktik xato emas. Lekin natija
-        deyarli hech narsaga foyda keltirmaydi: bu o'zgartirish faqat funksiya ichida, bitta
-        render davomida yashaydi, ota komponentdagi asl qiymatga hech qanday ta'sir qilmaydi, va
-        keyingi safar komponent qayta render bo'lganda ota komponent yana asl{' '}
-        <code>sarlavha</code>ni yuboradi — qilingan "o'zgartirish" izsiz yo'qoladi. Shu bilan
-        birga, React barcha komponentlarni <strong>sof funksiya (pure function)</strong> sifatida
-        ko'radi: bir xil props uchun komponent doim bir xil natija qaytarishi kutiladi, propsni
-        ichkarida o'zgartirish esa aynan shu kelishuvni buzadi va kodni o'qishni
-        qiyinlashtiradi.
+        JavaScript'da obyekt va massivlar havola (reference) orqali uzatiladi: <code>kitob</code>{' '}
+        — ota komponentdagi <em>aynan o'sha</em> obyekt, nusxasi emas. Shuning uchun{' '}
+        <code>kitob.narx = ...</code> ota komponentning ma'lumotini ham o'zgartiradi. Komponent
+        har safar chizilganda narx yana 10% ga kamayadi, va shu kitobni ko'rsatadigan boshqa
+        komponentlar ham noto'g'ri narxni ko'radi. <code>push</code>, <code>sort</code>,{' '}
+        <code>splice</code> kabi massivni joyida o'zgartiradigan metodlar ham xuddi shunday
+        xavfli.
       </p>
-      <Callout type="warning" title="Ayniqsa ehtiyot bo'ling: obyekt va massiv props">
-        Agar prop sifatida obyekt yoki massiv (array) uzatilsa, uning{' '}
-        <strong>ichidagi</strong> qiymatni o'zgartirish (masalan, <code>ro'yxat.push(...)</code>)
-        yanada xavfliroq: JavaScript'da obyekt va massivlar havola (reference) orqali uzatiladi,
-        shuning uchun bunday o'zgartirish ota komponentdagi asl ma'lumotni ham "sirtdan"
-        o'zgartirib qo'yadi. Agar props asosida yangi qiymat kerak bo'lsa, uni har doim yangi
-        lokal o'zgaruvchiga yozing, propsning o'ziga tegmang:
-      </Callout>
-      <CodeBlock lang="jsx">{`function KitobKartasi({ sarlavha }) {
-  const kattaSarlavha = sarlavha.toUpperCase() // TO'G'RI: yangi o'zgaruvchi
-  return <h3>{kattaSarlavha}</h3>
+      <p>
+        React barcha komponentlarni <strong>sof funksiya (pure function)</strong> deb biladi:
+        bir xil props uchun doim bir xil natija, va hech narsani o'zgartirmaslik. Props'ni
+        o'zgartirish aynan shu kelishuvni buzadi (sof komponentlar haqida 9-darsda batafsil).
+        Agar props asosida boshqa qiymat kerak bo'lsa, uni <strong>yangi</strong>{' '}
+        o'zgaruvchiga hisoblang:
+      </p>
+      <CodeBlock lang="jsx">{`function ChegirmaliKarta({ kitob }) {
+  const yangiNarx = kitob.narx * 0.9   // TO'G'RI: yangi o'zgaruvchi, kitob tegilmagan
+  return <p>{kitob.nomi}: {yangiNarx} so'm</p>
 }`}</CodeBlock>
 
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>Sonni qo'shtirnoqda uzatish.</strong> <code>{'narx="5000"'}</code> — bu
+            satr; <code>{'narx + 1000'}</code> natijasi <code>"50001000"</code> bo'ladi. Son
+            uchun <code>{'narx={5000}'}</code>.
+          </li>
+          <li>
+            <strong>Destructuring'da jingalak qavsni unutish.</strong>{' '}
+            <code>function Karta(sarlavha)</code> — bu yerda <code>sarlavha</code> aslida butun
+            props obyekti; <code>{'{sarlavha}'}</code> esa ekranda xato beradi. To'g'risi —{' '}
+            <code>{'function Karta({ sarlavha })'}</code>.
+          </li>
+          <li>
+            <strong>Prop nomida xato.</strong> <code>{'<Karta sarlavh="..." />'}</code> —
+            React ogohlantirmaydi, prop shunchaki <code>undefined</code> bo'lib keladi. Ekranda
+            narsa chiqmasa, birinchi navbatda nomlarni solishtiring (React DevTools'da props
+            ko'rinadi).
+          </li>
+          <li>
+            <strong>Props'ni o'zgartirish</strong> — ayniqsa obyekt yoki massiv props ichini
+            (<code>.push</code>, <code>obj.x = ...</code>). Yangi qiymat kerak bo'lsa, yangi
+            o'zgaruvchi yarating.
+          </li>
+        </ul>
+      </Callout>
+
       <Quiz
-        question={`KitobKartasi komponenti ichida "sarlavha = sarlavha.toUpperCase()" deb o'z propsini qayta yozsa, nima bo'ladi?`}
+        question={`Komponent ichida props'dan kelgan massivga "janrlar.push('yangi')" qilinsa, nima bo'ladi?`}
         options={[
-          "Kod ishlaydi, lekin bu React'ning qoidasini buzadi va komponent qayta render bo'lganda o'zgartirish yo'qoladi",
-          "Komponent qayta render bo'lganda ota komponentdagi asl qiymat ham katta harfga aylanadi",
-          'Build vaqtida JSX kompilyatsiya xatosi chiqadi',
-          "React bu qatorni ishga tushirishning o'zini bloklab, ishga tushish vaqtida xato tashlaydi",
+          "Ota komponentdagi asl massiv ham o'zgaradi, chunki massiv havola orqali uzatilgan",
+          "Faqat komponent ichidagi nusxa o'zgaradi, ota komponentga ta'siri yo'q",
+          "Build vaqtida JSX kompilyatsiya xatosi chiqadi",
+          "React push'ni avtomatik bloklaydi",
         ]}
         correctIndex={0}
-        explanation="sarlavha — funksiyaning mahalliy o'zgaruvchisi, uni qayta yozish sintaktik jihatdan ishlab ketadi, lekin ota komponentdagi asl qiymatga ta'sir qilmaydi va keyingi render'da yo'qoladi. Shunga qaramay, bu React'ning 'props faqat o'qish uchun' qoidasini buzadi, shuning uchun bunday kod yozilmaydi."
+        explanation="Props orqali kelgan massiv — ota komponentdagi aynan o'sha massiv, nusxa emas. push uni joyida o'zgartiradi, shuning uchun ota komponentning ma'lumoti ham buziladi. Bu 'props faqat o'qish uchun' qoidasini buzadi; kerak bo'lsa yangi massiv yarating: [...janrlar, 'yangi']."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question={`<Narx qiymat="5000" /> deb chaqirilgan komponent ichida {qiymat + 1000} hisoblanadi. Ekranda nima chiqadi?`}
+        options={['50001000', '6000', 'NaN', "Xato: satrga son qo'shib bo'lmaydi"]}
+        correctIndex={0}
+        explanation="Qo'shtirnoqdagi prop har doim satr. Satrga son qo'shilganda JavaScript ularni birlashtiradi: '5000' + 1000 = '50001000'. Son uzatish uchun qiymat={5000} deb yozish kerak."
+      />
+
+      <Exercise title="1-mashq: Mahsulot komponenti">
         <p>
           <code>Mahsulot</code> nomli funksional komponent yozing, u <code>nomi</code> va{' '}
           <code>narx</code> props'larini destructuring orqali qabul qilsin.{' '}
           <code>narx</code> prop'i uchun standart qiymat <code>0</code> qilib belgilang. Komponent{' '}
-          <code>{'<h4>{nomi}</h4>'}</code> va <code>{'<p>Narxi: {narx} so\'m</p>'}</code>ni
+          <code>{'<h4>{nomi}</h4>'}</code> va <code>{"<p>Narxi: {narx} so'm</p>"}</code>ni
           qaytarsin. So'ng <code>App</code> ichida uni ikki marta chaqiring: birinchisida ham{' '}
           <code>nomi</code>, ham <code>narx</code>ni bering, ikkinchisida faqat{' '}
           <code>nomi</code>ni bering (standart qiymat ishlashini tekshirish uchun).
@@ -204,6 +277,44 @@ function App() {
         </Solution>
       </Exercise>
 
+      <Exercise title="2-mashq: talaba profili">
+        <p>
+          <code>TalabaProfili</code> komponentini yozing. U quyidagi props'larni oladi:{' '}
+          <code>ism</code> (satr), <code>kurs</code> (son), <code>fanlar</code> (satrlar
+          massivi) va <code>aloqa</code> (<code>{'{ telefon, email }'}</code> obyekti).
+          Komponent ismni sarlavhada, "3-kurs talabasi" ko'rinishidagi matnni, fanlar sonini
+          ("4 ta fan") va email'ni chiqarsin. <code>App</code>da uni barcha props'larni to'g'ri
+          turdagi qiymat bilan uzatib chaqiring.
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`function TalabaProfili({ ism, kurs, fanlar, aloqa }) {
+  return (
+    <section>
+      <h2>{ism}</h2>
+      <p>{kurs}-kurs talabasi</p>
+      <p>{fanlar.length} ta fan</p>
+      <p>Email: {aloqa.email}</p>
+    </section>
+  )
+}
+
+function App() {
+  return (
+    <TalabaProfili
+      ism="Malika Yusupova"
+      kurs={3}
+      fanlar={['Matematika', 'Fizika', 'Informatika', 'Ingliz tili']}
+      aloqa={{ telefon: '+998 90 123 45 67', email: 'malika@example.com' }}
+    />
+  )
+}`}</CodeBlock>
+          <p>
+            Fanlarning o'zini ro'yxat qilib chiqarish uchun massivni JSX elementlariga
+            aylantirish kerak — buni 8-darsda o'rganamiz.
+          </p>
+        </Solution>
+      </Exercise>
+
       <KeyPoints>
         <li>
           Props — ota komponentdan bola komponentga JSX atributlari orqali uzatiladigan
@@ -220,12 +331,18 @@ function App() {
           mumkin — u faqat prop berilmagan yoki <code>undefined</code> bo'lganda ishga tushadi.
         </li>
         <li>
+          Qo'shtirnoqdagi prop — satr; son, boolean, massiv, obyekt va funksiya jingalak qavs
+          bilan uzatiladi (<code>{'narx={5000}'}</code>,{' '}
+          <code>{'muallif={{ ism: "..." }}'}</code>).
+        </li>
+        <li>
           Ma'lumot faqat bitta yo'nalishda — ota komponentdan bolaga — oqadi (yuqoridan pastga
           oqim / top-down data flow).
         </li>
         <li>
-          Props — faqat o'qish uchun (read-only): komponent o'ziga kelgan propsni hech qachon
-          qayta yozmasligi yoki (ayniqsa obyekt/massiv bo'lsa) ichidan o'zgartirmasligi kerak.
+          Props — faqat o'qish uchun (read-only): ayniqsa obyekt va massiv props'ni ichidan
+          o'zgartirmang (<code>obj.x = ...</code>, <code>push</code>, <code>sort</code>) — ular
+          ota komponentning ma'lumoti. Yangi qiymatni yangi o'zgaruvchiga hisoblang.
         </li>
       </KeyPoints>
     </>

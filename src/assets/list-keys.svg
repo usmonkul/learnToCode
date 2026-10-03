@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300" width="560" height="300" role="img" aria-labelledby="list-keys-title">
+  <title id="list-keys-title">React ro'yxat elementlarini key bo'yicha moslashtiradi: ro'yxat boshiga yangi element qo'shilganda eski elementlar o'z key'i bilan topiladi</title>
+  <defs>
+    <marker id="lk-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c67139" />
+    </marker>
+  </defs>
+  <rect width="560" height="300" fill="#ffffff" />
+
+  <text x="120" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#402310" font-family="sans-serif">Oldingi render</text>
+  <text x="440" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#402310" font-family="sans-serif">Yangi render</text>
+
+  <rect x="30" y="100" width="180" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="120" y="127" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">key="v1"  Non olish</text>
+  <rect x="30" y="160" width="180" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="120" y="187" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">key="v2"  Uy yig'ish</text>
+
+  <rect x="350" y="45" width="180" height="44" rx="8" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="440" y="72" text-anchor="middle" font-size="13" fill="#3d472b" font-family="sans-serif">key="v3"  Idish yuvish</text>
+  <rect x="350" y="100" width="180" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="440" y="127" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">key="v1"  Non olish</text>
+  <rect x="350" y="160" width="180" height="44" rx="8" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="440" y="187" text-anchor="middle" font-size="13" fill="#402310" font-family="sans-serif">key="v2"  Uy yig'ish</text>
+
+  <line x1="210" y1="122" x2="346" y2="122" stroke="#c67139" stroke-width="2" marker-end="url(#lk-arrow)" />
+  <line x1="210" y1="182" x2="346" y2="182" stroke="#c67139" stroke-width="2" marker-end="url(#lk-arrow)" />
+  <text x="278" y="114" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">saqlanadi</text>
+  <text x="278" y="174" text-anchor="middle" font-size="11" fill="#6a675e" font-family="sans-serif">saqlanadi</text>
+  <text x="320" y="62" text-anchor="end" font-size="11" fill="#3d472b" font-family="sans-serif">yangi — yaratiladi</text>
+
+  <text x="280" y="250" text-anchor="middle" font-size="13" fill="#6a675e" font-family="sans-serif">React elementni o'rni bo'yicha emas, key bo'yicha taniydi:</text>
+  <text x="280" y="270" text-anchor="middle" font-size="13" fill="#6a675e" font-family="sans-serif">faqat v3 yangi DOM elementi, v1 va v2 tegilmay qoladi</text>
+</svg>

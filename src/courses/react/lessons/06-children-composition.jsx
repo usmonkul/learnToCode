@@ -6,13 +6,14 @@ import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
-  title: 'children va composition',
+  title: "children va composition",
   section: "UI'ni tasvirlash",
 }
 
 export default function ChildrenCompositionLesson() {
   return (
     <>
+      <h2>Muammo: ichi har xil bo'lgan bir xil "qobiq"</h2>
       <p>
         Oldingi darsda props orqali komponentga ma'lumot uzatishni ko'rdik — <code>sarlavha</code>
         , <code>muallif</code> kabi atributlar. Lekin ba'zan komponentga uzatiladigan narsa oddiy
@@ -72,7 +73,7 @@ function App() {
       </p>
       <CodeBlock lang="jsx">{`function Panel({ children }) {
   return (
-    <div className="rounded-lg border border-line p-4 shadow-sm">
+    <div className="panel">
       {children}
     </div>
   )
@@ -101,6 +102,24 @@ function App() {
         komponentning klassik naqshi: tashqi ko'rinishni bir joyda belgilab, ichki mazmunni ochiq
         qoldirish.
       </p>
+      <p>
+        <code>children</code>ni boshqa props bilan birga ishlatish ham juda keng tarqalgan:
+        qobiqning o'zgaruvchan, lekin oddiy qismi (sarlavha) — prop, erkin mazmun esa —{' '}
+        <code>children</code>:
+      </p>
+      <CodeBlock lang="jsx">{`function Panel({ sarlavha, children }) {
+  return (
+    <div className="panel">
+      <h3 className="panel-sarlavha">{sarlavha}</h3>
+      <div className="panel-tanasi">{children}</div>
+    </div>
+  )
+}
+
+<Panel sarlavha="Yangiliklar">
+  <p>Bugun kutubxonaga 5 ta yangi kitob keldi.</p>
+  <a href="/yangiliklar">Hammasi</a>
+</Panel>`}</CodeBlock>
 
       <h2>
         Composition (tarkib qurish) va konfiguratsiya (configuration)
@@ -111,7 +130,7 @@ function App() {
       </p>
       <CodeBlock lang="jsx">{`function Panel({ sarlavha, matn }) {
   return (
-    <div className="rounded-lg border border-line p-4 shadow-sm">
+    <div className="panel">
       <h3>{sarlavha}</h3>
       <p>{matn}</p>
     </div>
@@ -151,7 +170,7 @@ function App() {
       </p>
       <CodeBlock lang="jsx">{`function Maket({ yonPanel, asosiyMazmun }) {
   return (
-    <div className="flex gap-4">
+    <div className="maket">
       <aside>{yonPanel}</aside>
       <main>{asosiyMazmun}</main>
     </div>
@@ -173,6 +192,26 @@ function App() {
         kerak bo'lgan hollarda esa oddiy nomlangan prop ishlatiladi.
       </p>
 
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong><code>{'{children}'}</code>ni chizishni unutish.</strong> O'rovchi
+            komponent <code>children</code>ni qabul qilib, uni JSX'ga qo'ymasa, teglar orasidagi
+            mazmun jimgina yo'qoladi — hech qanday xato chiqmaydi.
+          </li>
+          <li>
+            <strong>Destructuring'da nomni o'zgartirish.</strong> Prop nomi doim{' '}
+            <code>children</code>; <code>{'function Panel({ child })'}</code> yoki{' '}
+            <code>{'({ bolalar })'}</code> deb yozsangiz, qiymat <code>undefined</code> bo'ladi.
+          </li>
+          <li>
+            <strong>Har narsa uchun yangi prop qo'shish.</strong> <code>rasm</code>,{' '}
+            <code>tugmaMatni</code>, <code>tugma2Matni</code>... ro'yxati uzayib ketayotgan bo'lsa
+            — komponentni <code>children</code> qabul qiladigan qilib qayta yozish vaqti keldi.
+          </li>
+        </ul>
+      </Callout>
+
       <Quiz
         question="Panel komponenti { children } destructuring orqali qabul qilinadi va return { children } ni <div> ichida chiqaradi. <Panel><h3>Salom</h3></Panel> deb chaqirilganda, ekranga nima chiqadi?"
         options={[
@@ -185,7 +224,19 @@ function App() {
         explanation="Panel tegi ichiga yozilgan <h3>Salom</h3> avtomatik ravishda children propiga aylanadi. Panel esa {children}ni <div> ichida chiqaradi, shuning uchun natija <div> ichidagi <h3>Salom</h3> bo'ladi."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Sizga Modal (oyna) komponenti kerak: har doim bir xil soya va yopish tugmasi bor, lekin ichida ba'zan forma, ba'zan rasm, ba'zan ogohlantirish matni bo'ladi. Qaysi yondashuv to'g'ri?"
+        options={[
+          "Modal children qabul qilsin va uni qobiq ichida chizsin",
+          "Har bir holat uchun alohida prop: formaMaydonlari, rasmManzili, ogohlantirishMatni",
+          "Har bir holat uchun alohida FormaModal, RasmModal, OgohlantirishModal komponentlari",
+          "Modal ichida if bilan har bir holatni tekshirish",
+        ]}
+        correctIndex={0}
+        explanation="Modal'ning vazifasi — tashqi qobiq (soya, yopish tugmasi). Ichidagi mazmun butunlay har xil bo'lgani uchun composition — children — eng moslashuvchan yechim: Modal'ni o'zgartirmasdan istalgan mazmunni joylashtirish mumkin."
+      />
+
+      <Exercise title="1-mashq: Kartochka o'rovchisi">
         <p>
           <code>Kartochka</code> nomli o'rovchi (wrapper) komponent yozing — u{' '}
           <code>children</code>ni qabul qilib, uni <code>{'<div className="kartochka">'}</code>{' '}
@@ -214,6 +265,54 @@ function App() {
     </>
   )
 }`}</CodeBlock>
+        </Solution>
+      </Exercise>
+
+      <Exercise title="2-mashq: sahifa maketi">
+        <p>
+          <code>SahifaMaketi</code> komponentini yozing: u <code>sarlavha</code> (satr),{' '}
+          <code>yonPanel</code> (JSX) va <code>children</code> props'larini olsin. Natija:
+          tepada <code>{'<header>'}</code> ichida sarlavha, pastda yonma-yon{' '}
+          <code>{'<aside>'}</code> (yon panel) va <code>{'<main>'}</code> (children). So'ng uni
+          "Kitoblar" sahifasi uchun ishlating: yon panelda janrlar (oddiy <code>{'<p>'}</code>
+          lar), asosiy qismda esa 5-darsdagi <code>KitobKartasi</code>dan ikkitasi.
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`function SahifaMaketi({ sarlavha, yonPanel, children }) {
+  return (
+    <div className="maket">
+      <header>
+        <h1>{sarlavha}</h1>
+      </header>
+      <div className="maket-tanasi">
+        <aside>{yonPanel}</aside>
+        <main>{children}</main>
+      </div>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <SahifaMaketi
+      sarlavha="Kitoblar"
+      yonPanel={
+        <>
+          <p>Roman</p>
+          <p>She'riyat</p>
+          <p>Tarix</p>
+        </>
+      }
+    >
+      <KitobKartasi sarlavha="O'tkan kunlar" muallif="Abdulla Qodiriy" />
+      <KitobKartasi sarlavha="Kecha va kunduz" muallif="Cho'lpon" />
+    </SahifaMaketi>
+  )
+}`}</CodeBlock>
+          <p>
+            Yon panel uchun bir nechta element kerak bo'lgani uchun ular fragmentga o'raldi —
+            prop qiymati bitta JSX qiymati bo'lishi kerak.
+          </p>
         </Solution>
       </Exercise>
 
