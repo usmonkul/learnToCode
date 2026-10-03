@@ -10,22 +10,12 @@ export const meta = {
   section: 'Interaktivlik',
 }
 
-export default function UseStateBasicsLesson() {
+export default function UseStateLesson() {
   return (
     <>
+      <h2>Muammo: o'zgaruvchi o'zgaradi, ekran — yo'q</h2>
       <p>
-        Birinchi darsda <code>useState</code>ni yuzaki ko'rib o'tgan edik — hozir uning nima
-        uchun kerakligini, oddiy o'zgaruvchidan nimasi bilan farqlanishini va qanday ishlashini
-        chuqurroq o'rganamiz. Bu — React'dagi eng muhim tushunchalardan biri:{' '}
-        <strong>state (holat)</strong> — komponentning vaqt o'tishi bilan o'zgarib turadigan,
-        lekin renderlar orasida "eslab qolinadigan" ma'lumoti.
-      </p>
-
-      <h2>Nega oddiy o'zgaruvchi yetarli emas?</h2>
-      <p>
-        Tasavvur qiling, biz oddiy hisoblagich (counter) yasamoqchimiz — tugma bosilganda son
-        bittaga oshsin. Birinchi tajriba sifatida, o'rganganimizdek, oddiy <code>let</code>{' '}
-        o'zgaruvchidan foydalanib ko'raylik:
+        12-darsni shu kod bilan tugatgan edik — tugma bosilganda son bittaga oshishi kerak:
       </p>
       <CodeBlock lang="jsx">{`function Hisoblagich() {
   let soni = 0
@@ -40,11 +30,25 @@ export default function UseStateBasicsLesson() {
       <p>
         Bu kodni ishga tushirib ko'rsangiz, konsolda <code>soni</code> qiymati haqiqatan ham
         1, 2, 3 bo'lib oshib borayotganini ko'rasiz — lekin ekrandagi tugma matni doim{' '}
-        <code>Bosish soni: 0</code> bo'lib qolaveradi. Sabab oddiy: <code>soni</code> — bu shu
-        funksiya chaqirilganda yaratiladigan oddiy JavaScript o'zgaruvchisi. Uni o'zgartirish
-        xotirada bir sonni boshqasiga almashtiradi, xolos — bu React'ga "ekranni qayta chiz"
-        deb signal bermaydi. React esa komponent funksiyasini o'z-o'zidan qayta chaqirmaydi,
-        faqat u buni qachon qilish kerakligini bilgan holatlardagina ishlaydi.
+        <code>Bosish soni: 0</code> bo'lib qolaveradi. Ikkita sabab bor:
+      </p>
+      <ol>
+        <li>
+          <strong>O'zgaruvchini o'zgartirish React'ga hech narsa demaydi.</strong> React
+          komponentni o'z-o'zidan qayta chaqirmaydi; <code>soni</code> xotirada o'zgardi, lekin
+          ekranni qayta chizish kerakligini hech kim aytmadi.
+        </li>
+        <li>
+          <strong>Mahalliy o'zgaruvchi renderlar orasida saqlanmaydi.</strong> Agar React
+          komponentni boshqa sababdan qayta chaqirsa ham, <code>let soni = 0</code> qatori yana
+          bajariladi — son qaytadan 0 bo'ladi.
+        </li>
+      </ol>
+      <p>
+        Demak, ekranni yangilash uchun ikki narsa kerak: qiymatni renderlar orasida{' '}
+        <strong>eslab qolish</strong> va o'zgarganda React'ga{' '}
+        <strong>qayta chizishni buyurish</strong>. React'da buning uchun{' '}
+        <strong>state</strong> (holat) bor.
       </p>
       <Callout type="note" title="Re-render nima?">
         <strong>Re-render (qayta chizish)</strong> — React'ning komponent funksiyasini qaytadan
@@ -113,84 +117,163 @@ function Hisoblagich() {
         yasalgan, lekin har biri o'zining ma'lumotini saqlaydigan alohida obyektlar kabi.
       </p>
 
-      <h2>Funksional yangilash: <code>setValue(prev =&gt; ...)</code></h2>
+      <h2>Bir nechta state</h2>
       <p>
-        <code>setSoni(soni + 1)</code> odatda ishlaydi, lekin bir muammoli holat bor: agar bir
-        necha yangilanish ketma-ket, tez sodir bo'lsa (masalan, bir hodisa ichida{' '}
-        <code>setSoni</code> ikki marta chaqirilsa), <code>soni</code> o'zgaruvchisi hali eski
-        (stale) qiymatni "eslab" turishi mumkin, chunki u shu render paytidagi qiymat, real
-        vaqtdagi eng so'nggi qiymat emas:
+        Komponentda istalgancha state bo'lishi mumkin — har biri uchun alohida{' '}
+        <code>useState</code> chaqiruvi. Qiymat turi ham istalgan: son, satr, boolean, massiv,
+        obyekt.
       </p>
-      <CodeBlock lang="jsx">{`function handleClick() {
-  setSoni(soni + 1)
-  setSoni(soni + 1)
-  // Kutilgan: +2, lekin haqiqatda faqat +1 bo'ladi,
-  // chunki ikkala chaqiruv ham bir xil eski "soni" qiymatidan foydalanadi
+      <CodeBlock lang="jsx">{`import { useState } from 'react'
+
+export default function TaomTanlash() {
+  const [soni, setSoni] = useState(1)
+  const [izohOchiq, setIzohOchiq] = useState(false)
+
+  return (
+    <div className="karta">
+      <h3>Osh</h3>
+      <div>
+        <button onClick={() => setSoni(soni - 1)} disabled={soni === 1}>−</button>
+        <span>{soni} porsiya</span>
+        <button onClick={() => setSoni(soni + 1)}>+</button>
+      </div>
+      <p>Jami: {soni * 45000} so'm</p>
+
+      <button onClick={() => setIzohOchiq(!izohOchiq)}>
+        {izohOchiq ? 'Tarkibni yashirish' : "Tarkibni ko'rsatish"}
+      </button>
+      {izohOchiq && <p>Devzira guruch, qo'y go'shti, sariq sabzi, no'xat.</p>}
+    </div>
+  )
+}`}</CodeBlock>
+      <p>Bu kichik misolda butun bo'limning g'oyasi bor:</p>
+      <ul>
+        <li>
+          <code>soni</code> va <code>izohOchiq</code> — bir-biriga bog'liq bo'lmagan ikki ma'lumot,
+          shuning uchun ikki alohida state.
+        </li>
+        <li>
+          "Jami" alohida state emas — u har renderda <code>soni</code>dan{' '}
+          <strong>hisoblanadi</strong>. Hisoblab bo'ladigan narsani state'da saqlamang (19-darsda
+          batafsil).
+        </li>
+        <li>
+          Shartli render (7-dars) endi jonlandi: <code>izohOchiq</code> o'zgarganda tarkib paydo
+          bo'ladi yoki yo'qoladi.
+        </li>
+        <li>
+          <code>disabled</code> ham state'dan hisoblanadi: 1 porsiyadan kamaytirib bo'lmaydi.
+        </li>
+      </ul>
+
+      <h2>Hook qoidalari</h2>
+      <p>
+        <code>useState</code> — birinchi <strong>hook</strong>ingiz. <code>use</code> bilan
+        boshlanadigan barcha funksiyalar hook hisoblanadi va ular uchun ikki qat'iy qoida bor:
+      </p>
+      <ol>
+        <li>
+          <strong>Hook'larni faqat komponentning eng yuqori darajasida chaqiring</strong> —{' '}
+          <code>if</code>, sikl, ichki funksiya yoki <code>return</code>dan keyin emas.
+        </li>
+        <li>
+          <strong>Hook'larni faqat React komponentlari</strong> (yoki o'zingiz yozgan hook'lar,
+          30-dars) <strong>ichida chaqiring</strong> — oddiy JavaScript funksiyalarida emas.
+        </li>
+      </ol>
+      <CodeBlock lang="jsx">{`function Profil({ kirgan }) {
+  // XATO: hook shart ichida
+  if (kirgan) {
+    const [ism, setIsm] = useState('')
+  }
+
+  // XATO: erta return'dan keyin hook
+  if (!kirgan) return null
+  const [yosh, setYosh] = useState(0)
+  ...
 }`}</CodeBlock>
       <p>
-        Buning yechimi — setter'ga yangi qiymatning o'zini emas, balki{' '}
-        <strong>funksiya</strong> uzatish. Bu funksiya argument sifatida eng so'nggi, haqiqiy
-        joriy qiymatni (<code>prev</code>) oladi va yangi qiymatni shundan hisoblab qaytaradi:
+        Nega? React state'larni nomi bo'yicha emas, <strong>chaqirilish tartibi</strong> bo'yicha
+        taniydi: "bu komponentdagi 1-useState, 2-useState...". Agar biror renderda bitta hook
+        shart tufayli chaqirilmay qolsa, tartib siljiydi va React ikkinchi state'ga birinchisining
+        qiymatini berib yuboradi. Shuning uchun hook'lar har renderda bir xil tartibda, bir xil
+        sonda chaqirilishi shart. Vite shablonidagi ESLint bu qoidani buzsangiz darhol
+        ogohlantiradi.
       </p>
-      <CodeBlock lang="jsx">{`function handleClick() {
-  setSoni(prev => prev + 1)
-  setSoni(prev => prev + 1)
-  // Endi to'g'ri: +2, chunki har bir chaqiruv
-  // eng so'nggi qiymatdan boshlanadi
-}`}</CodeBlock>
+
+      <h2>State va props: farqi nima?</h2>
+      <ul>
+        <li>
+          <strong>Props</strong> — komponentga <em>tashqaridan</em> keladi; komponent ularni
+          o'zgartira olmaydi. Funksiyaning argumentlariga o'xshaydi.
+        </li>
+        <li>
+          <strong>State</strong> — komponentning <em>o'z</em> xotirasi; uni faqat shu komponent
+          o'zgartiradi. Funksiya ichida yashaydigan, lekin chaqiruvlar orasida unutilmaydigan
+          o'zgaruvchiga o'xshaydi.
+        </li>
+      </ul>
       <p>
-        Bu — <strong>funksional yangilash (functional update)</strong> shakli deb ataladi.
-        React ketma-ket kelgan <code>setSoni</code> chaqiruvlarini navbatga qo'yib, ularni
-        birma-bir, har birini oldingisining haqiqiy natijasidan boshlab bajaradi — shu sabab
-        stale closure (eskirgan yopilish) muammosi yo'qoladi. Oddiy sanoqda farq sezilmasligi
-        mumkin, lekin yangi qiymat eski qiymatga bog'liq bo'lgan har qanday holatda (masalan,
-        tez-tez bosiladigan tugma, animatsiya, yoki bir necha joydan kelayotgan yangilanishlar)
-        funksional shaklni ishlatish xavfsizroq odat hisoblanadi.
+        Ular ko'pincha birga ishlaydi: ota komponentning state'i bolaga props bo'lib tushadi.
+        Ota state'ni o'zgartirganda bola ham yangi props bilan qayta chiziladi. State'ni bir
+        nechta komponent orasida qanday ulashishni 20-darsda ko'ramiz.
       </p>
-      <Callout type="tip" title="Qachon qaysi shaklni ishlatish kerak?">
-        Agar yangi qiymat oldingi qiymatga bog'liq bo'lsa (<code>soni + 1</code> kabi) —
-        funksional shakl <code>{'setSoni(prev => prev + 1)'}</code>ni afzal ko'ring. Agar yangi
-        qiymat oldingisiga bog'liq bo'lmasa (masalan, inputdan kelgan yangi matn) — oddiy{' '}
-        <code>setQiymat(yangiQiymat)</code> yetarli.
-      </Callout>
 
-      <Callout type="warning" title="Obyekt va massiv state'ini mutatsiya qilmang">
-        Agar state'da obyekt yoki massiv saqlansa, uni <strong>ichidan</strong> o'zgartirish
-        (masalan, <code>obj.nomi = "yangi"</code> yoki <code>royxat.push(elem)</code>) ishlamaydi
-        — React eski va yangi qiymat bir xil obyekt ekanligini ko'rib, qayta render qilish
-        kerakligini bilmay qoladi. Buning o'rniga har doim <strong>yangi</strong> obyekt yoki
-        massiv yaratib, uni setter'ga berish kerak — spread sintaksisi (<code>...</code>) buning
-        uchun qulay:
-        <CodeBlock lang="jsx">{`const [foydalanuvchi, setFoydalanuvchi] = useState({ ism: 'Ali', yosh: 20 })
-
-// XATO: obyektni ichidan o'zgartirish
-foydalanuvchi.yosh = 21
-
-// TO'G'RI: yangi obyekt yaratib, uni setterga berish
-setFoydalanuvchi({ ...foydalanuvchi, yosh: 21 })`}</CodeBlock>
-        Bu mavzuni hozircha shu darajada bilish kifoya — batafsilroq keyingi darslarda, ayniqsa{' '}
-        <code>useReducer</code> va custom hook'lar bilan ishlaganda qayta ko'rib chiqamiz.
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>State'ni to'g'ridan-to'g'ri o'zgartirish.</strong> <code>soni = soni + 1</code>{' '}
+            yoki <code>soni++</code> — ekran yangilanmaydi. Doim setter:{' '}
+            <code>setSoni(soni + 1)</code>.
+          </li>
+          <li>
+            <strong>Setter'ni render paytida chaqirish.</strong>{' '}
+            <code>{'onClick={setSoni(soni + 1)}'}</code> — render ichida state o'zgaradi, bu yana
+            render chaqiradi va hokazo: "Too many re-renders" xatosi. To'g'risi:{' '}
+            <code>{'onClick={() => setSoni(soni + 1)}'}</code>.
+          </li>
+          <li>
+            <strong>Hook'ni shart yoki sikl ichida chaqirish</strong> — hook'lar doim yuqori
+            darajada, har renderda bir xil tartibda.
+          </li>
+          <li>
+            <strong><code>useState</code>ni import qilishni unutish.</strong>{' '}
+            <code>useState is not defined</code> — fayl boshida{' '}
+            <code>{"import { useState } from 'react'"}</code>.
+          </li>
+          <li>
+            <strong>Setter'dan keyin yangi qiymatni kutish.</strong>{' '}
+            <code>setSoni(5); console.log(soni)</code> — hali eski qiymatni ko'rsatadi. Nega —
+            keyingi darsda.
+          </li>
+        </ul>
       </Callout>
 
       <Quiz
-        question={`Bitta komponent ichida quyidagi kod bor: "setSoni(soni + 1); setSoni(soni + 1)". Bu ikki chaqiruv bir hodisa ichida ketma-ket bajarilsa, soni nechaga oshadi va nega?`}
-        options={[
-          "Faqat +1ga, chunki ikkala chaqiruv ham hodisa boshlanishidagi bir xil eski \"soni\" qiymatidan foydalanadi",
-          "+2ga, chunki har bir setSoni chaqiruvi darhol yangi qiymatni o'qib oladi",
-          "Xatolik chiqadi, chunki setterni bir hodisada ikki marta chaqirib bo'lmaydi",
-          "+1ga, chunki React ikkinchi chaqiruvni butunlay e'tiborsiz qoldiradi",
-        ]}
+        question="Sahifada <Hisoblagich /> uch marta chizilgan. Birinchisini 3 marta bossangiz, uchinchisida nechchi ko'rinadi?"
+        options={['0', '3', '1', '9']}
         correctIndex={0}
-        explanation="soni + 1 ifodasi hodisa boshlanganda hisoblangan bitta eski qiymatga tayanadi. Ikkala setSoni chaqiruvi ham xuddi shu eski qiymat asosida bir xil yangi qiymatni yuboradi, shuning uchun natija +2 emas, +1 bo'ladi. Buning oldini olish uchun funksional yangilash — setSoni(prev => prev + 1) — ishlatiladi."
+        explanation="Har bir komponent nusxasining o'z alohida state'i bor. Birinchi hisoblagichni bosish faqat uning soni'ni o'zgartiradi; uchinchisi hali 0 da."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Quyidagi kod 'Too many re-renders' xatosini beradi: <button onClick={setOchiq(true)}>Ochish</button>. Sababi nima?"
+        options={[
+          "setOchiq(true) render paytida chaqiriladi, state o'zgaradi, bu yana render chaqiradi — cheksiz sikl",
+          "boolean state'ni true qilib bo'lmaydi",
+          "useState import qilinmagan",
+          "onClick faqat satr qabul qiladi",
+        ]}
+        correctIndex={0}
+        explanation="Qavslar tufayli setOchiq(true) bosilganda emas, har renderda bajariladi. State o'zgarishi yangi render chaqiradi, u yana setOchiq'ni chaqiradi... React buni to'xtatib, xato beradi. To'g'risi: onClick={() => setOchiq(true)}."
+      />
+
+      <Exercise title="1-mashq: yoqtirish tugmasi">
         <p>
           <code>YoqtirishTugmasi</code> nomli komponent yozing (like-button uslubida). U ichida{' '}
           <code>useState</code> orqali boolean state saqlasin (boshlang'ich qiymat{' '}
           <code>false</code>) — bu foydalanuvchi "yoqtirgan" yoki "yoqtirmagan" holatini
-          bildiradi. Tugma bosilganda state teskarisiga o'zgarsin (funksional yangilash shaklida,
-          ya'ni <code>{'prev => !prev'}</code> orqali). Tugma matni holatga qarab{' '}
+          bildiradi. Tugma bosilganda state teskarisiga o'zgarsin. Tugma matni holatga qarab{' '}
           <code>"♡ Yoqtirish"</code> yoki <code>"♥ Yoqtirildi"</code> bo'lsin.
         </p>
         <Solution>
@@ -200,7 +283,7 @@ function YoqtirishTugmasi() {
   const [yoqtirilgan, setYoqtirilgan] = useState(false)
 
   function handleClick() {
-    setYoqtirilgan(prev => !prev)
+    setYoqtirilgan(!yoqtirilgan)
   }
 
   return (
@@ -209,6 +292,51 @@ function YoqtirishTugmasi() {
     </button>
   )
 }`}</CodeBlock>
+        </Solution>
+      </Exercise>
+
+      <Exercise title="2-mashq: yulduzcha reyting">
+        <p>
+          <code>Reyting</code> komponentini yozing: beshta yulduz (★) tugmasi, boshida hammasi
+          kulrang. Foydalanuvchi 4-yulduzni bossa, birinchi to'rttasi sariq bo'lsin va ostida
+          "Bahoyingiz: 4/5" chiqsin. Hali baho berilmagan bo'lsa — "Baho bering". Qo'shimcha:
+          sichqoncha yulduz ustiga kelganda (<code>onMouseEnter</code>) shu yulduzgacha
+          vaqtinchalik sariq bo'lsin, chiqib ketganda (<code>onMouseLeave</code>) tanlangan bahoga
+          qaytsin.
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`import { useState } from 'react'
+
+const YULDUZLAR = [1, 2, 3, 4, 5]
+
+export default function Reyting() {
+  const [baho, setBaho] = useState(0)        // tanlangan baho
+  const [ustida, setUstida] = useState(0)    // sichqoncha turgan yulduz
+
+  const korsatilgan = ustida || baho         // ustida bo'lsa — u, aks holda baho
+
+  return (
+    <div>
+      {YULDUZLAR.map((n) => (
+        <button
+          key={n}
+          onClick={() => setBaho(n)}
+          onMouseEnter={() => setUstida(n)}
+          onMouseLeave={() => setUstida(0)}
+          style={{ color: n <= korsatilgan ? '#f5b301' : '#d4d4d4', fontSize: 28 }}
+        >
+          ★
+        </button>
+      ))}
+      <p>{baho > 0 ? \`Bahoyingiz: \${baho}/5\` : 'Baho bering'}</p>
+    </div>
+  )
+}`}</CodeBlock>
+          <p>
+            Ikki state — chunki "tanlangan" va "hozir ko'rsatilayotgan" ikki xil narsa.{' '}
+            <code>korsatilgan</code> esa state emas, ikkalasidan hisoblanadi. Rang dinamik
+            bo'lgani uchun <code>style</code> prop'ida (10-dars).
+          </p>
         </Solution>
       </Exercise>
 
@@ -227,13 +355,12 @@ function YoqtirishTugmasi() {
           o'zgarish boshqasiga ta'sir qilmaydi.
         </li>
         <li>
-          Yangi qiymat oldingi qiymatga bog'liq bo'lsa, funksional yangilash shaklini —{' '}
-          <code>{'setQiymat(prev => ...)'}</code> — ishlating, bu stale (eskirgan) qiymat
-          muammosining oldini oladi.
+          Hook'lar (<code>use...</code>) faqat komponentning yuqori darajasida, shartsiz va har
+          renderda bir xil tartibda chaqiriladi.
         </li>
         <li>
-          Obyekt yoki massiv state'ini hech qachon ichidan o'zgartirmang (mutatsiya qilmang) —
-          har doim spread sintaksisi bilan yangi nusxa yaratib, uni setter'ga bering.
+          Props — tashqaridan keladi va o'zgartirilmaydi; state — komponentning o'z xotirasi, faqat
+          setter orqali o'zgaradi. Hisoblab bo'ladigan qiymatni state'da saqlamang.
         </li>
       </KeyPoints>
     </>

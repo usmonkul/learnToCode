@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" width="640" height="280" role="img" aria-labelledby="cvm-title">
+  <title id="cvm-title">Mutatsiya va nusxa: chapda o'sha obyekt o'zgartiriladi va React farqni ko'rmaydi; o'ngda spread bilan yangi obyekt yaratiladi va React qayta render qiladi</title>
+  <rect width="640" height="280" fill="#ffffff" />
+
+  <text x="160" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#402310" font-family="sans-serif">Mutatsiya (XATO)</text>
+  <text x="480" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#3d472b" font-family="sans-serif">Yangi obyekt (TO'G'RI)</text>
+
+  <text x="40" y="62" font-size="12" fill="#402310" font-family="monospace">user.ism = 'Vali'</text>
+  <text x="40" y="80" font-size="12" fill="#402310" font-family="monospace">setUser(user)</text>
+  <rect x="60" y="100" width="200" height="70" rx="10" fill="#fff2eb" stroke="#c67139" stroke-width="2" />
+  <text x="160" y="126" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">obyekt #1</text>
+  <text x="160" y="148" text-anchor="middle" font-size="13" fill="#402310" font-family="monospace">{ ism: 'Vali' }</text>
+  <text x="160" y="200" text-anchor="middle" font-size="12" fill="#402310" font-family="sans-serif">eski state  ===  yangi state</text>
+  <text x="160" y="222" text-anchor="middle" font-size="12" fill="#402310" font-family="sans-serif">(ikkalasi ham obyekt #1)</text>
+  <text x="160" y="252" text-anchor="middle" font-size="13" font-weight="bold" fill="#b42318" font-family="sans-serif">React: "o'zgarish yo'q" — render yo'q</text>
+
+  <line x1="320" y1="50" x2="320" y2="260" stroke="#e3e1da" stroke-width="2" />
+
+  <text x="360" y="62" font-size="12" fill="#3d472b" font-family="monospace">setUser({ ...user, ism: 'Vali' })</text>
+  <rect x="350" y="100" width="120" height="70" rx="10" fill="#ffffff" stroke="#7a8a5e" stroke-width="2" />
+  <text x="410" y="126" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">obyekt #1</text>
+  <text x="410" y="148" text-anchor="middle" font-size="12" fill="#3d472b" font-family="monospace">{ ism: 'Ali' }</text>
+  <rect x="490" y="100" width="130" height="70" rx="10" fill="#f0fae1" stroke="#7a8a5e" stroke-width="2" />
+  <text x="555" y="126" text-anchor="middle" font-size="12" fill="#6a675e" font-family="sans-serif">obyekt #2 (yangi)</text>
+  <text x="555" y="148" text-anchor="middle" font-size="12" fill="#3d472b" font-family="monospace">{ ism: 'Vali' }</text>
+  <text x="480" y="200" text-anchor="middle" font-size="12" fill="#3d472b" font-family="sans-serif">eski state  !==  yangi state</text>
+  <text x="480" y="222" text-anchor="middle" font-size="12" fill="#3d472b" font-family="sans-serif">(eski surat ham buzilmagan)</text>
+  <text x="480" y="252" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d472b" font-family="sans-serif">React: "yangi qiymat" — render ✓</text>
+</svg>
