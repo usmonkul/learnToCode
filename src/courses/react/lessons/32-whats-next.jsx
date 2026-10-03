@@ -1,5 +1,6 @@
 import CodeBlock from '@/components/content/CodeBlock'
 import Callout from '@/components/content/Callout'
+import Quiz from '@/components/content/Quiz'
 import Exercise from '@/components/content/Exercise'
 import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
@@ -9,185 +10,311 @@ export const meta = {
   section: 'Ref va effektlar',
 }
 
-export default function CourseWrapUpLesson() {
+export default function WhatsNextLesson() {
   return (
     <>
+      <h2>Muammo: "Endi nima?"</h2>
       <p>
-        Shu kursni boshlaganimizda, komponent — bu ekranning bir bo'lagini tasvirlab beruvchi
-        oddiy JavaScript funksiyasi ekanini ko'rgan edik. Shundan keyin bosqichma-bosqich
-        qatlam ustiga qatlam qo'shib bordik: avval komponentga tashqaridan ma'lumot uzatishni
-        (<strong>props</strong>) va JSX'ning o'zini komponent ichiga joylashtirishni (
-        <strong>children</strong> va composition) o'rgandik. So'ng komponentni "jonlantirdik" —{' '}
-        <strong>useState</strong> orqali vaqt o'tishi bilan o'zgaruvchi ma'lumotni saqlashni, va{' '}
-        <strong>event handler</strong>lar orqali foydalanuvchi harakatlariga javob berishni,
-        shu jumladan controlled forma va inputlarni qurishni ko'rdik.
-      </p>
-      <p>
-        Keyin ma'lumot o'zgarganda ekranning o'zi qanday o'zgarishini — <strong>shartli
-        render</strong> (<code>&&</code>, ternary) va <strong>ro'yxatlarni</strong>{' '}
-        <code>.map()</code> hamda <code>key</code> yordamida chizishni — o'rgandik. Undan
-        keyin komponentni React dunyosidan tashqariga — tarmoq so'rovlari, taymerlar, DOM'ning
-        o'ziga — bog'lashni <strong>useEffect</strong> va <strong>useRef</strong> orqali
-        ko'rdik. So'ngra state boshqaruvining kattaroq naqshlariga o'tdik: state'ni yuqoriga
-        ko'tarish (lifting state up), murakkabroq state mantig'ini <strong>useReducer</strong>{' '}
-        bilan tartibga solish, takrorlanadigan mantiqni <strong>custom hook</strong>larga
-        chiqarish va <strong>useContext</strong> orqali state'ni komponent daraxti bo'ylab
-        "prop drilling"siz uzatish. Nihoyat, hammasini bitta amaliy loyihada — Vazifalar
-        ro'yxati ilovasida — birlashtirdik: state shakli, immutable yangilash, formalar va
-        filtrlash.
-      </p>
-      <p>
-        Bu — React'ning asosiy grammatikasi. Undan keyingi hamma narsa (marshrutlash, katta
-        loyihalarda state'ni tashkil qilish, testlash va boshqalar) — aynan shu grammatika
-        ustiga quriladi, uni almashtirmaydi.
+        Siz React'ning asosini to'liq o'tdingiz va to'rtta ishlaydigan ilova qurdingiz. Lekin
+        haqiqiy loyihaga kirishingiz bilan yangi savollar paydo bo'ladi: bir nechta sahifa
+        qanday qilinadi? Ma'lumotni har safar qaytadan yuklamaslik uchun nima qilish kerak? Ilova
+        sekinlashsa-chi? Bu dars — o'rganganlaringizni bir joyga yig'ish va keyingi yo'lni
+        ko'rsatish uchun.
       </p>
 
-      <h2>React ekotizimida keyingi qadamlar</h2>
+      <h2>Bu kursda nimalarni o'rgandingiz</h2>
+      <ul>
+        <li>
+          <strong>Boshlash.</strong> React — ma'lumotdan UI yasaydigan deklarativ kutubxona; Vite
+          loyihasi; JSX; komponentlar va modullar.
+        </li>
+        <li>
+          <strong>UI'ni tasvirlash.</strong> Props va <code>children</code>; shartli render;
+          ro'yxatlar va <code>key</code>; sof komponentlar va render daraxti; CSS Modules.
+        </li>
+        <li>
+          <strong>Interaktivlik.</strong> Hodisalar; <code>useState</code>; render va commit,
+          state — surat, batching, updater; obyekt va massivlarni immutable yangilash; formalar.
+        </li>
+        <li>
+          <strong>State boshqaruvi.</strong> Minimal state; state'ni ko'tarish; o'rin va{' '}
+          <code>key</code> bilan state saqlash/tozalash; <code>useReducer</code>; context.
+        </li>
+        <li>
+          <strong>Ref va effektlar.</strong> <code>useRef</code>; <code>useEffect</code> va
+          cleanup; ma'lumot yuklash va poyga holati; effect kerak bo'lmagan holatlar; custom
+          hook'lar.
+        </li>
+      </ul>
       <p>
-        Bu kurs faqat React'ning o'zini — komponentlar, props, state, effektlar — qamrab oldi.
-        Haqiqiy loyihalarda odatda yana bir nechta narsa kerak bo'ladi. Quyidagilar bu kursda{' '}
-        <strong>o'rgatilmagan</strong>, lekin React bilan ishlaganda tez-tez uchraydigan
-        yo'nalishlar — ular haqida faqat umumiy tasavvur berish uchun sanab o'tamiz:
+        Agar bitta fikrni eslab qolish kerak bo'lsa, u shu: <strong>UI = f(state)</strong>.
+        Minimal state saqlang, qolganini render paytida hisoblang, foydalanuvchi harakatlarini
+        handler'larda, tashqi dunyo bilan sinxronlashni effect'larda qiling.
+      </p>
+
+      <h2>Keyingi kurs: react-advanced</h2>
+      <Callout type="note" title="Kurs tayyorlanmoqda">
+        <code>react-advanced</code> kursi hozir tayyorlanmoqda. Quyidagi mavzular u chiqqanda
+        shu yerda havolalar bilan paydo bo'ladi. Ungacha bu ro'yxatdan mustaqil o'rganish rejasi
+        sifatida foydalanishingiz mumkin.
+      </Callout>
+      <ol>
+        <li>
+          <strong>Routing — React Router.</strong> Bir nechta sahifa, URL parametrlari (
+          <code>/kitob/:id</code>), ichma-ich maketlar, sahifa ochilishidan oldin ma'lumot yuklash
+          (loader'lar).
+        </li>
+        <li>
+          <strong>Ma'lumot bilan ishlash — TanStack Query.</strong> Keshlash, fon rejimida
+          yangilash, sahifalash, so'rov holatlarini avtomatik boshqarish; Suspense va{' '}
+          <code>use</code> hook'i. 28-darsdagi qo'lda yozilgan kodning "sanoat" varianti.
+        </li>
+        <li>
+          <strong>React 19 formalari.</strong> Actions, <code>useActionState</code>,{' '}
+          <code>useFormStatus</code>, <code>useOptimistic</code> — 17-darsdagi formalarni
+          yuborish, kutish va xatolarni boshqarishning yangi usuli.
+        </li>
+        <li>
+          <strong>Tezlik.</strong> Qayta renderlar qanday tarqaladi, React DevTools Profiler,{' '}
+          <code>memo</code>, <code>useMemo</code>, <code>useCallback</code>, React Compiler;{' '}
+          <code>lazy</code> va kodni bo'laklarga bo'lish.
+        </li>
+        <li>
+          <strong>Mustahkamlik va naqshlar.</strong> Error boundary'lar, portallar (modal oynalar
+          uchun), murakkab komponent naqshlari.
+        </li>
+        <li>
+          <strong>Global state.</strong> Context yetmay qolganda — Zustand.
+        </li>
+        <li>
+          <strong>Sifat.</strong> Vitest va React Testing Library bilan test yozish; ilovani
+          internetga joylash (deploy).
+        </li>
+        <li>
+          <strong>Yakuniy loyiha</strong> — ko'p sahifali, server bilan ishlaydigan to'liq ilova.
+        </li>
+      </ol>
+
+      <h2>Hozir nima qilish kerak?</h2>
+      <p>
+        Eng yaxshi o'qituvchi — o'z loyihangiz. Kurs loyihalaridan farqli o'laroq, unda qadamlar
+        yozilmagan, va aynan shu "qayerdan boshlayman?" holati sizni dasturchiga aylantiradi.
       </p>
       <ul>
         <li>
-          <strong>Ko'p sahifali navigatsiya (routing).</strong> Bir sahifali ilova (SPA) ichida
-          "sahifalar" orasida URL orqali o'tishni ta'minlaydigan router kutubxonasi (masalan,
-          React Router) — bu kursda ishlatilgan lekin o'rgatilmagan; har bir "sahifa" hozircha
-          alohida darsning o'zi edi.
+          <strong>Loyihalar sahifasidagi</strong> React loyihalarini o'zingiz qaytadan yozing —
+          avval ko'rib chiqing, keyin kodga qaramasdan quring.
         </li>
         <li>
-          <strong>Katta masshtabda state almashish.</strong> <code>useContext</code> kichik va
-          o'rta loyihalar uchun yetarli, lekin juda katta ilovalarda ko'pincha maxsus
-          state-boshqaruv kutubxonalari (masalan, Zustand) ishlatiladi — ular
-          performance va tashkil etish jihatidan qo'shimcha imkoniyatlar beradi.
+          <strong>To'rtta kurs loyihasining qo'shimcha topshiriqlarini</strong> bajaring — ular
+          ataylab yechimsiz qoldirilgan.
         </li>
         <li>
-          <strong>Statik tiplashtirish.</strong> TypeScript — JavaScript ustiga tip
-          tekshiruvini qo'shadigan til kengaytmasi; katta jamoaviy loyihalarda xatolarni
-          yozish bosqichidayoq topishga yordam beradi.
+          <strong>Hujjatlarni o'qing.</strong> <a href="https://react.dev">react.dev</a> — React
+          jamoasining rasmiy qo'llanmasi; bu kursdagi ko'p g'oyalar o'sha yerdan. Endi uni bemalol
+          tushuna olasiz.
         </li>
         <li>
-          <strong>Avtomatik testlash.</strong> Komponentlarning to'g'ri ishlashini qo'lda emas,
-          balki avtomatik skriptlar orqali tekshirish — komponent testlari va
-          end-to-end testlar shu yo'nalishga kiradi.
+          <strong>Kodingizni GitHub'ga joylang</strong> va Vercel yoki Netlify orqali internetga
+          chiqaring — ishga topshirishda portfolio sifatida ko'rsatish uchun.
         </li>
         <li>
-          <strong>To'liq stack freymvorklar.</strong> Next.js kabi freymvorklar React'ning
-          ustiga server-side render qilish, fayl asosidagi routing va backend bilan integratsiya
-          kabi qo'shimcha imkoniyatlarni qo'shadi — kattaroq, production darajasidagi
-          ilovalarda tez-tez uchraydi.
+          <strong>TypeScript</strong> — React loyihalarining aksariyati endi TypeScript'da
+          yoziladi. Platformadagi TypeScript kursida React bilan ishlash bo'limi bor.
         </li>
       </ul>
-      <Callout type="note" title="Bu ro'yxat — xarita, jadval emas">
-        Yuqoridagilar hozircha shu platformaning bir qismi emas — bu shunchaki React
-        ekotizimida odatda qanday yo'nalishlar borligi haqida umumiy mo'ljal. Qaysi birini
-        qachon o'rganish kerakligini loyihangizning ehtiyoji hal qiladi: masalan, ilovangizda
-        bir nechta sahifa kerak bo'lsa — routing, jamoaviy loyihada xatolarni kamaytirish kerak
-        bo'lsa — TypeScript.
+
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong>Kutubxonalarga erta o'tish.</strong> Asoslarni mustahkamlamay turib Redux,
+            Next.js, TanStack Query'ni o'rganish — ular hal qiladigan muammoni his qilmasdan,
+            ularni tushunish qiyin.
+          </li>
+          <li>
+            <strong>Faqat video ko'rish.</strong> React faqat yozish orqali o'rganiladi. Har
+            mavzudan keyin kichik narsa quring.
+          </li>
+          <li>
+            <strong>"Tutorial do'zaxi".</strong> Ketma-ket qo'llanmalarni takrorlash o'rniga,
+            o'zingiz o'ylab topgan kichik ilovani boshidan oxirigacha quring — xato qilib, o'zingiz
+            tuzating.
+          </li>
+          <li>
+            <strong>Eski maqolalarga ishonish.</strong> Internetda class komponentlar,{' '}
+            <code>forwardRef</code>, <code>create-react-app</code> va <code>.Provider</code>{' '}
+            bilan yozilgan ko'p material bor. Ular ishlaydi, lekin yangi kodni bu kursdagidek
+            yozing.
+          </li>
+        </ul>
       </Callout>
 
-      <h2>Endi nima qilish kerak?</h2>
-      <p>
-        Eng yaxshi keyingi qadam — yangi mavzuni o'qishdan oldin, shu kursda qurgan Vazifalar
-        ro'yxati ilovasini o'zingiz davom ettirish. Kichik, aniq maqsadli qo'shimcha
-        funksiyalar — tahrirlash, saralash, mahalliy saqlash (<code>localStorage</code>) —
-        aynan shu darslarda ko'rgan naqshlarni (state, immutable yangilash, controlled input)
-        yangi vaziyatlarda qo'llashga majbur qiladi, va bu bilim eng mustahkam aynan shunday
-        mashq qilish orqali o'rnashadi.
-      </p>
+      <Quiz
+        question="Komponentda foydalanuvchilar ro'yxati va qidiruv so'zi bor; filtrlangan ro'yxat ekranda ko'rsatiladi. Filtrlangan ro'yxat qayerda bo'lishi kerak?"
+        options={[
+          "Render paytida hisoblanadigan oddiy o'zgaruvchi",
+          "Alohida useState, qidiruv so'zi o'zgarganda useEffect bilan yangilanadi",
+          "useRef ichida",
+          "Context ichida",
+        ]}
+        correctIndex={0}
+        explanation="Filtrlangan ro'yxat ro'yxat va qidiruv so'zidan hisoblanadi — u state emas (19-dars) va effect ham kerak emas (29-dars). Ref esa ekranda ko'rinadigan qiymat uchun emas (25-dars)."
+      />
 
-      <Exercise title="Mashq (ochiq)">
+      <Quiz
+        question="Foydalanuvchi 'Saqlash' tugmasini bosganda ma'lumot serverga yuborilishi, sahifa ochilganda esa serverdan yuklanishi kerak. To'g'ri juftlik qaysi?"
+        options={[
+          "Saqlash — handler'da; yuklash — effect'da (poyga himoyasi bilan)",
+          "Ikkalasi ham effect'da",
+          "Ikkalasi ham handler'da",
+          "Saqlash — effect'da; yuklash — render paytida",
+        ]}
+        correctIndex={0}
+        explanation="Saqlash foydalanuvchi harakati sababli — handler. Yuklash komponent ko'ringani uchun va tashqi tizim bilan sinxronlash — effect, cleanup'da eskirgan javobni bekor qilish bilan (28-dars)."
+      />
+
+      <Exercise title="1-mashq: o'z loyihangizni rejalashtiring">
         <p>
-          18—19-darslarda qurgan <code>TodoApp</code>'ga o'zingiz yana bitta funksiya qo'shing —
-          masalan, <strong>tahrirlash (edit)</strong> imkoniyati: foydalanuvchi vazifa matnini
-          bosganda u inputga aylanadi, va yangi matnni kiritib, Enter bosilganda yoki input'dan
-          chiqib ketilganda (blur) vazifa yangilanadi. Bu — bitta "to'g'ri" yechimi bo'lmagan
-          ochiq mashq; muhimi — qaysi yondashuvni tanlashingizdan qat'i nazar, state'ni hamon
-          immutable tarzda yangilang.
+          O'zingizga kerakli kichik ilova tanlang (masalan: xarajatlar daftari, so'z yodlash
+          kartochkalari, sport mashg'ulotlari jurnali). Kod yozishdan oldin 19-darsdagi "React'da
+          fikrlash" qadamlarini qog'ozda bajaring: komponentlar daraxti, minimal state ro'yxati,
+          har bir state qayerda yashashi, va qaysi ishlar handler'da, qaysilari effect'da
+          bo'lishi.
         </p>
         <Solution>
-          <p>
-            Bitta mumkin bo'lgan yondashuv: har bir vazifa uchun "tahrirlanyaptimi" degan
-            alohida holatni kuzatib borish o'rniga, butun ilova uchun bitta{' '}
-            <code>tahrirlanayotganId</code> state saqlash — bir vaqtda faqat bitta vazifa
-            tahrirlanishi mumkin bo'lgani uchun bu yetarli:
-          </p>
-          <CodeBlock lang="jsx">{`const [tahrirlanayotganId, setTahrirlanayotganId] = useState(null)
+          <p>Namuna: so'z yodlash kartochkalari.</p>
+          <CodeBlock lang="text">{`Komponentlar:
+App
+├── Sarlavha            (bugun takrorlangan so'zlar soni)
+├── SozQoshishFormasi   (o'z state'i: inglizcha, o'zbekcha)
+├── Kartochka           (o'z state'i: aylantirilganmi)
+│   └── BahoTugmalari   (Bildim / Bilmadim)
+└── Statistika
 
-function handleTahrirlash(id, yangiMatn) {
-  setTodos(
-    todos.map((todo) =>
-      todo.id === id ? { ...todo, matn: yangiMatn } : todo
-    )
+Minimal state:
+- sozlar: [{ id, inglizcha, ozbekcha, bilganlar, oxirgiTakror }]  → App, useLocalStorage
+- joriyId                                                         → App
+- forma maydonlari                                                → SozQoshishFormasi
+- aylantirilgan                                                   → Kartochka (key={joriyId} bilan tozalanadi)
+
+Hisoblanadi: bugungi takrorlar soni, keyingi so'z, statistika foizlari.
+
+Handler'lar: so'z qo'shish, baho berish, keyingi so'zga o'tish.
+Effect'lar: localStorage (useLocalStorage ichida), document.title.`}</CodeBlock>
+          <p>
+            Yagona to'g'ri javob yo'q — muhimi, kod yozishdan oldin state qayerda va nima
+            ekanini aniq bilish.
+          </p>
+        </Solution>
+      </Exercise>
+
+      <Exercise title="2-mashq: kod ko'rib chiqish">
+        <p>
+          Quyidagi komponentda kursda o'rganilgan kamida beshta xato bor. Ularni toping va
+          to'g'ri variantini yozing.
+        </p>
+        <CodeBlock lang="jsx">{`function Royxat({ elementlar }) {
+  const [tanlangan, setTanlangan] = useState(elementlar[0])
+  const [soni, setSoni] = useState(0)
+
+  useEffect(() => {
+    setSoni(elementlar.length)
+  }, [elementlar])
+
+  function Qator({ el }) {
+    return <li onClick={setTanlangan(el)}>{el.nomi}</li>
+  }
+
+  elementlar.sort((a, b) => a.nomi.localeCompare(b.nomi))
+
+  return (
+    <ul>
+      {soni && <p>{soni} ta element</p>}
+      {elementlar.map((el, i) => <Qator key={i} el={el} />)}
+      <p>Tanlangan: {tanlangan.nomi}</p>
+    </ul>
   )
-  setTahrirlanayotganId(null)
+}`}</CodeBlock>
+        <Solution>
+          <ol>
+            <li>
+              <code>tanlangan</code> — obyektning nusxasi (19-dars); id saqlash kerak.
+            </li>
+            <li>
+              <code>soni</code> — ortiqcha state + effect (29-dars); <code>elementlar.length</code>{' '}
+              hisoblanadi.
+            </li>
+            <li>
+              <code>Qator</code> komponent ichida e'lon qilingan (4 va 21-darslar).
+            </li>
+            <li>
+              <code>{'onClick={setTanlangan(el)}'}</code> — render paytida chaqiriladi, cheksiz
+              render (13-dars).
+            </li>
+            <li>
+              <code>elementlar.sort</code> — props'ni mutatsiya qiladi (9-dars); <code>toSorted</code>.
+            </li>
+            <li>
+              <code>{'{soni && ...}'}</code> — 0 bo'lsa ekranda "0" (7-dars).
+            </li>
+            <li>
+              <code>{'key={i}'}</code> — indeks key, ro'yxat saralanadi (8-dars).
+            </li>
+            <li>
+              <code>{'<p>'}</code> <code>{'<ul>'}</code> ichida — noto'g'ri HTML; ro'yxatdan
+              tashqariga chiqaring.
+            </li>
+          </ol>
+          <CodeBlock lang="jsx">{`function Qator({ el, tanlangan, onTanlash }) {
+  return (
+    <li onClick={() => onTanlash(el.id)} className={tanlangan ? 'tanlangan' : ''}>
+      {el.nomi}
+    </li>
+  )
 }
 
-// render ichida, har bir <li> uchun:
-{tahrirlanayotganId === todo.id ? (
-  <input
-    type="text"
-    defaultValue={todo.matn}
-    autoFocus
-    onBlur={(e) => handleTahrirlash(todo.id, e.target.value)}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') handleTahrirlash(todo.id, e.target.value)
-    }}
-  />
-) : (
-  <span onClick={() => setTahrirlanayotganId(todo.id)}>{todo.matn}</span>
-)}`}</CodeBlock>
-          <p>
-            Bu yerda ham xuddi 19-darsdagi <code>handleToggle</code> kabi — massiv{' '}
-            <code>.map()</code> orqali qayta yaratiladi, faqat mos <code>id</code>li element
-            yangi <code>matn</code> bilan almashtiriladi. Sizning yechimingiz boshqacha bo'lishi
-            mumkin (masalan, har bir vazifada o'zining <code>tahrirlanyaptimi</code> maydoni
-            bo'lishi) — muhimi shu darslarda ko'rgan immutable yangilash qoidasiga rioya
-            qilish.
-          </p>
+function Royxat({ elementlar }) {
+  const [tanlanganId, setTanlanganId] = useState(elementlar[0]?.id ?? null)
+
+  const saralangan = elementlar.toSorted((a, b) => a.nomi.localeCompare(b.nomi))
+  const tanlangan = elementlar.find((el) => el.id === tanlanganId)
+
+  return (
+    <>
+      {elementlar.length > 0 && <p>{elementlar.length} ta element</p>}
+      <ul>
+        {saralangan.map((el) => (
+          <Qator
+            key={el.id}
+            el={el}
+            tanlangan={el.id === tanlanganId}
+            onTanlash={setTanlanganId}
+          />
+        ))}
+      </ul>
+      {tanlangan && <p>Tanlangan: {tanlangan.nomi}</p>}
+    </>
+  )
+}`}</CodeBlock>
         </Solution>
       </Exercise>
 
       <KeyPoints>
         <li>
-          <strong>Komponentlar va props</strong> — ekranni qayta ishlatiladigan, ma'lumot
-          qabul qiladigan funksiyalarga bo'lish; <code>children</code> orqali JSX'ni ham
-          uzatish mumkin.
+          React'ning asosi: UI = f(state) — minimal state, qolgani hisoblanadi; harakatlar —
+          handler'da, tashqi tizimlar — effect'da.
         </li>
         <li>
-          <strong>State (useState)</strong> — komponentning renderlar orasida "eslab
-          qoladigan" ma'lumoti; uni o'zgartirish React'ga qayta render qilishni buyuradi.
+          Keyingi qadam — <code>react-advanced</code>: routing, TanStack Query, React 19
+          formalari, tezlik, error boundary, Zustand, testlar (kurs tayyorlanmoqda).
         </li>
         <li>
-          <strong>Hodisalar va formalar</strong> — <code>onClick</code>, <code>onChange</code>,{' '}
-          <code>onSubmit</code> orqali foydalanuvchi harakatiga javob berish; controlled input
-          — state va inputni ikki tomonlama bog'lash.
+          Eng tez o'sish — o'z loyihangizni rejalashtirib, boshidan oxirigacha qurish va uni
+          portfolioga joylash.
         </li>
         <li>
-          <strong>Shartli render va ro'yxatlar</strong> — <code>&&</code>/ternary orqali "bu
-          shartda shu ko'rinsin", <code>.map()</code> + <code>key</code> orqali massivni JSX
-          ro'yxatiga aylantirish.
-        </li>
-        <li>
-          <strong>Effektlar va reflar</strong> — <code>useEffect</code> React dunyosidan
-          tashqariga (tarmoq, taymer) chiqish uchun, <code>useRef</code> — DOM'ga bevosita
-          murojaat yoki qayta render talab qilmaydigan qiymatlarni saqlash uchun.
-        </li>
-        <li>
-          <strong>State boshqaruv naqshlari</strong> — state'ni yuqoriga ko'tarish,{' '}
-          <code>useReducer</code> murakkab mantiq uchun, custom hook'lar takrorlanadigan
-          mantiqni chiqarish uchun, <code>useContext</code> — prop drilling'siz uzatish uchun.
-        </li>
-        <li>
-          <strong>Immutable yangilash</strong> — state'dagi massiv yoki obyektni hech qachon
-          joyida o'zgartirmaslik, har doim spread yoki <code>.map()</code>/<code>.filter()</code>{' '}
-          orqali yangi nusxa yaratish — butun kurs davomida qaytarilgan eng muhim qoida.
-        </li>
-        <li>
-          Bu asoslar ustiga navigatsiya, katta masshtabli state boshqaruvi, TypeScript,
-          testlash va to'liq-stack freymvorklar kabi mavzular quriladi — ularning har biri
-          o'z ehtiyoji tug'ilganda o'rganiladigan alohida yo'nalish.
+          Rasmiy hujjat — react.dev; eski uslubdagi (class, <code>forwardRef</code>,{' '}
+          <code>.Provider</code>) materiallarni farqlay oling.
         </li>
       </KeyPoints>
     </>

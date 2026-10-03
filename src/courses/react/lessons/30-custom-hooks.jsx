@@ -6,21 +6,75 @@ import Solution from '@/components/content/Solution'
 import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
-  title: 'Custom hook yaratish',
+  title: "O'z hook'laringizni yozish",
   section: 'Ref va effektlar',
 }
 
 export default function CustomHooksLesson() {
   return (
     <>
+      <h2>Muammo: bir xil effect ikki joyda</h2>
       <p>
-        Hozirgacha <code>useState</code>, <code>useEffect</code>, <code>useRef</code> va{' '}
-        <code>useReducer</code> kabi React'ning tayyor hook'laridan foydalanib keldik. Lekin
-        ko'pincha bir xil stateful (state bilan bog'liq) mantiq bir nechta turli komponentlarda
-        takrorlanadi — masalan, bir nechta joyda "ochiq/yopiq" holatini boshqarish, yoki bir
-        nechta joyda ma'lumotni <code>localStorage</code>da saqlash. Bunday holatlarda o'zimiz{' '}
-        <strong>custom hook</strong> (maxsus hook) yozib, shu mantiqni bitta joyga jamlab, qayta
-        ishlatishimiz mumkin.
+        Ilovada ikki komponent internet ulanishini kuzatadi: sarlavhadagi belgi va "Saqlash"
+        tugmasi (oflayn bo'lsa o'chiriladi). Ikkalasida ham aynan bir xil kod:
+      </p>
+      <CodeBlock lang="jsx">{`function UlanishBelgisi() {
+  const [onlayn, setOnlayn] = useState(navigator.onLine)
+
+  useEffect(() => {
+    function handleOnlayn() { setOnlayn(true) }
+    function handleOflayn() { setOnlayn(false) }
+    window.addEventListener('online', handleOnlayn)
+    window.addEventListener('offline', handleOflayn)
+    return () => {
+      window.removeEventListener('online', handleOnlayn)
+      window.removeEventListener('offline', handleOflayn)
+    }
+  }, [])
+
+  return <span>{onlayn ? '🟢 Onlayn' : '🔴 Oflayn'}</span>
+}
+
+function SaqlashTugmasi() {
+  const [onlayn, setOnlayn] = useState(navigator.onLine)
+  useEffect(() => { /* ... xuddi shu 10 qator ... */ }, [])
+  return <button disabled={!onlayn}>Saqlash</button>
+}`}</CodeBlock>
+      <p>
+        Takrorlangan kod — takrorlangan xatolar: birida cleanup tuzatilsa, ikkinchisida unutiladi.
+        Oddiy JavaScript'da takrorlangan kodni funksiyaga chiqaramiz. React'da ham xuddi shunday —
+        faqat bu funksiya ichida hook'lar bor. Bunday funksiya <strong>custom hook</strong>{' '}
+        (o'zingiz yozgan hook) deb ataladi:
+      </p>
+      <CodeBlock lang="jsx">{`function useOnlineStatus() {
+  const [onlayn, setOnlayn] = useState(navigator.onLine)
+
+  useEffect(() => {
+    function handleOnlayn() { setOnlayn(true) }
+    function handleOflayn() { setOnlayn(false) }
+    window.addEventListener('online', handleOnlayn)
+    window.addEventListener('offline', handleOflayn)
+    return () => {
+      window.removeEventListener('online', handleOnlayn)
+      window.removeEventListener('offline', handleOflayn)
+    }
+  }, [])
+
+  return onlayn
+}
+
+function UlanishBelgisi() {
+  const onlayn = useOnlineStatus()
+  return <span>{onlayn ? '🟢 Onlayn' : '🔴 Oflayn'}</span>
+}
+
+function SaqlashTugmasi() {
+  const onlayn = useOnlineStatus()
+  return <button disabled={!onlayn}>Saqlash</button>
+}`}</CodeBlock>
+      <p>
+        Komponentlar endi <em>nima</em> kerakligini aytadi ("onlayn holat"), <em>qanday</em>{' '}
+        olinishini esa hook yashiradi. Sinash uchun DevTools'da Network → "Offline" ni belgilang.
       </p>
 
       <h2>Custom hook — bu shunchaki oddiy funksiya</h2>
@@ -35,10 +89,13 @@ export default function CustomHooksLesson() {
       </p>
       <p>
         Oddiy yordamchi funksiya (masalan, <code>formatSana(sana)</code>) va custom hook
-        orasidagi asosiy farq shunda: oddiy funksiya hech qanday hook chaqira olmaydi — agar u{' '}
-        <code>useState</code>ni ichida chaqirsa, React xato beradi, chunki React hook'larni
-        faqat komponent yoki boshqa hook ichidan chaqirilishini kutadi. Custom hook esa aynan
-        shu — hook'larni chaqirishga ruxsat berilgan, qayta ishlatiladigan funksiya.
+        orasidagi farq — hook chaqirish-chaqirmasligida. Ishlash vaqtida React ularni farqlay
+        olmaydi: <code>use</code>siz nomlangan funksiya ham ichida <code>useState</code>{' '}
+        chaqirsa, komponent render paytida uni chaqirganda ishlab ketadi. Lekin linter (
+        <code>react-hooks/rules-of-hooks</code>) hook qoidalarini faqat <code>use</code> bilan
+        boshlanadigan funksiyalarda tekshiradi. Nomsiz qolgan "yashirin hook"ni kimdir shart
+        ichida chaqirsa, hech kim ogohlantirmaydi — natija esa runtime xatosi emas, 13-darsdagi
+        kabi g'alati xatolar.
       </p>
 
       <h2>
@@ -83,7 +140,7 @@ function Sidebar() {
   const [kengaytirilgan, toggleKengaytirilgan] = useToggle(true)
 
   return (
-    <aside className={kengaytirilgan ? 'w-64' : 'w-16'}>
+    <aside className={kengaytirilgan ? 'yon-panel keng' : 'yon-panel tor'}>
       <button onClick={toggleKengaytirilgan}>Kichraytirish/Kattalashtirish</button>
     </aside>
   )
@@ -97,13 +154,23 @@ function Sidebar() {
       </p>
 
       <Callout type="tip" title="Nega custom hook, oddiy funksiya emas?">
-        Agar <code>useToggle</code>ni oddiy funksiya sifatida yozmoqchi bo'lsak-chi? Bu ishlamaydi
-        — chunki u ichida <code>useState</code>ni chaqiradi, va bu chaqiruv aynan shu funksiyani
-        chaqirgan komponentning render jarayoniga bog'lanishi kerak. Custom hook — bu React'ga
-        "men shu komponentning state'i bilan ishlayapman" deb aytishning yagona yo'li. Shuning
-        uchun stateful mantiqni qayta ishlatish uchun har doim custom hook kerak bo'ladi, oddiy
-        funksiya emas.
+        <code>useToggle</code> ichidagi <code>useState</code> uni chaqirgan komponentning
+        state'iga aylanadi — xuddi o'sha komponentda yozilgandek. Shuning uchun u faqat render
+        paytida, yuqori darajada chaqirilishi kerak. <code>use</code> prefiksi shu qoidalarni
+        o'quvchiga ham, linter'ga ham bildiradi: nomni ko'rgan har kim bu funksiyani shart
+        ichida yoki event handler'da chaqirib bo'lmasligini biladi.
       </Callout>
+
+      <h2>Hook mantiqni ulashadi, state'ni emas</h2>
+      <p>
+        Muhim nuqta: <code>Modal</code> va <code>Sidebar</code> ikkalasi <code>useToggle</code>ni
+        chaqiradi, lekin ularning <code>ochiq</code> va <code>kengaytirilgan</code> qiymatlari{' '}
+        <strong>butunlay mustaqil</strong>. Custom hook chaqirilganda uning ichidagi{' '}
+        <code>useState</code> xuddi o'sha komponentda yozilgandek ishlaydi — har bir chaqiruvning
+        o'z state'i bo'ladi. Hook — kod qismini qayta ishlatish usuli, ma'lumotni ulashish emas.
+        Bir nechta komponent <em>bitta</em> state'ni ko'rishi kerak bo'lsa — state'ni ko'tarish
+        (20-dars) yoki context (23-dars).
+      </p>
 
       <h2>
         Ikkinchi misol: <code>useLocalStorage</code>
@@ -117,8 +184,12 @@ function Sidebar() {
 
 function useLocalStorage(kalit, boshlangichQiymat) {
   const [qiymat, setQiymat] = useState(() => {
-    const saqlangan = localStorage.getItem(kalit)
-    return saqlangan !== null ? JSON.parse(saqlangan) : boshlangichQiymat
+    try {
+      const saqlangan = localStorage.getItem(kalit)
+      return saqlangan !== null ? JSON.parse(saqlangan) : boshlangichQiymat
+    } catch {
+      return boshlangichQiymat   // buzilgan JSON yoki xotira yopiq
+    }
   })
 
   useEffect(() => {
@@ -144,6 +215,106 @@ function Sozlamalar() {
         xatti-harakat quradi. <code>Sozlamalar</code> komponenti esa <code>localStorage</code>{' '}
         haqida umuman bilmaydi — u faqat oddiy <code>[qiymat, setQiymat]</code> juftligidan
         foydalanadi, xuddi <code>useState</code>dan foydalangandek.
+      </p>
+      <p>
+        <code>{'useState(() => ...)'}</code> — funksiya berilgan boshlang'ich qiymat (
+        <strong>lazy initializer</strong>). Oddiy <code>useState(localStorage.getItem(...))</code>{' '}
+        deb yozsak, <code>localStorage</code>dan o'qish va <code>JSON.parse</code> har renderda
+        bajarilardi (natijasi esa faqat birinchisida ishlatiladi). Funksiya berilsa, React uni
+        faqat birinchi renderda chaqiradi.
+      </p>
+
+      <h2>
+        Uchinchi misol: <code>useFetch</code>
+      </h2>
+      <p>
+        28-darsdagi ma'lumot yuklash kodi — yuklanish holati, xato, <code>javob.ok</code>{' '}
+        tekshiruvi, poyga himoyasi — har bir so'rov uchun 25 qator. Uni hook'ga chiqaramiz:
+      </p>
+      <CodeBlock lang="jsx">{`import { useEffect, useState } from 'react'
+
+export function useFetch(url) {
+  const [natija, setNatija] = useState({ holat: 'yuklanmoqda', data: null, xato: null })
+
+  useEffect(() => {
+    if (!url) return
+    const controller = new AbortController()
+
+    async function yuklash() {
+      try {
+        const javob = await fetch(url, { signal: controller.signal })
+        if (!javob.ok) throw new Error(\`Server xatosi: \${javob.status}\`)
+        const data = await javob.json()
+        setNatija({ holat: 'tayyor', data, xato: null })
+      } catch (err) {
+        if (err.name === 'AbortError') return
+        setNatija({ holat: 'xato', data: null, xato: err.message })
+      }
+    }
+    yuklash()
+
+    return () => controller.abort()
+  }, [url])
+
+  if (!url) return { holat: 'kutilmoqda', data: null, xato: null }
+  return natija
+}
+
+// ishlatish:
+function Postlar({ foydalanuvchiId }) {
+  const { holat, data, xato } = useFetch(
+    \`https://jsonplaceholder.typicode.com/posts?userId=\${foydalanuvchiId}\`
+  )
+
+  if (holat === 'yuklanmoqda') return <p>Yuklanmoqda...</p>
+  if (holat === 'xato') return <p>Xatolik: {xato}</p>
+  return <ul>{data.map((p) => <li key={p.id}>{p.title}</li>)}</ul>
+}`}</CodeBlock>
+      <p>
+        <code>url</code> bo'lmasa (masalan, qidiruv so'zi hali kiritilmagan), hook so'rov
+        yubormaydi va <code>'kutilmoqda'</code> holatini qaytaradi — bu holat state emas,
+        render paytida hisoblanadi. Komponent 25 qatordan 5 qatorga tushdi. <code>url</code> o'zgarganda hook o'zi qayta
+        yuklaydi va eski so'rovni bekor qiladi. Bu misolda ham hook nomi va qaytaradigan qiymati
+        — uning "API"si: komponentlar ichki tafsilotlarni bilmaydi.
+      </p>
+      <Callout type="note" title="url o'zgarganda eski ma'lumot">
+        <code>url</code> o'zgarganda, yangi javob kelguncha <code>natija</code>da eski
+        ma'lumot qoladi (holat <code>'tayyor'</code>). Ko'pincha bu hatto qulay — sahifa
+        "sakramaydi". Yangi so'rovda darhol "yuklanmoqda" kerak bo'lsa, komponentga{' '}
+        <code>{'key={url}'}</code> bering (21-dars).
+      </Callout>
+
+      <h2>
+        To'rtinchi misol: <code>useDebounce</code>
+      </h2>
+      <p>
+        Qidiruv maydoniga "osh" deb yozilsa, har bir harf uchun so'rov ketmasligi kerak: "o",
+        "os", "osh" — uchta keraksiz so'rov. <strong>Debounce</strong> — qiymat o'zgarishni
+        to'xtatgandan keyin ma'lum vaqt kutib, faqat oxirgisini qabul qilish:
+      </p>
+      <CodeBlock lang="jsx">{`import { useEffect, useState } from 'react'
+
+export function useDebounce(qiymat, kechikish = 400) {
+  const [kechiktirilgan, setKechiktirilgan] = useState(qiymat)
+
+  useEffect(() => {
+    const id = setTimeout(() => setKechiktirilgan(qiymat), kechikish)
+    return () => clearTimeout(id)     // yangi harf — eski taymer bekor
+  }, [qiymat, kechikish])
+
+  return kechiktirilgan
+}
+
+// ishlatish:
+const [soz, setSoz] = useState('')
+const qidiruvSozi = useDebounce(soz, 500)
+const { holat, data } = useFetch(qidiruvSozi ? \`/api/qidiruv?q=\${qidiruvSozi}\` : null)`}</CodeBlock>
+      <p>
+        Har bir harfda effect qayta ishlaydi: cleanup eski taymerni bekor qiladi, yangisi
+        boshlanadi. Foydalanuvchi 500 ms yozmay tursa, taymer nihoyat ishlaydi va{' '}
+        <code>kechiktirilgan</code> yangilanadi. Ikki hook — <code>useDebounce</code> va{' '}
+        <code>useFetch</code> — bir-biriga ulanib, kutilgan natijani beradi: so'rov faqat
+        foydalanuvchi yozib bo'lgandan keyin ketadi. Bu juftlik 31-darsdagi loyihaning asosi.
       </p>
 
       <h2>Hook qoidalari va ular nega bor</h2>
@@ -185,6 +356,36 @@ function Sozlamalar() {
         kerak.
       </p>
 
+      <Callout type="warning" title="Keng tarqalgan xatolar">
+        <ul>
+          <li>
+            <strong><code>use</code>siz nom.</strong> Ichida hook chaqiradigan{' '}
+            <code>getOnlineStatus()</code> — linter hook qoidalarini tekshira olmaydi, o'quvchi
+            esa uni shart ichida chaqirish mumkin deb o'ylaydi.
+          </li>
+          <li>
+            <strong>Hook chaqirmaydigan funksiyaga <code>use</code> qo'shish.</strong>{' '}
+            <code>useFormatSana(sana)</code> ichida hook bo'lmasa — bu oddiy funksiya, uni{' '}
+            <code>formatSana</code> deb nomlang.
+          </li>
+          <li>
+            <strong>Hook state'ni ulashadi deb o'ylash.</strong> Ikki komponentdagi{' '}
+            <code>useToggle()</code> — ikki mustaqil state.
+          </li>
+          <li>
+            <strong>Hook'ni shart ichida chaqirish.</strong>{' '}
+            <code>{'if (kerak) useFetch(url)'}</code> — xato. Hook'ga shartni parametr bilan
+            bering: <code>useFetch(kerak ? url : null)</code>.
+          </li>
+          <li>
+            <strong>Juda umumiy hook'lar.</strong> <code>useEffectOnce</code>,{' '}
+            <code>useMount</code> kabi "hayot sikli" hook'lari effect'ning asl ma'nosini
+            yashiradi. Yaxshi hook aniq maqsadni nomlaydi: <code>useOnlineStatus</code>,{' '}
+            <code>useChatRoom</code>.
+          </li>
+        </ul>
+      </Callout>
+
       <Quiz
         question="useOnlineStatus nomli funksiya foydalanuvchi internetga ulanganmi yo'qmi ekanini kuzatish uchun ichida useState va useEffect'ni chaqiradi. Bu funksiyani oddiy yordamchi funksiya sifatida (use prefiksisiz) e'lon qilsa bo'ladimi?"
         options={[
@@ -197,7 +398,19 @@ function Sozlamalar() {
         explanation="Ichida boshqa hook chaqiradigan har qanday funksiya — custom hook hisoblanadi, uni ishlatish soniga yoki joyiga qaramay. use prefiksi shart, chunki u React'ga va boshqa dasturchilarga bu funksiya ichida hook qoidalariga rioya qilish kerakligini bildiradi, va u faqat komponent yoki boshqa custom hook ichidan chaqirilishi mumkin."
       />
 
-      <Exercise title="Mashq">
+      <Quiz
+        question="Sahifada <A /> va <B /> komponentlari bor, ikkalasi ham const [ochiq, toggle] = useToggle() chaqiradi. A'dagi toggle bosilsa, B'dagi ochiq nima bo'ladi?"
+        options={[
+          "O'zgarmaydi — har bir hook chaqiruvining o'z state'i bor",
+          "A bilan birga o'zgaradi — ular bitta hook'ni ishlatadi",
+          "B qayta render bo'lib, false bo'ladi",
+          "Xato — bitta hook'ni ikki komponentda ishlatib bo'lmaydi",
+        ]}
+        correctIndex={0}
+        explanation="Custom hook — kodni qayta ishlatish usuli. Uning ichidagi useState har bir chaqiruvda alohida state yaratadi, xuddi komponentda to'g'ridan-to'g'ri yozilgandek. Umumiy state kerak bo'lsa — state'ni ko'tarish yoki context."
+      />
+
+      <Exercise title="1-mashq: useCounter">
         <p>
           <code>useCounter</code> nomli custom hook yozing. U ixtiyoriy <code>boshlangich</code>{' '}
           parametrini qabul qilsin (standart qiymati <code>0</code>) va{' '}
@@ -243,6 +456,54 @@ function Hisoblagich() {
         </Solution>
       </Exercise>
 
+      <Exercise title="2-mashq: useWindowWidth">
+        <p>
+          <code>useWindowWidth</code> hook'ini yozing: u oynaning joriy kengligini qaytaradi va
+          oyna o'lchami o'zgarganda yangilanadi (<code>resize</code> hodisasi, cleanup bilan).
+          So'ng uni ikki komponentda ishlating: <code>Menyu</code> 700px dan tor ekranda "☰"
+          tugmasini, kengida esa to'liq havolalar qatorini ko'rsatsin; <code>Footer</code> esa
+          joriy kenglikni "Ekran: 1280px" deb ko'rsatsin.
+        </p>
+        <Solution>
+          <CodeBlock lang="jsx">{`import { useEffect, useState } from 'react'
+
+function useWindowWidth() {
+  const [kenglik, setKenglik] = useState(window.innerWidth)
+
+  useEffect(() => {
+    function handleResize() {
+      setKenglik(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return kenglik
+}
+
+function Menyu() {
+  const kenglik = useWindowWidth()
+  if (kenglik < 700) return <button>☰</button>
+  return (
+    <nav>
+      <a href="#">Bosh sahifa</a> · <a href="#">Kitoblar</a> · <a href="#">Aloqa</a>
+    </nav>
+  )
+}
+
+function Footer() {
+  const kenglik = useWindowWidth()
+  return <footer>Ekran: {kenglik}px</footer>
+}`}</CodeBlock>
+          <p>
+            Har bir komponentning o'z tinglovchisi va o'z state'i bor — hook mantiqni ulashdi,
+            state'ni emas. Faqat CSS bilan hal qilinadigan narsalar uchun (masalan, faqat
+            ko'rinishni o'zgartirish) media query yetarli; hook JSX'ning o'zi o'zgarishi kerak
+            bo'lganda foydali.
+          </p>
+        </Solution>
+      </Exercise>
+
       <KeyPoints>
         <li>
           Custom hook — nomi <code>use</code> bilan boshlanadigan va o'z ichida boshqa
@@ -250,8 +511,16 @@ function Hisoblagich() {
         </li>
         <li>
           Custom hook yaratishning asosiy sababi — stateful (state bilan bog'liq) mantiqni bir
-          nechta komponent orasida takrorlamasdan qayta ishlatish; oddiy yordamchi funksiya
-          buni qila olmaydi, chunki u hook chaqira olmaydi.
+          nechta komponent orasida takrorlamasdan qayta ishlatish; nom <code>use</code> bilan
+          boshlanadi, shunda linter hook qoidalarini tekshira oladi.
+        </li>
+        <li>
+          Har bir hook chaqiruvining o'z state'i bor — hook mantiqni ulashadi, state'ni emas.
+        </li>
+        <li>
+          Foydali naqshlar: <code>useOnlineStatus</code>, <code>useLocalStorage</code>,{' '}
+          <code>useFetch</code>, <code>useDebounce</code> — hook'lar bir-biriga ulanib ishlay
+          oladi.
         </li>
         <li>
           Custom hook komponentga o'xshab ishlaydi — u o'z ichida <code>useState</code>,{' '}
