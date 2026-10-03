@@ -9,7 +9,7 @@ import propsFlow from '@/assets/props-flow.svg'
 
 export const meta = {
   title: "Props orqali ma'lumot uzatish",
-  section: 'Komponentlar va Props',
+  section: "UI'ni tasvirlash",
 }
 
 export default function PropsLesson() {

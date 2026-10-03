@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'useContext va Context API',
-  section: 'State boshqaruvi naqshlari',
+  section: 'State boshqaruvi',
 }
 
 export default function UseContextLesson() {

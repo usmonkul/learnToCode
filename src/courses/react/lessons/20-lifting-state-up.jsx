@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: "State'ni yuqoriga ko'tarish",
-  section: 'State boshqaruvi naqshlari',
+  section: 'State boshqaruvi',
 }
 
 export default function LiftingStateUpLesson() {

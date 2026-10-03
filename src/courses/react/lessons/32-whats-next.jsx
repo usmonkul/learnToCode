@@ -6,7 +6,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Xulosa va keyingi qadamlar',
-  section: 'Amaliy loyiha',
+  section: 'Ref va effektlar',
 }
 
 export default function CourseWrapUpLesson() {

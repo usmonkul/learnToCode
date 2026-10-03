@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Funksional komponentlar',
-  section: 'Komponentlar va Props',
+  section: 'Boshlash',
 }
 
 export default function FunksionalKomponentlarLesson() {

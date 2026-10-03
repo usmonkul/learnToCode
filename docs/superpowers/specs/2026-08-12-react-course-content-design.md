@@ -1,7 +1,7 @@
 # React Course — Content Design
 
 **Date:** 2026-08-12
-**Status:** Approved
+**Status:** Superseded by [2026-10-03-react-course-restructure-design.md](2026-10-03-react-course-restructure-design.md)
 
 ## Purpose
 

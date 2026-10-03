@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'useState va state asoslari',
-  section: 'State va interaktivlik',
+  section: 'Interaktivlik',
 }
 
 export default function UseStateBasicsLesson() {

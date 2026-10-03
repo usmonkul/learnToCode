@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Event handlerlar bilan ishlash',
-  section: 'State va interaktivlik',
+  section: 'Interaktivlik',
 }
 
 export default function EventHandlingLesson() {

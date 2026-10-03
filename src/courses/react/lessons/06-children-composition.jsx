@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'children va composition',
-  section: 'Komponentlar va Props',
+  section: "UI'ni tasvirlash",
 }
 
 export default function ChildrenCompositionLesson() {

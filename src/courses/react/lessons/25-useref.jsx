@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'useRef va DOM bilan ishlash',
-  section: 'Effektlar va hooklar',
+  section: 'Ref va effektlar',
 }
 
 export default function UseRefAndDomLesson() {

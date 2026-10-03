@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Formalar va controlled inputlar',
-  section: 'State va interaktivlik',
+  section: 'Interaktivlik',
 }
 
 export default function FormsControlledInputsLesson() {

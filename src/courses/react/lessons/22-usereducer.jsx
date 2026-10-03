@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'useReducer bilan murakkab state',
-  section: 'State boshqaruvi naqshlari',
+  section: 'State boshqaruvi',
 }
 
 export default function UseReducerLesson() {

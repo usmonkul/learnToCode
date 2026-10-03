@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: "Tozalash va ma'lumot olib kelish",
-  section: 'Effektlar va hooklar',
+  section: 'Ref va effektlar',
 }
 
 export default function UseEffectCleanupFetchingLesson() {

@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: "Amaliy loyiha: Vazifalar ro'yxati — formalar va filtrlash",
-  section: 'Amaliy loyiha',
+  section: 'Interaktivlik',
 }
 
 export default function ProjectTodoFormsFilterLesson() {

@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'useEffect asoslari',
-  section: 'Effektlar va hooklar',
+  section: 'Ref va effektlar',
 }
 
 export default function UseEffectBasicsLesson() {

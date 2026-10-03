@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Custom hook yaratish',
-  section: 'State boshqaruvi naqshlari',
+  section: 'Ref va effektlar',
 }
 
 export default function CustomHooksLesson() {

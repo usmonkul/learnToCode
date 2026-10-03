@@ -7,7 +7,7 @@ import KeyPoints from '@/components/content/KeyPoints'
 
 export const meta = {
   title: 'Shartli render',
-  section: 'Render qilish naqshlari',
+  section: "UI'ni tasvirlash",
 }
 
 export default function ConditionalRenderingLesson() {
