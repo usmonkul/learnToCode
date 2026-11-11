@@ -1,6 +1,6 @@
 # The registry contracts
 
-Reached from AGENTS.md when changing how content is *discovered* — editing `src/courses/registry.js`, `src/projects/registry.js`, `src/arena/registry.js`, or the shape of `course.meta.js`/`project.meta.js`/`topic.meta.js`. Not needed just to add a lesson, project, or challenge file; the recipes in AGENTS.md cover that.
+Reached from AGENTS.md when changing how content is *discovered* — editing `src/courses/registry.js`, `src/projects/registry.js`, `src/arena/registry.js`, or the shape of `course.meta.js`/`project.meta.js`/`topic.meta.js`. Not needed just to add a lesson, project, or challenge file; the recipes in [course-writing.md](course-writing.md), [projects.md](projects.md) and [arena.md](arena.md) cover that.
 
 ## Courses (`src/courses/registry.js`)
 
