@@ -19,6 +19,8 @@ const TYPE_STYLES = {
 
 export default function ProjectCard({ project }) {
   const Icon = PROJECT_ICONS[project.icon] ?? PROJECT_ICONS.default
+  // `type` is a string, or an array when a project can be built with either stack.
+  const types = [project.type].flat().filter(Boolean)
 
   return (
     <Link
@@ -32,13 +34,13 @@ export default function ProjectCard({ project }) {
         <h3 className="font-heading text-xl text-ink">{project.title}</h3>
         <p className="mt-1 text-sm text-ink-muted">{project.description}</p>
       </div>
-      {(project.type || project.level) && (
+      {(types.length > 0 || project.level) && (
         <div className="flex flex-wrap items-center gap-1.5">
-          {project.type && (
-            <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-medium', TYPE_STYLES[project.type])}>
-              {project.type}
+          {types.map((type) => (
+            <span key={type} className={cn('rounded-full px-2.5 py-0.5 text-xs font-medium', TYPE_STYLES[type])}>
+              {type}
             </span>
-          )}
+          ))}
           {project.level && (
             <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-medium', LEVEL_STYLES[project.level])}>
               {project.level}

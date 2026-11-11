@@ -1,6 +1,6 @@
 export default {
   title: 'Choy puli (tip) kalkulyatori',
-  description: "Hisob summasi, choy puli foizi va odamlar sonini kiriting — har bir kishi qancha to'lashini bilib oling.",
+  description: "Hisob summasi va choy puli foizini kiriting — choy puli va jami qancha to'lashingizni bilib oling.",
   icon: 'receipt',
   type: 'JavaScript',
   level: 'Beginner',

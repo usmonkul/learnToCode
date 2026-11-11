@@ -1,6 +1,6 @@
 export default {
   title: 'Harorat konvertori',
-  description: "Selsiy, Farengeyt va Kelvin o'rtasida haroratni real vaqtda o'giring.",
+  description: "Haroratni Selsiydan Farengeytga yoki Farengeytdan Selsiyga o'giring.",
   icon: 'thermometer',
   type: 'JavaScript',
   level: 'Beginner',
@@ -10,5 +10,9 @@ export default {
       { name: 'Sky', hex: '#0ea5e9' },
     ],
     fonts: ["Figtree (standart, sayt bo'yicha global shrift)"],
+    formulas: [
+      { name: 'Selsiy → Farengeyt', formula: '°F = °C × 9 / 5 + 32' },
+      { name: 'Farengeyt → Selsiy', formula: '°C = (°F − 32) × 5 / 9' },
+    ],
   },
 }

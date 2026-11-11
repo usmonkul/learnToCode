@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Receipt, Users } from 'lucide-react'
+import { Receipt } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
 const TIP_OPTIONS = [5, 10, 15, 25, 50]
@@ -8,20 +8,30 @@ export default function TipCalculatorProject() {
   const [bill, setBill] = useState('')
   const [tipPercent, setTipPercent] = useState(15)
   const [customTip, setCustomTip] = useState('')
-  const [people, setPeople] = useState('1')
+  const [result, setResult] = useState({ tip: 0, total: 0 })
 
-  const billValue = parseFloat(bill) || 0
-  const tipValue = customTip !== '' ? parseFloat(customTip) || 0 : tipPercent
-  const peopleValue = Math.max(1, parseInt(people, 10) || 1)
+  // Natija faqat foiz tugmasi yoki "Hisobla" bosilganda yangilanadi.
+  function calculate(percent) {
+    const billValue = parseFloat(bill) || 0
+    const tip = billValue * (percent / 100)
+    setResult({ tip, total: billValue + tip })
+  }
 
-  const tipPerPerson = (billValue * (tipValue / 100)) / peopleValue
-  const totalPerPerson = billValue / peopleValue + tipPerPerson
+  function selectTip(option) {
+    setTipPercent(option)
+    setCustomTip('')
+    calculate(option)
+  }
+
+  function handleCalculate() {
+    calculate(customTip !== '' ? parseFloat(customTip) || 0 : tipPercent)
+  }
 
   function reset() {
     setBill('')
     setTipPercent(15)
     setCustomTip('')
-    setPeople('1')
+    setResult({ tip: 0, total: 0 })
   }
 
   return (
@@ -30,7 +40,7 @@ export default function TipCalculatorProject() {
         <Receipt className="h-7 w-7" />
       </span>
       <h1 className="mt-4 text-3xl font-bold text-slate-900">Choy puli kalkulyatori</h1>
-      <p className="mt-2 max-w-sm text-center text-slate-500">Hisobni bo'lib, har kishi ulushini hisoblang.</p>
+      <p className="mt-2 max-w-sm text-center text-slate-500">Choy pulini va umumiy to'lov summasini hisoblang.</p>
 
       <div className="mt-10 grid w-full max-w-2xl grid-cols-1 gap-6 rounded-3xl bg-white p-6 shadow-2xl md:grid-cols-2">
         <div className="flex flex-col gap-5">
@@ -53,10 +63,7 @@ export default function TipCalculatorProject() {
                 <button
                   key={option}
                   type="button"
-                  onClick={() => {
-                    setTipPercent(option)
-                    setCustomTip('')
-                  }}
+                  onClick={() => selectTip(option)}
                   className={cn(
                     'rounded-xl px-3 py-2 text-sm font-semibold',
                     tipPercent === option && customTip === ''
@@ -78,29 +85,24 @@ export default function TipCalculatorProject() {
             </div>
           </div>
 
-          <label className="flex flex-col gap-1.5">
-            <span className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
-              <Users className="h-4 w-4" /> Odamlar soni
-            </span>
-            <input
-              type="number"
-              min="1"
-              value={people}
-              onChange={(event) => setPeople(event.target.value)}
-              className="w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:border-lime-500 focus:outline-none focus:ring-2 focus:ring-lime-500/20"
-            />
-          </label>
+          <button
+            type="button"
+            onClick={handleCalculate}
+            className="rounded-full bg-lime-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-lime-700"
+          >
+            Hisobla
+          </button>
         </div>
 
         <div className="flex flex-col justify-between rounded-2xl bg-slate-900 p-6">
           <div className="flex flex-col gap-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-300">Choy puli / kishi</span>
-              <span className="font-mono text-2xl font-bold text-lime-400">{tipPerPerson.toFixed(2)}</span>
+              <span className="text-sm text-slate-300">Choy puli</span>
+              <span className="font-mono text-2xl font-bold text-lime-400">{result.tip.toFixed(2)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-300">Jami / kishi</span>
-              <span className="font-mono text-2xl font-bold text-lime-400">{totalPerPerson.toFixed(2)}</span>
+              <span className="text-sm text-slate-300">Jami</span>
+              <span className="font-mono text-2xl font-bold text-lime-400">{result.total.toFixed(2)}</span>
             </div>
           </div>
           <button

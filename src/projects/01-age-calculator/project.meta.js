@@ -1,6 +1,6 @@
 export default {
   title: 'Yosh hisoblagich',
-  description: "Tug'ilgan kuningizni kiriting — nechchi yosh, oy va kunligingizni, hamda keyingi tug'ilgan kuningizgacha qancha qolganini hisoblab beradi.",
+  description: "Tug'ilgan yilingizni kiriting — necha yoshda ekaningizni hisoblab beradi.",
   icon: 'calendar',
   type: 'JavaScript',
   level: 'Beginner',

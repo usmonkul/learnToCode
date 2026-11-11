@@ -81,6 +81,33 @@ export default function ProjectGuideModal({ project }) {
                 </div>
               )}
 
+              {guide.topics?.length > 0 && (
+                <div>
+                  <p className="text-sm font-semibold text-slate-700">Mavzular</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {guide.topics.map((topic) => (
+                      <span key={topic} className="rounded-full bg-slate-100 px-2.5 py-1 font-mono text-xs text-slate-700">
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {guide.formulas?.length > 0 && (
+                <div>
+                  <p className="text-sm font-semibold text-slate-700">Formulalar</p>
+                  <div className="mt-2 flex flex-col gap-2">
+                    {guide.formulas.map((item) => (
+                      <div key={item.name} className="rounded-xl bg-slate-50 px-3 py-2">
+                        <p className="text-xs text-slate-500">{item.name}</p>
+                        <p className="mt-0.5 font-mono text-sm text-slate-900">{item.formula}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {guide.api && (
                 <div>
                   <p className="text-sm font-semibold text-slate-700">API</p>

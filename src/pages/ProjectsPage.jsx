@@ -41,7 +41,7 @@ export default function ProjectsPage() {
   const filteredProjects = useMemo(() => {
     const query = search.trim().toLowerCase()
     return projects.filter((project) => {
-      const matchesType = type === ALL || project.type === type
+      const matchesType = type === ALL || [project.type].flat().includes(type)
       const matchesLevel = level === ALL || project.level === level
       const matchesSearch =
         !query ||
